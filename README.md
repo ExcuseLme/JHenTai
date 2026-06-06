@@ -12,6 +12,18 @@ English | [简体中文](https://github.com/jiangtian616/JHenTai/blob/master/REA
 
 [Q&A](https://github.com/jiangtian616/JHenTai/wiki/Common-Questions)
 
+## Changes in this fork
+
+This fork is customized for personal operational preferences based on the original version, and only provides Android and Windows versions.
+
+### New Features
+- Automatic retry after network connection timeout: In poor quality networks, network connection timeouts or data read timeouts often occur. This feature automatically retries after such failures. Corresponding configuration items: "Number of automatic retries on network connection failure" and "Retry interval" under "Settings Page - Network".
+- Long press the favorite button to unfavorite: On the gallery page, if the gallery is already favorited, long pressing the favorite button will unfavorite it.
+- Long press duration: The duration required for long press events is now configurable. Corresponding configuration item: "Long press duration" under "Settings Page - Advanced".
+
+### Optimizations
+- Interrupt incomplete old search when performing a new search: On the search page, while waiting for search results, if you modify the search criteria and trigger a new search, the incomplete old search will be interrupted and the new search will be executed.
+
 ## Description
 
 A manga app for E-Hentai, supporting Android & iOS & Windows & MacOS & Linux.
