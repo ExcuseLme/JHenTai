@@ -12,6 +12,7 @@ import '../../../../config/ui_config.dart';
 import '../../../../service/gallery_download_service.dart';
 import '../../../../service/super_resolution_service.dart';
 import '../../../../service/log.dart';
+import '../../../../widget/eh_gesture_detector.dart';
 import '../../../../widget/eh_image.dart';
 import '../../../../widget/icon_text_button.dart';
 import '../../../../widget/loading_state_indicator.dart';
@@ -155,9 +156,8 @@ abstract class BaseLayout extends StatelessWidget {
   }
 
   Widget _buildOnlineImage(BuildContext context, int index) {
-    return GestureDetector(
+    return EHGestureDetector(
       onLongPress: () => logic.showBottomMenuInOnlineMode(index, context),
-      onSecondaryTap: () => logic.showBottomMenuInOnlineMode(index, context),
       child: EHImage(
         galleryImage: readPageState.images[index]!,
         containerWidth: logic.readPageState.imageContainerSizes[index]?.width ?? logic.getPlaceHolderSize(index).width,
@@ -257,9 +257,8 @@ abstract class BaseLayout extends StatelessWidget {
           return _buildLocalImage(context, index);
         }
 
-        return GestureDetector(
+        return EHGestureDetector(
           onLongPress: () => logic.showBottomMenuInLocalMode(index, context),
-          onSecondaryTap: () => logic.showBottomMenuInLocalMode(index, context),
           child: EHImage(
             galleryImage: readPageState.images[index]!.copyWith(
               path: superResolutionService.computeImageOutputRelativePath(readPageState.images[index]!.path!),
@@ -317,9 +316,8 @@ abstract class BaseLayout extends StatelessWidget {
   }
 
   Widget _buildLocalImage(BuildContext context, int index) {
-    return GestureDetector(
+    return EHGestureDetector(
       onLongPress: () => logic.showBottomMenuInLocalMode(index, context),
-      onSecondaryTap: () => logic.showBottomMenuInLocalMode(index, context),
       child: EHImage(
         galleryImage: readPageState.images[index]!,
         containerWidth: logic.readPageState.imageContainerSizes[index]?.width ?? logic.getPlaceHolderSize(index).width,
