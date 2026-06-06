@@ -49,6 +49,9 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
 
   String get searchConfigKey => runtimeType.toString();
 
+  /// 用于取消当前正在进行的网络请求
+  CancelToken? _currentCancelToken;
+
   bool get autoLoadForFirstTime => true;
 
   bool get autoLoadNeedLogin => false;
@@ -156,9 +159,12 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
   }
 
   /// clear current data first, then refresh
+  /// 如果当前正在加载，取消当前请求并重新搜索
   Future<void> handleClearAndRefresh() async {
+    // 如果当前正在加载，取消当前请求
     if (state.loadingState == LoadingState.loading) {
-      return;
+      _currentCancelToken?.cancel('New search initiated');
+      _currentCancelToken = null;
     }
 
     state.loadingState = LoadingState.loading;
@@ -236,10 +242,20 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
     state.loadingState = LoadingState.loading;
     updateSafely([loadingStateId]);
 
+    // 创建新的 CancelToken
+    _currentCancelToken = CancelToken();
+
     GalleryPageInfo galleryPage;
     try {
-      galleryPage = await getGalleryPage(nextGid: state.nextGid);
+      galleryPage = await getGalleryPage(nextGid: state.nextGid, cancelToken: _currentCancelToken);
     } on DioException catch (e) {
+      // 如果是取消操作，不显示错误
+      if (e.type == DioExceptionType.cancel) {
+        log.info('Request cancelled');
+        state.loadingState = LoadingState.idle;
+        updateSafely([loadingStateId]);
+        return;
+      }
       log.error('getGallerysFailed'.tr, e.errorMsg);
       snack('getGallerysFailed'.tr, e.errorMsg ?? '', isShort: true);
       state.loadingState = LoadingState.error;
@@ -262,6 +278,8 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
       state.loadingState = LoadingState.error;
       updateSafely([loadingStateId]);
       return;
+    } finally {
+      _currentCancelToken = null;
     }
 
     List<Gallery> gallerys = await postHandleNewGallerys(galleryPage.gallerys);
@@ -392,7 +410,7 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
 
   void handleSecondaryTapCard(BuildContext context, Gallery gallery) async {}
 
-  Future<GalleryPageInfo> getGalleryPage({String? prevGid, String? nextGid, DateTime? seek}) async {
+  Future<GalleryPageInfo> getGalleryPage({String? prevGid, String? nextGid, DateTime? seek, CancelToken? cancelToken}) async {
     log.info('$runtimeType get data, prevGid:$prevGid, nextGid:$nextGid');
 
     await state.searchConfigInitCompleter.future;
@@ -402,6 +420,7 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
       nextGid: nextGid,
       seek: seek,
       searchConfig: state.searchConfig,
+      cancelToken: cancelToken,
       parser: EHSpiderParser.galleryPage2GalleryPageInfo,
     );
   }

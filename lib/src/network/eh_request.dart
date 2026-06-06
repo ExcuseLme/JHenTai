@@ -335,6 +335,7 @@ emyPxgcYxn/eR44/KJ4EBs+lVDR3veyJm+kXQ99b21/+jh5Xos1AnX5iItreGCc=
     String? nextGid,
     DateTime? seek,
     SearchConfig? searchConfig,
+    CancelToken? cancelToken,
     required HtmlParser<T> parser,
   }) async {
     Response response = await _getWithErrorHandler(
@@ -345,6 +346,7 @@ emyPxgcYxn/eR44/KJ4EBs+lVDR3veyJm+kXQ99b21/+jh5Xos1AnX5iItreGCc=
         if (seek != null) 'seek': DateFormat('yyyy-MM-dd').format(seek),
         ...?searchConfig?.toQueryParameters(),
       },
+      cancelToken: cancelToken,
     );
     return _parseResponse(response, parser);
   }
