@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:jhentai/src/config/ui_config.dart';
+import 'package:jhentai/src/widget/eh_gesture_detector.dart';
 import 'package:simple_animations/animation_controller_extension/animation_controller_extension.dart';
 import 'package:simple_animations/animation_mixin/animation_mixin.dart';
 
@@ -133,9 +134,8 @@ class _EHTagState extends State<EHTag> with AnimationMixin {
     if (widget.onTap != null || widget.onSecondaryTap != null || widget.onLongPress != null) {
       child = MouseRegion(
         cursor: SystemMouseCursors.click,
-        child: GestureDetector(
+        child: EHGestureDetector(
           onTap: widget.onTap != null ? () => widget.onTap!(widget.tag) : null,
-          onSecondaryTap: widget.onSecondaryTap != null ? () => widget.onSecondaryTap!(widget.tag) : null,
           onLongPress: widget.onLongPress != null
               ? () {
                   Feedback.forLongPress(context);
