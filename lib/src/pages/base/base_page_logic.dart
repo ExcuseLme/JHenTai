@@ -85,6 +85,13 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
     }
   }
 
+  @override
+  void onClose() {
+    _currentCancelToken?.cancel('Controller disposed');
+    _currentCancelToken = null;
+    super.onClose();
+  }
+
   /// pull-down
   Future<void> handlePullDown() async {
     if (state.prevGid == null) {
