@@ -136,6 +136,7 @@ class _EHTagState extends State<EHTag> with AnimationMixin {
         cursor: SystemMouseCursors.click,
         child: EHGestureDetector(
           onTap: widget.onTap != null ? () => widget.onTap!(widget.tag) : null,
+          onSecondaryTap: widget.onSecondaryTap != null ? () => widget.onSecondaryTap!(widget.tag) : null,
           onLongPress: widget.onLongPress != null
               ? () {
                   Feedback.forLongPress(context);
