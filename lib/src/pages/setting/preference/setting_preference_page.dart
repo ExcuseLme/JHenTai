@@ -556,32 +556,54 @@ class _CategorySelectDialogState extends State<_CategorySelectDialog> {
     selectedCategories = List.from(widget.selectedCategories);
   }
 
+  void _toggleCategory(String category) {
+    setState(() {
+      if (selectedCategories.contains(category)) {
+        selectedCategories.remove(category);
+      } else {
+        selectedCategories.add(category);
+      }
+    });
+  }
+
+  Widget _buildTag(String category) {
+    return EHGalleryCategoryTag(
+      category: category,
+      width: 115,
+      height: 30,
+      enabled: selectedCategories.contains(category),
+      onTap: () => _toggleCategory(category),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('autoLanguageFilterCategories'.tr),
-      content: SizedBox(
-        width: 300,
-        child: Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: widget.allCategories.map((category) {
-            bool isSelected = selectedCategories.contains(category);
-            return EHGalleryCategoryTag(
-              category: category,
-              enabled: isSelected,
-              onTap: () {
-                setState(() {
-                  if (isSelected) {
-                    selectedCategories.remove(category);
-                  } else {
-                    selectedCategories.add(category);
-                  }
-                });
-              },
-            );
-          }).toList(),
-        ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [_buildTag('Doujinshi'), _buildTag('Manga')],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [_buildTag('Image Set'), _buildTag('Game CG')],
+          ).marginOnly(top: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [_buildTag('Artist CG'), _buildTag('Cosplay')],
+          ).marginOnly(top: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [_buildTag('Non-H'), _buildTag('Asian Porn')],
+          ).marginOnly(top: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [_buildTag('Western'), _buildTag('Misc')],
+          ).marginOnly(top: 4),
+        ],
       ),
       actions: [
         TextButton(
