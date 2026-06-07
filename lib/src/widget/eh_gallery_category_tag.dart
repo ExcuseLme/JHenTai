@@ -35,6 +35,7 @@ class EHGalleryCategoryTag extends StatelessWidget {
     return EHGestureDetector(
       onTap: onTap,
       onLongPress: onLongPress,
+      onSecondaryTap: onSecondaryTap,
       child: Container(
         alignment: Alignment.center,
         height: height,

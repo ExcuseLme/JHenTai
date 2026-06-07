@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:jhentai/src/setting/advanced_setting.dart';
 
 /// 自定义的 GestureDetector，自动应用配置的长按时间
-/// 注意：右键点击功能暂时不支持自定义长按时间
 class EHGestureDetector extends StatelessWidget {
   final Widget child;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
+  final VoidCallback? onSecondaryTap;
   final GestureLongPressStartCallback? onLongPressStart;
   final GestureLongPressMoveUpdateCallback? onLongPressMoveUpdate;
   final GestureLongPressEndCallback? onLongPressEnd;
@@ -18,6 +18,7 @@ class EHGestureDetector extends StatelessWidget {
     required this.child,
     this.onTap,
     this.onLongPress,
+    this.onSecondaryTap,
     this.onLongPressStart,
     this.onLongPressMoveUpdate,
     this.onLongPressEnd,
@@ -34,6 +35,13 @@ class EHGestureDetector extends StatelessWidget {
             instance.onTap = onTap;
           },
         ),
+        if (onSecondaryTap != null)
+          TapGestureRecognizer: GestureRecognizerFactoryWithHandlers<TapGestureRecognizer>(
+            () => TapGestureRecognizer(),
+            (TapGestureRecognizer instance) {
+              instance.onSecondaryTap = onSecondaryTap;
+            },
+          ),
         if (onLongPress != null || onLongPressStart != null)
           LongPressGestureRecognizer: GestureRecognizerFactoryWithHandlers<LongPressGestureRecognizer>(
             () => LongPressGestureRecognizer(

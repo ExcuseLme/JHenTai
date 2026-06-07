@@ -90,7 +90,6 @@ class _EHRatingBarState extends State<EHRatingBar> {
   void _updateRatingFromPosition(double dx) {
     // 计算每个星星的宽度（包括间距）
     double itemWidth = widget.itemSize + 4; // itemSize + padding
-    double totalWidth = itemWidth * widget.itemCount;
 
     // 计算点击位置对应的评分
     double rating = (dx / itemWidth) + 0.5;
