@@ -40,6 +40,7 @@ class _EHRatingBarState extends State<EHRatingBar> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onHorizontalDragUpdate: _handleDragUpdate,
       onTapUp: _handleTapUp,
       child: Row(
