@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -46,13 +48,19 @@ class _EHFavoriteDialogState extends State<EHFavoriteDialog> {
 
   LoadingState _loadingState = LoadingState.idle;
 
+  /// 用于取消异步任务
+  bool _disposed = false;
+
   @override
   void initState() {
     selectedIndex = widget.selectedIndex;
+
+    // 立即显示为成功状态，让用户可以立即操作
+    _loadingState = LoadingState.success;
+
+    // 如果需要加载 note，异步执行
     if (widget.needInitNote) {
-      _initFavoriteNote();
-    } else {
-      _loadingState = LoadingState.success;
+      _initFavoriteNoteAsync();
     }
 
     super.initState();
@@ -60,6 +68,7 @@ class _EHFavoriteDialogState extends State<EHFavoriteDialog> {
 
   @override
   void dispose() {
+    _disposed = true;
     _controller.dispose();
     super.dispose();
   }
@@ -181,6 +190,7 @@ class _EHFavoriteDialogState extends State<EHFavoriteDialog> {
     GalleryNote note;
     try {
       note = await widget.initNoteFuture!();
+      if (_disposed) return; // 已关闭，取消更新
       _controller.text = note.note;
       setState(() {
         if (_controller.text.isNotEmpty) {
@@ -189,20 +199,45 @@ class _EHFavoriteDialogState extends State<EHFavoriteDialog> {
         _loadingState = LoadingState.success;
       });
     } on DioException catch (e) {
+      if (_disposed) return;
       log.error('getGalleryFavoriteInfoFailed'.tr, e.errorMsg);
       snack('getGalleryFavoriteInfoFailed'.tr, e.errorMsg ?? '', isShort: true);
       setState(() => _loadingState = LoadingState.error);
       return;
     } on EHSiteException catch (e) {
+      if (_disposed) return;
       log.error('getGalleryFavoriteInfoFailed'.tr, e.message);
       snack('getGalleryFavoriteInfoFailed'.tr, e.message, isShort: true);
       setState(() => _loadingState = LoadingState.error);
       return;
     } catch (e, s) {
+      if (_disposed) return;
       log.error('getGalleryFavoriteInfoFailed'.tr, e, s);
       snack('getGalleryFavoriteInfoFailed'.tr, e.toString(), isShort: true);
       setState(() => _loadingState = LoadingState.error);
       return;
+    }
+  }
+
+  /// 异步加载 favorite note，不阻塞 UI
+  Future<void> _initFavoriteNoteAsync() async {
+    assert(widget.initNoteFuture != null);
+
+    log.info('Get gallery favorite info (async)');
+    GalleryNote note;
+    try {
+      note = await widget.initNoteFuture!();
+      if (_disposed) return; // 已关闭，取消更新
+      _controller.text = note.note;
+      if (_disposed) return;
+      setState(() {
+        if (_controller.text.isNotEmpty) {
+          inNoteMode = true;
+        }
+      });
+    } catch (e) {
+      // 异步加载失败不显示错误，因为用户已经可以操作
+      log.warning('Async load favorite note failed: $e');
     }
   }
 }
