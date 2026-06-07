@@ -1283,11 +1283,12 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
   }
 
   List<Widget> _buildSubTags(List<GalleryTag> tags) {
+    String? category = state.galleryDetails?.category ?? state.gallery?.category ?? state.galleryMetadata?.category;
     return tags
         .map(
           (tag) => EHTag(
             tag: tag,
-            onTap: (tag) => newSearch(keyword: '${tag.tagData.namespace}:"${tag.tagData.key}\$"', forceNewRoute: true),
+            onTap: (tag) => newSearch(keyword: '${tag.tagData.namespace}:"${tag.tagData.key}\$', forceNewRoute: true, galleryCategory: category),
             onSecondaryTap: logic.showTagDialog,
             onLongPress: logic.showTagDialog,
             showTagStatus: preferenceSetting.showGalleryTagVoteStatus.isTrue,

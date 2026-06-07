@@ -13,8 +13,19 @@ import '../setting/preference_setting.dart';
 import '../setting/style_setting.dart';
 import '../widget/eh_search_config_dialog.dart';
 
-Future<void> newSearch({String? keyword, SearchConfig? rewriteSearchConfig, bool forceNewRoute = false}) async {
+Future<void> newSearch({String? keyword, SearchConfig? rewriteSearchConfig, bool forceNewRoute = false, String? galleryCategory}) async {
   assert(keyword != null || rewriteSearchConfig != null);
+
+  // 自动设置语言过滤
+  if (preferenceSetting.enableAutoLanguageFilter.isTrue &&
+      galleryCategory != null &&
+      preferenceSetting.autoLanguageFilterCategories.contains(galleryCategory) &&
+      preferenceSetting.autoLanguageFilterTarget.value != null) {
+    if (rewriteSearchConfig == null) {
+      rewriteSearchConfig = SearchConfig(keyword: keyword);
+    }
+    rewriteSearchConfig.language = preferenceSetting.autoLanguageFilterTarget.value;
+  }
 
   switch (styleSetting.actualLayout) {
     case LayoutMode.desktop:

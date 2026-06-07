@@ -32,6 +32,9 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
   RxBool enableDefaultTagSet = true.obs;
   RxBool launchInFullScreen = false.obs;
   Rx<SearchBehaviour> searchBehaviour = SearchBehaviour.inheritAll.obs;
+  RxBool enableAutoLanguageFilter = false.obs;
+  RxList<String> autoLanguageFilterCategories = <String>[].obs;
+  RxnString autoLanguageFilterTarget = RxnString();
   RxBool showR18GImageDirectly = false.obs;
   RxBool showUtcTime = false.obs;
   RxBool showDawnInfo = false.obs;
@@ -65,6 +68,11 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
     showComments.value = map['showComments'] ?? showComments.value;
     showAllComments.value = map['showAllComments'] ?? showAllComments.value;
     searchBehaviour.value = SearchBehaviour.values[map['tagSearchConfig'] ?? SearchBehaviour.inheritAll.index];
+    enableAutoLanguageFilter.value = map['enableAutoLanguageFilter'] ?? enableAutoLanguageFilter.value;
+    if (map['autoLanguageFilterCategories'] != null) {
+      autoLanguageFilterCategories.value = List<String>.from(map['autoLanguageFilterCategories']);
+    }
+    autoLanguageFilterTarget.value = map['autoLanguageFilterTarget'] ?? autoLanguageFilterTarget.value;
     enableDefaultFavorite.value = map['enableDefaultFavorite'] ?? enableDefaultFavorite.value;
     enableDefaultTagSet.value = map['enableDefaultTagSet'] ?? enableDefaultTagSet.value;
     launchInFullScreen.value = map['launchInFullScreen'] ?? launchInFullScreen.value;
@@ -95,6 +103,9 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
       'showComments': showComments.value,
       'showAllComments': showAllComments.value,
       'tagSearchConfig': searchBehaviour.value.index,
+      'enableAutoLanguageFilter': enableAutoLanguageFilter.value,
+      'autoLanguageFilterCategories': autoLanguageFilterCategories.toList(),
+      'autoLanguageFilterTarget': autoLanguageFilterTarget.value,
       'enableDefaultFavorite': enableDefaultFavorite.value,
       'enableDefaultTagSet': enableDefaultTagSet.value,
       'launchInFullScreen': launchInFullScreen.value,
@@ -259,6 +270,24 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
   Future<void> saveUseBuiltInBlockedUsers(bool useBuiltInBlockedUsers) async {
     log.debug('saveUseBuiltInBlockedUsers:$useBuiltInBlockedUsers');
     this.useBuiltInBlockedUsers.value = useBuiltInBlockedUsers;
+    await saveBeanConfig();
+  }
+
+  Future<void> saveEnableAutoLanguageFilter(bool enableAutoLanguageFilter) async {
+    log.debug('saveEnableAutoLanguageFilter:$enableAutoLanguageFilter');
+    this.enableAutoLanguageFilter.value = enableAutoLanguageFilter;
+    await saveBeanConfig();
+  }
+
+  Future<void> saveAutoLanguageFilterCategories(List<String> categories) async {
+    log.debug('saveAutoLanguageFilterCategories:$categories');
+    this.autoLanguageFilterCategories.value = categories;
+    await saveBeanConfig();
+  }
+
+  Future<void> saveAutoLanguageFilterTarget(String? target) async {
+    log.debug('saveAutoLanguageFilterTarget:$target');
+    this.autoLanguageFilterTarget.value = target;
     await saveBeanConfig();
   }
 }
