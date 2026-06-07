@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +42,8 @@ class _EHFavoriteDialogState extends State<EHFavoriteDialog> {
 
   bool remember = false;
 
-  bool inNoteMode = false;
+  /// 使用 ValueNotifier 实现局部更新，避免整个列表重建
+  final ValueNotifier<bool> _inNoteModeNotifier = ValueNotifier(false);
 
   LoadingState _loadingState = LoadingState.idle;
 
@@ -70,6 +69,7 @@ class _EHFavoriteDialogState extends State<EHFavoriteDialog> {
   void dispose() {
     _disposed = true;
     _controller.dispose();
+    _inNoteModeNotifier.dispose();
     super.dispose();
   }
 
@@ -127,48 +127,51 @@ class _EHFavoriteDialogState extends State<EHFavoriteDialog> {
                   trailing: IconButton(
                     icon: const Icon(Icons.edit_note),
                     onPressed: () {
-                      setState(() {
-                        inNoteMode = !inNoteMode;
-                      });
+                      _inNoteModeNotifier.value = !_inNoteModeNotifier.value;
                     },
                   ),
                 ).marginOnly(top: 4),
-                if (inNoteMode)
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 160),
-                          child: TextField(
-                            controller: _controller,
-                            inputFormatters: [LengthLimitingTextInputFormatter(200)],
-                            style: const TextStyle(fontSize: 12),
-                            minLines: 1,
-                            maxLines: 4,
-                            decoration: const InputDecoration(isDense: true),
-                          ),
-                        ).paddingOnly(left: 8),
-                      ),
-                      TextButton(
-                        child: Text('OK'.tr),
-                        onPressed: () {
-                          if (selectedIndex == null) {
-                            toast('addNoteHint'.tr);
-                            return;
-                          }
-
-                          backRoute(
-                            result: (
-                              isDelete: false,
-                              favIndex: selectedIndex,
-                              note: _controller.text,
-                              remember: remember,
+                ValueListenableBuilder<bool>(
+                  valueListenable: _inNoteModeNotifier,
+                  builder: (context, inNoteMode, child) {
+                    if (!inNoteMode) return const SizedBox.shrink();
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 160),
+                            child: TextField(
+                              controller: _controller,
+                              inputFormatters: [LengthLimitingTextInputFormatter(200)],
+                              style: const TextStyle(fontSize: 12),
+                              minLines: 1,
+                              maxLines: 4,
+                              decoration: const InputDecoration(isDense: true),
                             ),
-                          );
-                        },
-                      ),
-                    ],
-                  ).marginOnly(top: 4, bottom: 4),
+                          ).paddingOnly(left: 8),
+                        ),
+                        TextButton(
+                          child: Text('OK'.tr),
+                          onPressed: () {
+                            if (selectedIndex == null) {
+                              toast('addNoteHint'.tr);
+                              return;
+                            }
+
+                            backRoute(
+                              result: (
+                                isDelete: false,
+                                favIndex: selectedIndex,
+                                note: _controller.text,
+                                remember: remember,
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ).marginOnly(top: 4, bottom: 4);
+                  },
+                ),
               ],
             ),
           ),
@@ -193,11 +196,13 @@ class _EHFavoriteDialogState extends State<EHFavoriteDialog> {
       if (_disposed) return; // 已关闭，取消更新
       _controller.text = note.note;
       setState(() {
-        if (_controller.text.isNotEmpty) {
-          inNoteMode = true;
-        }
         _loadingState = LoadingState.success;
       });
+      if (_disposed) return;
+      // 使用 ValueNotifier 局部更新
+      if (_controller.text.isNotEmpty) {
+        _inNoteModeNotifier.value = true;
+      }
     } on DioException catch (e) {
       if (_disposed) return;
       log.error('getGalleryFavoriteInfoFailed'.tr, e.errorMsg);
@@ -230,11 +235,10 @@ class _EHFavoriteDialogState extends State<EHFavoriteDialog> {
       if (_disposed) return; // 已关闭，取消更新
       _controller.text = note.note;
       if (_disposed) return;
-      setState(() {
-        if (_controller.text.isNotEmpty) {
-          inNoteMode = true;
-        }
-      });
+      // 使用 ValueNotifier 局部更新，只有备注输入框会重建
+      if (_controller.text.isNotEmpty) {
+        _inNoteModeNotifier.value = true;
+      }
     } catch (e) {
       // 异步加载失败不显示错误，因为用户已经可以操作
       log.warning('Async load favorite note failed: $e');
