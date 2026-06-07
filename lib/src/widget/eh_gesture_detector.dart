@@ -33,15 +33,9 @@ class EHGestureDetector extends StatelessWidget {
           () => TapGestureRecognizer(),
           (TapGestureRecognizer instance) {
             instance.onTap = onTap;
+            instance.onSecondaryTap = onSecondaryTap;
           },
         ),
-        if (onSecondaryTap != null)
-          TapGestureRecognizer: GestureRecognizerFactoryWithHandlers<TapGestureRecognizer>(
-            () => TapGestureRecognizer(),
-            (TapGestureRecognizer instance) {
-              instance.onSecondaryTap = onSecondaryTap;
-            },
-          ),
         if (onLongPress != null || onLongPressStart != null)
           LongPressGestureRecognizer: GestureRecognizerFactoryWithHandlers<LongPressGestureRecognizer>(
             () => LongPressGestureRecognizer(
