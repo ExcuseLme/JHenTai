@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:jhentai/src/extension/widget_extension.dart';
 import 'package:jhentai/src/model/tab_bar_icon.dart';
 import 'package:jhentai/src/service/tag_search_order_service.dart';
+import 'package:jhentai/src/utils/text_input_formatter.dart';
+import 'package:jhentai/src/utils/toast_util.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../config/ui_config.dart';
 import '../../../consts/locale_consts.dart';
 import '../../../l18n/locale_text.dart';
 import '../../../model/jh_layout.dart';
@@ -18,7 +22,10 @@ import '../../../widget/eh_gallery_category_tag.dart';
 import '../../../widget/loading_state_indicator.dart';
 
 class SettingPreferencePage extends StatelessWidget {
-  const SettingPreferencePage({Key? key}) : super(key: key);
+  final TextEditingController drawerGestureEdgeWidthController =
+      TextEditingController(text: preferenceSetting.drawerGestureEdgeWidth.value.toString());
+
+  SettingPreferencePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -283,28 +290,42 @@ class SettingPreferencePage extends StatelessWidget {
   Widget _buildDrawerGestureEdgeWidth(BuildContext context) {
     return ListTile(
       title: Text('drawerGestureEdgeWidth'.tr),
-      trailing: Obx(() {
-        return Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SliderTheme(
-              data: SliderTheme.of(context).copyWith(showValueIndicator: ShowValueIndicator.always),
-              child: Slider(
-                min: 20,
-                max: 300,
-                label: preferenceSetting.drawerGestureEdgeWidth.value.toString(),
-                value: preferenceSetting.drawerGestureEdgeWidth.value.toDouble(),
-                onChanged: (value) {
-                  preferenceSetting.drawerGestureEdgeWidth.value = value.toInt();
-                },
-                onChangeEnd: (value) {
-                  preferenceSetting.saveDrawerGestureEdgeWidth(value.toInt());
-                },
-              ),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 50,
+            child: TextField(
+              controller: drawerGestureEdgeWidthController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(isDense: true, labelStyle: TextStyle(fontSize: 12)),
+              textAlign: TextAlign.center,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
             ),
-          ],
-        );
-      }),
+          ),
+          Text('px', style: UIConfig.settingPageListTileTrailingTextStyle(context)),
+          IconButton(
+            onPressed: () {
+              int? value = int.tryParse(drawerGestureEdgeWidthController.value.text);
+              if (value == null) {
+                drawerGestureEdgeWidthController.text = '20';
+                value = 20;
+              } else if (value < 20) {
+                drawerGestureEdgeWidthController.text = '20';
+                value = 20;
+              } else if (value > 300) {
+                drawerGestureEdgeWidthController.text = '300';
+                value = 300;
+              }
+              preferenceSetting.saveDrawerGestureEdgeWidth(value);
+              toast('saveSuccess'.tr);
+            },
+            icon: Icon(Icons.check, color: UIConfig.resumePauseButtonColor(context)),
+          ),
+        ],
+      ),
     );
   }
 
