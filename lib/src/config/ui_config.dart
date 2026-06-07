@@ -467,14 +467,14 @@ class UIConfig {
 
   static Color commentBodyTextColor(BuildContext context) => Theme.of(context).colorScheme.onSurface;
   static const double commentLastEditTimeTextSize = 9;
-  static const double commentButtonSizeInDetailPage = 12;
-  static const double commentButtonSizeInCommentPage = 14;
+  static const double commentButtonSizeInDetailPage = 20;
+  static const double commentButtonSizeInCommentPage = 22;
 
   static Color commentButtonVotedColor(BuildContext context) => Theme.of(context).colorScheme.error;
 
   static Color commentButtonColor(BuildContext context) => Theme.of(context).colorScheme.outline;
-  static const double commentScoreSizeInDetailPage = 10;
-  static const double commentScoreSizeInCommentPage = 10;
+  static const double commentScoreSizeInDetailPage = 14;
+  static const double commentScoreSizeInCommentPage = 14;
 
   static Color commentFooterTextColor(BuildContext context) => Theme.of(context).colorScheme.outline;
 
