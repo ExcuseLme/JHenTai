@@ -523,9 +523,10 @@ class _EHCommentFooterState extends State<_EHCommentFooter> with LoginRequiredMi
         GestureDetector(
           onTap: () => score.isEmpty ? null : Get.dialog(EHCommentScoreDetailsDialog(scoreDetails: widget.scoreDetails)),
 
-          /// fix width to align buttons
-          child: ConstrainedBox(
+          /// fix width to align buttons, add padding for larger tap area
+          child: Container(
             constraints: const BoxConstraints(minWidth: 36),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             child: Align(
               alignment: Alignment.centerRight,
               child: score.isEmpty
