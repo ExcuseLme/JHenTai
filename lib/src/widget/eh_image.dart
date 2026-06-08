@@ -8,7 +8,9 @@ import 'package:jhentai/src/extension/widget_extension.dart';
 import 'package:jhentai/src/model/gallery_image.dart';
 import 'package:jhentai/src/setting/advanced_setting.dart';
 import 'package:jhentai/src/setting/style_setting.dart';
+import 'package:native_animated_image/native_animated_image.dart';
 import 'dart:io' as io;
+import 'package:http/http.dart' as http;
 
 import '../service/gallery_download_service.dart';
 
@@ -119,8 +121,15 @@ class EHImage extends StatelessWidget {
   }
 
   Widget buildNetworkImage(BuildContext context) {
+    String url = _replaceEXUrl(galleryImage.url);
+    bool isAnimated = _isAnimatedImage(url);
+
+    if (isAnimated) {
+      return _buildAnimatedNetworkImage(context, url);
+    }
+
     return ExtendedImage.network(
-      _replaceEXUrl(galleryImage.url),
+      url,
       fit: fit,
       height: containerHeight,
       width: containerWidth,
@@ -163,6 +172,55 @@ class EHImage extends StatelessWidget {
         }
       },
       maxBytes: maxBytes,
+    );
+  }
+
+  /// 检测图片是否是动态图（GIF/APNG/WebP）
+  bool _isAnimatedImage(String url) {
+    String lowerUrl = url.toLowerCase();
+    return lowerUrl.endsWith('.gif') ||
+        lowerUrl.endsWith('.apng') ||
+        (lowerUrl.endsWith('.webp') && lowerUrl.contains('animated'));
+  }
+
+  /// 使用 native_animated_image 加载动态图
+  Widget _buildAnimatedNetworkImage(BuildContext context, String url) {
+    return Image(
+      image: NativeAnimatedImageProvider.fromBytesProvider(
+        loader: () async {
+          final response = await http.get(Uri.parse(url));
+          return response.bodyBytes;
+        },
+        tag: url,
+      ),
+      fit: fit,
+      width: containerWidth,
+      height: containerHeight,
+      frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+        if (frame == null) {
+          return loadingProgressWidgetBuilder != null
+              ? loadingProgressWidgetBuilder!.call(0)
+              : Center(child: UIConfig.loadingAnimation(context));
+        }
+        return Center(
+          child: Container(
+            decoration: BoxDecoration(boxShadow: shadows, borderRadius: borderRadius),
+            child: borderRadius != BorderRadius.zero
+                ? ClipRRect(child: child, borderRadius: borderRadius)
+                : child,
+          ),
+        );
+      },
+      errorBuilder: (context, error, stackTrace) {
+        return Center(
+          child: GestureDetector(
+            child: const Icon(Icons.sentiment_very_dissatisfied),
+            onTap: () {
+              // 触发重新加载
+            },
+          ),
+        );
+      },
     );
   }
 
