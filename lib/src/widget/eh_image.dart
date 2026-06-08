@@ -187,17 +187,31 @@ class EHImage extends StatelessWidget {
 
   /// 使用 native_animated_image 加载动态图
   Widget _buildAnimatedNetworkImage(BuildContext context, String url) {
-    return Image(
+    // 获取 MIME 类型
+    MimeType mimeType = _getMimeType(url);
+
+    return AnimatedImage(
       image: NativeAnimatedImageProvider.fromBytesProvider(
-        loader: () async {
+        bytesProvider: () async {
           final response = await http.get(Uri.parse(url));
           return response.bodyBytes;
         },
-        tag: url,
+        mimeType: mimeType,
       ),
-      fit: fit,
       width: containerWidth,
       height: containerHeight,
+      fit: fit,
+      repeatCount: 0, // 无限循环
+      errorBuilder: (context, error, stackTrace) {
+        return Center(
+          child: GestureDetector(
+            child: const Icon(Icons.sentiment_very_dissatisfied),
+            onTap: () {
+              // 触发重新加载
+            },
+          ),
+        );
+      },
       frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
         if (frame == null) {
           return loadingProgressWidgetBuilder != null
@@ -213,18 +227,20 @@ class EHImage extends StatelessWidget {
           ),
         );
       },
-      errorBuilder: (context, error, stackTrace) {
-        return failedWidgetBuilder?.call(null) ??
-            Center(
-              child: GestureDetector(
-                child: const Icon(Icons.sentiment_very_dissatisfied),
-                onTap: () {
-                  // 触发重新加载
-                },
-              ),
-            );
-      },
     );
+  }
+
+  /// 根据 URL 获取 MIME 类型
+  MimeType _getMimeType(String url) {
+    String lowerUrl = url.toLowerCase();
+    if (lowerUrl.endsWith('.gif')) {
+      return MimeType.gif;
+    } else if (lowerUrl.endsWith('.apng')) {
+      return MimeType.apng;
+    } else if (lowerUrl.endsWith('.webp')) {
+      return MimeType.webp;
+    }
+    return MimeType.gif; // 默认
   }
 
   Widget buildFileImage(BuildContext context) {
