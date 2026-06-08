@@ -1,10 +1,11 @@
 name: Build & Release
 
-# Trigger on push to master branch or with a tag
+# Trigger on push to master/release branch or with a tag
 on:
   push:
     branches:
       - 'master'
+      - 'release/**'
     tags:
       - v*
 
