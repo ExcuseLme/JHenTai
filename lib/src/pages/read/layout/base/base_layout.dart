@@ -158,6 +158,7 @@ abstract class BaseLayout extends StatelessWidget {
   Widget _buildOnlineImage(BuildContext context, int index) {
     return EHGestureDetector(
       onLongPress: () => logic.showBottomMenuInOnlineMode(index, context),
+      onSecondaryTap: () => logic.showBottomMenuInOnlineMode(index, context),
       child: EHImage(
         galleryImage: readPageState.images[index]!,
         containerWidth: logic.readPageState.imageContainerSizes[index]?.width ?? logic.getPlaceHolderSize(index).width,
@@ -259,6 +260,7 @@ abstract class BaseLayout extends StatelessWidget {
 
         return EHGestureDetector(
           onLongPress: () => logic.showBottomMenuInLocalMode(index, context),
+          onSecondaryTap: () => logic.showBottomMenuInLocalMode(index, context),
           child: EHImage(
             galleryImage: readPageState.images[index]!.copyWith(
               path: superResolutionService.computeImageOutputRelativePath(readPageState.images[index]!.path!),
@@ -318,6 +320,7 @@ abstract class BaseLayout extends StatelessWidget {
   Widget _buildLocalImage(BuildContext context, int index) {
     return EHGestureDetector(
       onLongPress: () => logic.showBottomMenuInLocalMode(index, context),
+      onSecondaryTap: () => logic.showBottomMenuInLocalMode(index, context),
       child: EHImage(
         galleryImage: readPageState.images[index]!,
         containerWidth: logic.readPageState.imageContainerSizes[index]?.width ?? logic.getPlaceHolderSize(index).width,
