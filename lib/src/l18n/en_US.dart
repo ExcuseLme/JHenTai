@@ -365,7 +365,7 @@ class en_US {
       'none': 'None',
       'noneHint': 'Use default search options for next search',
       'enableAutoLanguageFilter': 'Auto Language Filter',
-      'enableAutoLanguageFilterHint': 'Auto set language filter when searching by gallery tag',
+      'enableAutoLanguageFilterHint': 'Auto set language filter when searching by gallery tag or selected text',
       'autoLanguageFilterCategories': 'Gallery Categories',
       'autoLanguageFilterCategoriesHint': 'Select which gallery types trigger auto language filter',
       'autoLanguageFilterTarget': 'Target Language',

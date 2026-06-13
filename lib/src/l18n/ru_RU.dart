@@ -370,7 +370,7 @@ class ru_RU {
       'none': 'Нет',
       'noneHint': 'Использовать параметры по умолчанию для следующего поиска',
       'enableAutoLanguageFilter': 'Автоматический фильтр языка',
-      'enableAutoLanguageFilterHint': 'Автоматически устанавливать фильтр языка при поиске по тегу галереи',
+      'enableAutoLanguageFilterHint': 'Автоматически устанавливать фильтр языка при поиске по тегу галереи или выделенному тексту',
       'autoLanguageFilterCategories': 'Категории галерей',
       'autoLanguageFilterCategoriesHint': 'Выберите типы галерей для автоматического фильтра языка',
       'autoLanguageFilterTarget': 'Целевой язык',
