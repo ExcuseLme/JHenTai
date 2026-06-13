@@ -306,27 +306,36 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
             height: UIConfig.detailsPageTitleTextHeight,
           ),
           contextMenuBuilder: (BuildContext context, EditableTextState editableTextState) {
-            AdaptiveTextSelectionToolbar toolbar = AdaptiveTextSelectionToolbar.buttonItems(
-              buttonItems: editableTextState.contextMenuButtonItems,
-              anchors: editableTextState.contextMenuAnchors,
-            );
+            List<ContextMenuButtonItem> buttonItems = [];
 
             if (!editableTextState.currentTextEditingValue.selection.isCollapsed) {
-              toolbar.buttonItems?.add(
-                ContextMenuButtonItem(
-                  label: 'search'.tr,
-                  onPressed: () {
-                    ContextMenuController.removeAny();
-                    newSearch(
-                      keyword: editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text),
-                      forceNewRoute: true,
-                    );
-                  },
-                ),
-              );
+              buttonItems.add(ContextMenuButtonItem(
+                type: ContextMenuButtonType.copy,
+                onPressed: () => editableTextState.copySelection(SelectionChangedCause.toolbar),
+              ));
+            }
+            buttonItems.add(ContextMenuButtonItem(
+              type: ContextMenuButtonType.selectAll,
+              onPressed: () => editableTextState.selectAll(SelectionChangedCause.toolbar),
+            ));
+
+            if (!editableTextState.currentTextEditingValue.selection.isCollapsed) {
+              buttonItems.add(ContextMenuButtonItem(
+                label: 'search'.tr,
+                onPressed: () {
+                  ContextMenuController.removeAny();
+                  newSearch(
+                    keyword: editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text),
+                    forceNewRoute: true,
+                  );
+                },
+              ));
             }
 
-            return toolbar;
+            return AdaptiveTextSelectionToolbar.buttonItems(
+              buttonItems: buttonItems,
+              anchors: editableTextState.contextMenuAnchors,
+            );
           },
         ).enableMouseDrag(withScrollBar: false);
       },
@@ -371,27 +380,36 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
                 maxLines: 2,
                 style: UIConfig.detailsPageSubTitleTextStyle(context),
                 contextMenuBuilder: (BuildContext context, EditableTextState editableTextState) {
-                  AdaptiveTextSelectionToolbar toolbar = AdaptiveTextSelectionToolbar.buttonItems(
-                    buttonItems: editableTextState.contextMenuButtonItems,
-                    anchors: editableTextState.contextMenuAnchors,
-                  );
+                  List<ContextMenuButtonItem> buttonItems = [];
 
                   if (!editableTextState.currentTextEditingValue.selection.isCollapsed) {
-                    toolbar.buttonItems?.add(
-                      ContextMenuButtonItem(
-                        label: 'search'.tr,
-                        onPressed: () {
-                          ContextMenuController.removeAny();
-                          newSearch(
-                            keyword: editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text),
-                            forceNewRoute: true,
-                          );
-                        },
-                      ),
-                    );
+                    buttonItems.add(ContextMenuButtonItem(
+                      type: ContextMenuButtonType.copy,
+                      onPressed: () => editableTextState.copySelection(SelectionChangedCause.toolbar),
+                    ));
+                  }
+                  buttonItems.add(ContextMenuButtonItem(
+                    type: ContextMenuButtonType.selectAll,
+                    onPressed: () => editableTextState.selectAll(SelectionChangedCause.toolbar),
+                  ));
+
+                  if (!editableTextState.currentTextEditingValue.selection.isCollapsed) {
+                    buttonItems.add(ContextMenuButtonItem(
+                      label: 'search'.tr,
+                      onPressed: () {
+                        ContextMenuController.removeAny();
+                        newSearch(
+                          keyword: editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text),
+                          forceNewRoute: true,
+                        );
+                      },
+                    ));
                   }
 
-                  return toolbar;
+                  return AdaptiveTextSelectionToolbar.buttonItems(
+                    buttonItems: buttonItems,
+                    anchors: editableTextState.contextMenuAnchors,
+                  );
                 },
               ),
             );
@@ -421,21 +439,31 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
             style: TextStyle(fontSize: UIConfig.detailsPageUploaderTextSize, color: UIConfig.detailsPageUploaderTextColor(context)),
             onTap: logic.searchUploader,
             contextMenuBuilder: (BuildContext context, EditableTextState editableTextState) {
-              AdaptiveTextSelectionToolbar toolbar = AdaptiveTextSelectionToolbar.editableText(
-                editableTextState: editableTextState,
-              );
+              List<ContextMenuButtonItem> buttonItems = [];
 
-              toolbar.buttonItems?.add(
-                ContextMenuButtonItem(
-                  label: 'blockUploaderLocally'.tr,
-                  onPressed: () {
-                    ContextMenuController.removeAny();
-                    logic.blockUploader(logic.uploader);
-                  },
-                ),
-              );
+              if (!editableTextState.currentTextEditingValue.selection.isCollapsed) {
+                buttonItems.add(ContextMenuButtonItem(
+                  type: ContextMenuButtonType.copy,
+                  onPressed: () => editableTextState.copySelection(SelectionChangedCause.toolbar),
+                ));
+              }
+              buttonItems.add(ContextMenuButtonItem(
+                type: ContextMenuButtonType.selectAll,
+                onPressed: () => editableTextState.selectAll(SelectionChangedCause.toolbar),
+              ));
 
-              return toolbar;
+              buttonItems.add(ContextMenuButtonItem(
+                label: 'blockUploaderLocally'.tr,
+                onPressed: () {
+                  ContextMenuController.removeAny();
+                  logic.blockUploader(logic.uploader);
+                },
+              ));
+
+              return AdaptiveTextSelectionToolbar.buttonItems(
+                buttonItems: buttonItems,
+                anchors: editableTextState.contextMenuAnchors,
+              );
             },
           ),
         );
