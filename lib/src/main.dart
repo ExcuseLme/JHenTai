@@ -43,6 +43,7 @@ import 'package:jhentai/src/setting/site_setting.dart';
 import 'package:jhentai/src/setting/super_resolution_setting.dart';
 import 'package:jhentai/src/setting/user_setting.dart';
 import 'package:jhentai/src/widget/app_manager.dart';
+import 'package:jhentai/src/widget/scaled_scroll_behavior.dart';
 import 'exception/upload_exception.dart';
 import 'package:jhentai/src/l18n/locale_text.dart';
 import 'package:jhentai/src/routes/getx_router_observer.dart';
@@ -127,6 +128,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'JHenTai',
+      scrollBehavior: ScaledScrollBehavior(scaleFactor: preferenceSetting.scrollSensitivity.value),
       themeMode: styleSetting.themeMode.value,
       theme: ThemeConfig.theme(styleSetting.lightThemeColor.value, Brightness.light),
       darkTheme: ThemeConfig.theme(styleSetting.darkThemeColor.value, Brightness.dark),

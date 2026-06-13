@@ -353,6 +353,8 @@ class ru_RU {
       'enableLeftMenuDrawerGesture': 'Включить жест открытия левого меню',
       'enableQuickSearchDrawerGesture': 'Включить жест открытия быстрого поиска',
       'drawerGestureEdgeWidth': 'Ширина края для жеста меню',
+      'scrollSensitivity': 'Чувствительность прокрутки',
+      'scrollSensitivityHint': 'Увеличение дистанции прокрутки, 1.0 по умолчанию, нажмите и удерживайте для сброса',
       'alwaysShowScroll2TopButton': 'Всегда показывать кнопку "Наверх"',
       'enableDefaultFavorite': 'Включить избранное по умолчанию',
       'enableDefaultFavoriteHint': 'Долгий тап для перевыбора',

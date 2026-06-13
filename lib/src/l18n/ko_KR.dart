@@ -348,6 +348,8 @@ class ko_KR {
       'enableLeftMenuDrawerGesture': '좌측 서랍 메뉴 제스처로 열기 활성화',
       'enableQuickSearchDrawerGesture': '우측 빠른 검색 메뉴 제스처로 열기 활성화',
       'drawerGestureEdgeWidth': 'Drawer Gesture Edge Width',
+      'scrollSensitivity': 'Scroll Sensitivity',
+      'scrollSensitivityHint': 'Amplify scroll distance, 1.0 is default, long press to reset',
       'alwaysShowScroll2TopButton': '맨 위로 가기 버튼 항상 보이기',
       'enableDefaultFavorite': 'Enable Default Favorite',
       'enableDefaultFavoriteHint': 'Long press to re-select',

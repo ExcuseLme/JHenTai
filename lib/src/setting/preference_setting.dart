@@ -40,6 +40,7 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
   RxBool showDawnInfo = false.obs;
   RxBool showHVInfo = false.obs;
   RxBool useBuiltInBlockedUsers = true.obs;
+  RxDouble scrollSensitivity = 1.0.obs;
   
   @override
   ConfigEnum get configEnum => ConfigEnum.preferenceSetting;
@@ -80,6 +81,7 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
     showDawnInfo.value = map['showDawnInfo'] ?? showDawnInfo.value;
     showHVInfo.value = map['showHVInfo'] ?? showHVInfo.value;
     useBuiltInBlockedUsers.value = map['useBuiltInBlockedUsers'] ?? useBuiltInBlockedUsers.value;
+    scrollSensitivity.value = (map['scrollSensitivity'] ?? scrollSensitivity.value).toDouble();
   }
 
   @override
@@ -113,6 +115,7 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
       'showDawnInfo': showDawnInfo.value,
       'showHVInfo': showHVInfo.value,
       'useBuiltInBlockedUsers': useBuiltInBlockedUsers.value,
+      'scrollSensitivity': scrollSensitivity.value,
     });
   }
 
@@ -288,6 +291,12 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
   Future<void> saveAutoLanguageFilterTarget(String? target) async {
     log.debug('saveAutoLanguageFilterTarget:$target');
     this.autoLanguageFilterTarget.value = target;
+    await saveBeanConfig();
+  }
+
+  Future<void> saveScrollSensitivity(double value) async {
+    log.debug('saveScrollSensitivity:$value');
+    this.scrollSensitivity.value = value;
     await saveBeanConfig();
   }
 }

@@ -349,6 +349,8 @@ class pt_BR {
       'enableLeftMenuDrawerGesture': 'Enable Left Menu Drawer Gesture',
       'enableQuickSearchDrawerGesture': 'Ativar pesquisa rápida com gesto de gaveta',
       'drawerGestureEdgeWidth': 'Drawer Gesture Edge Width',
+      'scrollSensitivity': 'Sensibilidade de Rolagem',
+      'scrollSensitivityHint': 'Ampliar distância de rolagem, 1.0 é o padrão, pressione e segure para redefinir',
       'alwaysShowScroll2TopButton': 'Sempre mostrar o botão de rolagem para cima',
       'enableDefaultFavorite': 'Enable Default Favorite',
       'enableDefaultFavoriteHint': 'Long press to re-select',

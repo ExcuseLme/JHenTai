@@ -348,6 +348,8 @@ class zh_CN {
       'enableLeftMenuDrawerGesture': '允许通过手势唤起左侧菜单',
       'enableQuickSearchDrawerGesture': '允许通过手势唤起快速搜索',
       'drawerGestureEdgeWidth': '抽屉菜单手势区域宽度',
+      'scrollSensitivity': '滑动灵敏度',
+      'scrollSensitivityHint': '放大滑动距离，1.0为默认值，长按重置为默认值',
       'alwaysShowScroll2TopButton': '总是展示快速回顶按钮',
       'enableDefaultFavorite': '使用默认收藏夹',
       'enableDefaultFavoriteHint': '默认直接收藏，长按重新选择',

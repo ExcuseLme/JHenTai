@@ -24,6 +24,8 @@ import '../../../widget/loading_state_indicator.dart';
 class SettingPreferencePage extends StatelessWidget {
   final TextEditingController drawerGestureEdgeWidthController =
       TextEditingController(text: preferenceSetting.drawerGestureEdgeWidth.value.toString());
+  final TextEditingController scrollSensitivityController =
+      TextEditingController(text: preferenceSetting.scrollSensitivity.value.toStringAsFixed(1));
 
   SettingPreferencePage({Key? key}) : super(key: key);
 
@@ -48,6 +50,7 @@ class SettingPreferencePage extends StatelessWidget {
               if (styleSetting.isInV2Layout) _buildEnableLeftMenuDrawerGesture(),
               if (styleSetting.isInV2Layout) _buildQuickSearch(),
               if (styleSetting.isInV2Layout) _buildDrawerGestureEdgeWidth(context),
+              _buildScrollSensitivity(context),
               _buildShowAllGalleryTitles(),
               _buildShowGalleryTagVoteStatus(),
               _buildShowComments(),
@@ -320,6 +323,42 @@ class SettingPreferencePage extends StatelessWidget {
                 value = 300;
               }
               preferenceSetting.saveDrawerGestureEdgeWidth(value);
+              toast('saveSuccess'.tr);
+            },
+            icon: Icon(Icons.check, color: UIConfig.resumePauseButtonColor(context)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildScrollSensitivity(BuildContext context) {
+    return ListTile(
+      title: Text('scrollSensitivity'.tr),
+      subtitle: Text('scrollSensitivityHint'.tr),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 50,
+            child: TextField(
+              controller: scrollSensitivityController,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              decoration: const InputDecoration(isDense: true, labelStyle: TextStyle(fontSize: 12)),
+              textAlign: TextAlign.center,
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,1}$')),
+              ],
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              double? value = double.tryParse(scrollSensitivityController.value.text);
+              if (value == null || value < 1.0) {
+                scrollSensitivityController.text = '1.0';
+                value = 1.0;
+              }
+              preferenceSetting.saveScrollSensitivity(value);
               toast('saveSuccess'.tr);
             },
             icon: Icon(Icons.check, color: UIConfig.resumePauseButtonColor(context)),

@@ -348,6 +348,8 @@ class en_US {
       'enableLeftMenuDrawerGesture': 'Enable Left Menu Drawer Gesture',
       'enableQuickSearchDrawerGesture': 'Enable QuickSearch Drawer Gesture',
       'drawerGestureEdgeWidth': 'Drawer Gesture Edge Width',
+      'scrollSensitivity': 'Scroll Sensitivity',
+      'scrollSensitivityHint': 'Amplify scroll distance, 1.0 is default, long press to reset',
       'alwaysShowScroll2TopButton': 'Always Show Scroll to Top Button',
       'enableDefaultFavorite': 'Enable Default Favorite',
       'enableDefaultFavoriteHint': 'Long press to re-select',
