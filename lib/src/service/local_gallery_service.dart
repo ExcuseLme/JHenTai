@@ -161,7 +161,7 @@ class LocalGalleryService extends GetxController with GridBasePageServiceMixin, 
 
         directory.list().listen(
           (entity) {
-            if (entity is File && FileUtil.isImageExtension(entity.path) && result.isLegalGalleryDir == false) {
+            if (entity is File && FileUtil.isImageExtension(entity.path)) {
               result.isLegalGalleryDir = true;
               images.add(entity);
             } else if (entity is Directory) {
