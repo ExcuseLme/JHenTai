@@ -365,7 +365,7 @@ class zh_CN {
       'none': '无',
       'noneHint': '搜索时使用新的初始搜索选项',
       'enableAutoLanguageFilter': '自动设置语言过滤',
-      'enableAutoLanguageFilterHint': '点击画廊标签搜索时自动设置语言过滤',
+      'enableAutoLanguageFilterHint': '点击画廊标签或选中文字搜索时自动设置语言过滤',
       'autoLanguageFilterCategories': '生效画廊类型',
       'autoLanguageFilterCategoriesHint': '选择哪些画廊类型触发自动语言过滤',
       'autoLanguageFilterTarget': '目标过滤语言',
