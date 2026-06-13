@@ -365,7 +365,7 @@ class zh_TW {
       'none': '無',
       'noneHint': '搜尋時使用新的初始搜尋選項',
       'enableAutoLanguageFilter': '自動設定語言過濾',
-      'enableAutoLanguageFilterHint': '點擊畫廊標籤搜尋時自動設定語言過濾',
+      'enableAutoLanguageFilterHint': '點擊畫廊標籤或選取文字搜尋時自動設定語言過濾',
       'autoLanguageFilterCategories': '生效畫廊類型',
       'autoLanguageFilterCategoriesHint': '選擇哪些畫廊類型觸發自動語言過濾',
       'autoLanguageFilterTarget': '目標過濾語言',

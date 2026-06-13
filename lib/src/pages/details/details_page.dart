@@ -306,6 +306,7 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
             height: UIConfig.detailsPageTitleTextHeight,
           ),
           contextMenuBuilder: (BuildContext context, EditableTextState editableTextState) {
+            String? category = state.galleryDetails?.category ?? state.gallery?.category ?? state.galleryMetadata?.category;
             List<ContextMenuButtonItem> buttonItems = [];
 
             if (!editableTextState.currentTextEditingValue.selection.isCollapsed) {
@@ -327,6 +328,7 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
                   newSearch(
                     keyword: editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text),
                     forceNewRoute: true,
+                    galleryCategory: category,
                   );
                 },
               ));
@@ -380,6 +382,7 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
                 maxLines: 2,
                 style: UIConfig.detailsPageSubTitleTextStyle(context),
                 contextMenuBuilder: (BuildContext context, EditableTextState editableTextState) {
+                  String? category = state.galleryDetails?.category ?? state.gallery?.category ?? state.galleryMetadata?.category;
                   List<ContextMenuButtonItem> buttonItems = [];
 
                   if (!editableTextState.currentTextEditingValue.selection.isCollapsed) {
@@ -401,6 +404,7 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
                         newSearch(
                           keyword: editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text),
                           forceNewRoute: true,
+                          galleryCategory: category,
                         );
                       },
                     ));
