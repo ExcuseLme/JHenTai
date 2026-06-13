@@ -8,7 +8,7 @@
 
 # JHenTai
 
-English | [简体中文](https://github.com/jiangtian616/JHenTai/blob/master/README_cn.md) | [한국어](https://github.com/jiangtian616/JHenTai/blob/master/README_kr.md)
+English | [简体中文](https://github.com/ExcuseLme/JHenTai/blob/master/README_cn.md) | [한국어](https://github.com/ExcuseLme/JHenTai/blob/master/README_kr.md)
 
 [Q&A](https://github.com/jiangtian616/JHenTai/wiki/Common-Questions)
 
@@ -17,12 +17,19 @@ English | [简体中文](https://github.com/jiangtian616/JHenTai/blob/master/REA
 This fork is customized for personal operational preferences based on the original version, and only provides Android and Windows versions.
 
 ### New Features
-- Automatic retry after network connection timeout: In poor quality networks, network connection timeouts or data read timeouts often occur. This feature automatically retries after such failures. Corresponding configuration items: "Number of automatic retries on network connection failure" and "Retry interval" under "Settings Page - Network".
-- Long press the favorite button to unfavorite: On the gallery page, if the gallery is already favorited, long pressing the favorite button will unfavorite it.
-- Long press duration: The duration required for long press events is now configurable. Corresponding configuration item: "Long press duration" under "Settings Page - Advanced".
+
+- Automatic retry after network connection timeout: It will retry automatically when connection times out or data reading fails under poor network conditions. Configuration items: 'Settings - Network' > 'Automatic Retry Times for Network Connection Failure' and 'Retry Interval'.
+- Long press the favorite button to unfavorite: On the gallery details page, long press the favorite button to directly unfavorite favorited galleries.
+- Configurable long press trigger duration: The trigger time for all long press operations can now be customized. Configuration item: 'Settings - Advanced' > 'Long Press Trigger Duration'.
+- Improved animated image loading performance: GIF/APNG/WebP animated images load and play more smoothly.
+- Streamlined right-click menu: The right-click menus for titles and uploaders on the gallery details page only display native app functions, excluding system and third-party app menu items.
+- Extended automatic language filtering: Language filter settings are automatically applied when selecting text for search on the gallery details page.
+- Semi-transparent back-to-top button: The quick back-to-top button is now semi-transparent to reduce content obstruction.
 
 ### Optimizations
-- Interrupt incomplete old search when performing a new search: On the search page, while waiting for search results, if you modify the search criteria and trigger a new search, the incomplete old search will be interrupted and the new search will be executed.
+
+- Faster search response: Modifying search criteria and re-searching while waiting for results on the search page will immediately terminate the ongoing search and start a new one.
+- Local gallery cover fix: The cover image of local gallery lists now correctly displays the first image sorted by name.
 
 ## Description
 
@@ -32,9 +39,9 @@ Still in development stage, welcome to submit issues or feature requests.
 
 ## Download & Install
 
-[<img src="https://raw.githubusercontent.com/jiangtian616/JHenTai/master/badges/download_from_github.png" 
+[<img src="https://raw.githubusercontent.com/ExcuseLme/JHenTai/master/badges/download_from_github.png" 
       alt="Download from GitHub" 
-      height="60">](https://github.com/jiangtian616/JHenTai/releases)
+      height="60">](https://github.com/ExcuseLme/JHenTai/releases)
 [<img src="https://raw.githubusercontent.com/jiangtian616/JHenTai/master/badges/get_it_on_obtainium.png" 
       alt="Get it on Obtainium" 
       height="60">](https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22top.jtmonster.jhentai%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Fjiangtian616%2FJHenTai%22%2C%22author%22%3A%22jiangtian616%22%2C%22name%22%3A%22JHenTai%22%2C%22preferredApkIndex%22%3A0%2C%22additionalSettings%22%3A%22%7B%5C%22includePrereleases%5C%22%3Afalse%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%2C%5C%22filterReleaseTitlesByRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22filterReleaseNotesByRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22verifyLatestTag%5C%22%3Afalse%2C%5C%22sortMethodChoice%5C%22%3A%5C%22date%5C%22%2C%5C%22useLatestAssetDateAsReleaseDate%5C%22%3Afalse%2C%5C%22releaseTitleAsVersion%5C%22%3Afalse%2C%5C%22trackOnly%5C%22%3Afalse%2C%5C%22versionExtractionRegEx%5C%22%3A%5C%22v(.*)%5C%22%2C%5C%22matchGroupToUse%5C%22%3A%5C%22%241%5C%22%2C%5C%22versionDetection%5C%22%3Atrue%2C%5C%22releaseDateAsVersion%5C%22%3Afalse%2C%5C%22useVersionCodeAsOSVersion%5C%22%3Afalse%2C%5C%22apkFilterRegEx%5C%22%3A%5C%22%5C%22%2C%5C%22invertAPKFilter%5C%22%3Afalse%2C%5C%22autoApkFilterByArch%5C%22%3Atrue%2C%5C%22appName%5C%22%3A%5C%22JHenTai%5C%22%2C%5C%22appAuthor%5C%22%3A%5C%22JTMonster%5C%22%2C%5C%22shizukuPretendToBeGooglePlay%5C%22%3Afalse%2C%5C%22allowInsecure%5C%22%3Afalse%2C%5C%22exemptFromBackgroundUpdates%5C%22%3Afalse%2C%5C%22skipUpdateNotifications%5C%22%3Afalse%2C%5C%22about%5C%22%3A%5C%22https%3A%2F%2Fgithub.com%2Fjiangtian616%2FJHenTai%2Fblob%2Fmaster%2FREADME.md%5C%22%2C%5C%22refreshBeforeDownload%5C%22%3Afalse%7D%22%2C%22overrideSource%22%3Anull%7D)
