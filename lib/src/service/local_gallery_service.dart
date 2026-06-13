@@ -158,21 +158,12 @@ class LocalGalleryService extends GetxController with GridBasePageServiceMixin, 
         List<Future> subFutures = [];
         String parentPath = isRootDir ? rootPath : directory.parent.path;
 
-        // Synchronously list and sort images, then pick the first one as cover
-        List<File> images = directory.listSync()
-            .whereType<File>()
-            .where((f) => FileUtil.isImageExtension(f.path))
-            .toList()
-          ..sort(FileUtil.naturalCompareFile);
-
-        if (images.isNotEmpty) {
-          result.isLegalGalleryDir = true;
-          _initGalleryInfoInMemory(directory, images[0], parentPath);
-        }
-
-        // Process subdirectories
+        // Synchronously list all files, collect images and process subdirectories in one pass
+        List<File> images = [];
         for (var entity in directory.listSync()) {
-          if (entity is Directory) {
+          if (entity is File && FileUtil.isImageExtension(entity.path)) {
+            images.add(entity);
+          } else if (entity is Directory) {
             subFutures.add(
               _parseDirectory(entity, false).then((subResult) {
                 if (subResult.isLegalGalleryDir || subResult.isLegalNestedGalleryDir) {
@@ -183,6 +174,12 @@ class LocalGalleryService extends GetxController with GridBasePageServiceMixin, 
               }),
             );
           }
+        }
+
+        if (images.isNotEmpty) {
+          images.sort(FileUtil.naturalCompareFile);
+          result.isLegalGalleryDir = true;
+          _initGalleryInfoInMemory(directory, images[0], parentPath);
         }
 
         Future.wait(subFutures).then((_) {
