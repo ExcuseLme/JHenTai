@@ -1,6 +1,7 @@
 name: Build & Release
 
 # Trigger on push to master/release branch or with a tag
+# Skip build if only markdown files changed (except for tags)
 on:
   push:
     branches:
@@ -8,6 +9,9 @@ on:
       - 'release/**'
     tags:
       - v*
+    paths-ignore:
+      - '**/*.md'
+      - 'changelog/**'
 
 # If previous workflow is still running, we push again, we will cancel the previous workflow
 concurrency:
