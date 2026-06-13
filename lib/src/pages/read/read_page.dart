@@ -119,13 +119,6 @@ class _ReadPageState extends State<ReadPage> with ScrollStatusListener, WindowLi
         if (readSetting.enableImmersiveMode.isFalse) {
           return buildWindow(child: child);
         }
-        // Prevent keyboard from resizing images on Android
-        if (GetPlatform.isAndroid) {
-          return MediaQuery(
-            data: MediaQuery.of(context).copyWith(viewInsets: EdgeInsets.zero),
-            child: child,
-          );
-        }
         return child;
       },
     );
