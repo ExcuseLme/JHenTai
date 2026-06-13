@@ -156,38 +156,38 @@ class LocalGalleryService extends GetxController with GridBasePageServiceMixin, 
     future = future.then<bool>((success) {
       if (success) {
         List<Future> subFutures = [];
-        List<File> images = [];
         String parentPath = isRootDir ? rootPath : directory.parent.path;
 
-        directory.list().listen(
-          (entity) {
-            if (entity is File && FileUtil.isImageExtension(entity.path)) {
-              result.isLegalGalleryDir = true;
-              images.add(entity);
-            } else if (entity is Directory) {
-              subFutures.add(
-                _parseDirectory(entity, false).then((subResult) {
-                  if (subResult.isLegalGalleryDir || subResult.isLegalNestedGalleryDir) {
-                    result.isLegalNestedGalleryDir = true;
-                    (path2SubDir[parentPath] ??= []).addIfNotExists(directory.path);
-                    path2SubDir[parentPath]!.sort((a, b) => FileUtil.naturalCompare(basenameWithoutExtension(a), basenameWithoutExtension(b)));
-                  }
-                }),
-              );
-            }
-          },
-          onDone: () {
-            if (result.isLegalGalleryDir) {
-              images.sort(FileUtil.naturalCompareFile);
-              _initGalleryInfoInMemory(directory, images[0], parentPath);
-            }
+        // Synchronously list and sort images, then pick the first one as cover
+        List<File> images = directory.listSync()
+            .whereType<File>()
+            .where((f) => FileUtil.isImageExtension(f.path))
+            .toList()
+          ..sort(FileUtil.naturalCompareFile);
 
-            Future.wait(subFutures).then((_) {
-              completer.isCompleted ? null : completer.complete(result);
-            });
-          },
-          onError: completer.completeError,
-        );
+        if (images.isNotEmpty) {
+          result.isLegalGalleryDir = true;
+          _initGalleryInfoInMemory(directory, images[0], parentPath);
+        }
+
+        // Process subdirectories
+        for (var entity in directory.listSync()) {
+          if (entity is Directory) {
+            subFutures.add(
+              _parseDirectory(entity, false).then((subResult) {
+                if (subResult.isLegalGalleryDir || subResult.isLegalNestedGalleryDir) {
+                  result.isLegalNestedGalleryDir = true;
+                  (path2SubDir[parentPath] ??= []).addIfNotExists(directory.path);
+                  path2SubDir[parentPath]!.sort((a, b) => FileUtil.naturalCompare(basenameWithoutExtension(a), basenameWithoutExtension(b)));
+                }
+              }),
+            );
+          }
+        }
+
+        Future.wait(subFutures).then((_) {
+          completer.isCompleted ? null : completer.complete(result);
+        });
       } else {
         completer.isCompleted ? null : completer.complete(result);
       }
