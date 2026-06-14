@@ -1043,6 +1043,14 @@ class EHSpiderParser {
     LinkedHashMap<String, List<GalleryTag>> tags = _parseCompactGalleryTags(tr);
     GalleryImage? cover = _parseCompactGalleryCover(tr);
 
+    int? favoriteTagIndex = _parseCompactGalleryFavoriteTagIndex(tr);
+    String? favoriteTagName = tr.querySelector('.gl2c > div:nth-child(2) > [id][style]')?.attributes['title'];
+
+    // Debug log for ranklist
+    if (favoriteTagIndex != null || favoriteTagName != null) {
+      print('[DEBUG] Ranklist gallery favorite: gid=${GalleryUrl.parse(tr.querySelector('.gl3c.glname > a')?.attributes['href'] ?? '').gid}, favoriteTagIndex=$favoriteTagIndex, favoriteTagName=$favoriteTagName');
+    }
+
     Gallery gallery = Gallery(
       galleryUrl: GalleryUrl.parse(tr.querySelector('.gl3c.glname > a')?.attributes['href'] ?? ''),
       title: tr.querySelector('.glink')?.text ?? '',
@@ -1051,8 +1059,8 @@ class EHSpiderParser {
       pageCount: _parseCompactGalleryPageCount(tr),
       rating: _parseGalleryRating(tr),
       hasRated: tr.querySelector('.gl2c > div:nth-child(2) > .ir')!.attributes['class']!.split(' ').length > 1 ? true : false,
-      favoriteTagIndex: _parseCompactGalleryFavoriteTagIndex(tr),
-      favoriteTagName: tr.querySelector('.gl2c > div:nth-child(2) > [id][style]')?.attributes['title'],
+      favoriteTagIndex: favoriteTagIndex,
+      favoriteTagName: favoriteTagName,
       tags: tags,
       language: tags['language']?[0].tagData.key,
       uploader: tr.querySelector('.gl4c.glhide > div > a')?.text,
