@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jhentai/src/extension/get_logic_extension.dart';
 import 'package:jhentai/src/widget/fade_slide_widget.dart';
+import 'package:jhentai/src/widget/scaled_scroll_physics_wrapper.dart';
 
 import 'eh_wheel_speed_controller.dart';
 
@@ -147,6 +148,7 @@ class _GroupedListState<G, E> extends State<GroupedList<G, E>> {
       controller: scrollController,
       child: CustomScrollView(
         controller: scrollController,
+        physics: wrapWithScaledPhysics(null),
         cacheExtent: 200,
         slivers: _buildSlivers(context),
       ),

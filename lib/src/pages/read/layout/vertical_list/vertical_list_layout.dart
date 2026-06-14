@@ -9,6 +9,7 @@ import 'package:zoom_view/zoom_view.dart';
 import '../../../../setting/read_setting.dart';
 import '../../../../utils/screen_size_util.dart';
 import '../../../../widget/eh_wheel_speed_controller_for_read_page.dart';
+import '../../../../widget/scaled_scroll_physics_wrapper.dart';
 import '../base/base_layout.dart';
 import 'vertical_list_layout_logic.dart';
 
@@ -36,7 +37,7 @@ class VerticalListLayout extends BaseLayout {
           child: EHWheelSpeedControllerForReadPage(
             scrollOffsetController: state.scrollOffsetController,
             child: ScrollablePositionedList.separated(
-              physics: const ClampingScrollPhysics(),
+              physics: wrapWithScaledPhysics(const ClampingScrollPhysics()),
               minCacheExtent: readPageState.readPageInfo.mode == ReadMode.online
                   ? readSetting.preloadDistance * screenHeight * 1
                   : readSetting.preloadDistanceLocal * screenHeight * 1,

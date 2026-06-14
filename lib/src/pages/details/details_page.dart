@@ -29,6 +29,7 @@ import 'package:jhentai/src/widget/eh_wheel_speed_controller.dart';
 import 'package:jhentai/src/widget/icon_text_button.dart';
 import 'package:jhentai/src/widget/keep_alive.dart';
 import 'package:jhentai/src/widget/loading_state_indicator.dart';
+import 'package:jhentai/src/widget/scaled_scroll_physics_wrapper.dart';
 
 import '../../database/database.dart';
 import '../../mixin/scroll_to_top_logic_mixin.dart';
@@ -198,7 +199,7 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
       child: EHWheelSpeedController(
         controller: state.scrollController,
         child: CustomScrollView(
-          physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+          physics: wrapWithScaledPhysics(const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics())),
           scrollBehavior: UIConfig.scrollBehaviourWithScrollBarWithMouse,
           controller: state.scrollController,
           cacheExtent: 5000,
@@ -884,7 +885,7 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
         child: LayoutBuilder(
           builder: (_, BoxConstraints constraints) => ListView(
             scrollDirection: Axis.horizontal,
-            physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+            physics: wrapWithScaledPhysics(const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics())),
             itemExtent: max(UIConfig.detailsPageActionExtent, (constraints.maxWidth - UIConfig.detailPagePadding * 2) / 8),
             padding: EdgeInsets.zero,
             children: [
