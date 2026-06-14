@@ -29,6 +29,7 @@ class DetailsPageState with Scroll2TopStateMixin {
   LoadingState loadingThumbnailsState = LoadingState.idle;
   LoadingState favoriteState = LoadingState.idle;
   LoadingState ratingState = LoadingState.idle;
+  LoadingState refreshState = LoadingState.idle;
 
   String? errorMessage;
 }
