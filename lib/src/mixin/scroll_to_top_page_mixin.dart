@@ -8,6 +8,9 @@ mixin Scroll2TopPageMixin on Widget {
 
   Scroll2TopStateMixin get scroll2TopState;
 
+  /// 刷新回调，子类可重写
+  VoidCallback? get onRefresh => null;
+
   Widget buildFloatingActionButton() {
     return GetBuilder<Scroll2TopLogicMixin>(
       id: scroll2TopLogic.scroll2TopButtonId,
@@ -19,10 +22,22 @@ mixin Scroll2TopPageMixin on Widget {
           child: scroll2TopLogic.shouldDisplayFAB
               ? Opacity(
                   opacity: 0.5,
-                  child: FloatingActionButton(
-                    child: const Icon(Icons.arrow_upward),
-                    heroTag: null,
-                    onPressed: scroll2TopLogic.scroll2Top,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if (onRefresh != null)
+                        FloatingActionButton.small(
+                          heroTag: null,
+                          onPressed: onRefresh,
+                          child: const Icon(Icons.refresh),
+                        ),
+                      const SizedBox(height: 8),
+                      FloatingActionButton(
+                        heroTag: null,
+                        onPressed: scroll2TopLogic.scroll2Top,
+                        child: const Icon(Icons.arrow_upward),
+                      ),
+                    ],
                   ),
                 )
               : null,

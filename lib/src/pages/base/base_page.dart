@@ -47,6 +47,9 @@ abstract class BasePage<L extends BasePageLogic, S extends BasePageState> extend
   Scroll2TopStateMixin get scroll2TopState => state;
 
   @override
+  VoidCallback? get onRefresh => logic.handleRefresh;
+
+  @override
   Widget build(BuildContext context) {
     return GetBuilder<L>(
       global: false,
@@ -105,7 +108,6 @@ abstract class BasePage<L extends BasePageLogic, S extends BasePageState> extend
                   physics: wrapWithScaledPhysics(const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics())),
                   scrollBehavior: UIConfig.scrollBehaviourWithScrollBarWithMouse,
                   slivers: <Widget>[
-                    buildPullDownIndicator(),
                     buildGalleryCollection(context),
                     buildLoadMoreIndicator(),
                   ],
@@ -133,13 +135,6 @@ abstract class BasePage<L extends BasePageLogic, S extends BasePageState> extend
           },
         ),
       ),
-    );
-  }
-
-  Widget buildPullDownIndicator() {
-    return CupertinoSliverRefreshControl(
-      refreshTriggerPullDistance: UIConfig.refreshTriggerPullDistance,
-      onRefresh: logic.handlePullDown,
     );
   }
 

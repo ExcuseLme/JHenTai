@@ -63,7 +63,6 @@ class DashboardPage extends BasePage {
             physics: wrapWithScaledPhysics(const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics())),
             scrollBehavior: UIConfig.scrollBehaviourWithScrollBarWithMouse,
             slivers: [
-              buildPullDownIndicator(),
               _buildRanklistDesc(),
               _buildRanklist(),
               _buildPopularListDesc(),
