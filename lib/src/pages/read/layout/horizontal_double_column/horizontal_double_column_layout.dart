@@ -10,6 +10,7 @@ import 'package:photo_view/photo_view_gallery.dart';
 
 import '../../../../service/gallery_download_service.dart';
 import '../../../../setting/read_setting.dart';
+import '../../../../widget/scaled_scroll_physics_wrapper.dart';
 import '../base/base_layout.dart';
 import 'horizontal_double_column_layout_logic.dart';
 
@@ -30,7 +31,7 @@ class HorizontalDoubleColumnLayout extends BaseLayout {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             return PhotoViewGallery.builder(
-              scrollPhysics: const ClampingScrollPhysics(),
+              scrollPhysics: wrapWithScaledPhysics(const ClampingScrollPhysics()),
               pageController: state.pageController,
               cacheExtent: readPageState.readPageInfo.mode == ReadMode.online
                   ? (readSetting.preloadPageCount.value.toDouble() + 1) / 2
