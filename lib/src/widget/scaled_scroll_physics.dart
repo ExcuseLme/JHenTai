@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/physics.dart';
 
 /// 自定义滚动物理效果，根据配置的灵敏度放大滑动距离
-/// 同时支持拖动和惯性滚动（fling）
+/// 仅放大拖动距离，不放大 fling 惯性
 class ScaledScrollPhysics extends ScrollPhysics {
   final double scaleFactor;
 
@@ -17,8 +17,8 @@ class ScaledScrollPhysics extends ScrollPhysics {
 
   @override
   Simulation? createBallisticSimulation(ScrollMetrics position, double velocity) {
-    // 放大 fling 速度
-    return super.createBallisticSimulation(position, velocity * scaleFactor);
+    // 不放大 fling 速度，保持原始惯性
+    return super.createBallisticSimulation(position, velocity);
   }
 
   @override

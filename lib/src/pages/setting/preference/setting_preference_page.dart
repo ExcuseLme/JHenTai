@@ -359,6 +359,13 @@ class SettingPreferencePage extends StatelessWidget {
               if (value == null || value < 1.0) {
                 scrollSensitivityController.text = '1.0';
                 value = 1.0;
+              } else {
+                // 修正为一位小数
+                double correctedValue = double.parse(value.toStringAsFixed(1));
+                if (correctedValue != value) {
+                  scrollSensitivityController.text = correctedValue.toStringAsFixed(1);
+                  value = correctedValue;
+                }
               }
               preferenceSetting.saveScrollSensitivity(value);
               toast('saveSuccess'.tr);
