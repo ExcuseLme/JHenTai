@@ -11,6 +11,9 @@ mixin Scroll2TopPageMixin on Widget {
   /// 刷新回调，子类可重写
   VoidCallback? get onRefresh => null;
 
+  /// 刷新状态，子类可重写
+  RxBool? get refreshState => null;
+
   Widget buildFloatingActionButton() {
     return GetBuilder<Scroll2TopLogicMixin>(
       id: scroll2TopLogic.scroll2TopButtonId,
@@ -26,11 +29,7 @@ mixin Scroll2TopPageMixin on Widget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       if (onRefresh != null)
-                        FloatingActionButton.small(
-                          heroTag: null,
-                          onPressed: onRefresh,
-                          child: const Icon(Icons.refresh),
-                        ),
+                        _buildRefreshButton(),
                       const SizedBox(height: 8),
                       FloatingActionButton(
                         heroTag: null,
@@ -43,6 +42,23 @@ mixin Scroll2TopPageMixin on Widget {
               : null,
         );
       },
+    );
+  }
+
+  Widget _buildRefreshButton() {
+    return FloatingActionButton(
+      heroTag: null,
+      onPressed: onRefresh,
+      child: refreshState?.value == true
+          ? const SizedBox(
+              width: 24,
+              height: 24,
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+                color: Colors.white,
+              ),
+            )
+          : const Icon(Icons.refresh),
     );
   }
 }
