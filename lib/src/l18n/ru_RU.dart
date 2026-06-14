@@ -410,6 +410,7 @@ class ru_RU {
       'proxyAddressHint': 'Если вы используете прокси-сервер, настройте его правильно',
       'saveSuccess': 'Успешно сохранено',
       'saveFailed': 'Не удалось сохранить',
+      'resetSuccess': 'Сброс выполнен успешно',
       'updateSuccess': 'Успешно обновлено',
       'connectTimeout': 'Тайм-аут подключения',
       'receiveTimeout': 'Тайм-аут получения данных',

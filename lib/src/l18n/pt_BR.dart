@@ -406,6 +406,7 @@ class pt_BR {
       'proxyAddressHint': 'Se você usa servidor proxy, certifique-se de configurá-lo corretamente',
       'saveSuccess': 'Salvo com sucesso',
       'saveFailed': 'Save failed',
+      'resetSuccess': 'Redefinição bem-sucedida',
       'updateSuccess': 'Atualizado com sucesso',
       'connectTimeout': 'Tempo limite de conexão',
       'receiveTimeout': 'Tempo limite de recebimento de dados',

@@ -405,6 +405,7 @@ class en_US {
       'proxyAddressHint': 'If you use proxy server, make sure to set it up correctly',
       'saveSuccess': 'Save success',
       'saveFailed': 'Save failed',
+      'resetSuccess': 'Reset success',
       'updateSuccess': 'Update success',
       'connectTimeout': 'Connect Timeout',
       'receiveTimeout': 'Receive Data Timeout',

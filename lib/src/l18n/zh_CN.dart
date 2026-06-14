@@ -405,6 +405,7 @@ class zh_CN {
       'proxyAddressHint': '如果你使用了代理服务器，务必正确配置',
       'saveSuccess': '保存成功',
       'saveFailed': '保存失败',
+      'resetSuccess': '重置成功',
       'updateSuccess': '更新成功',
       'connectTimeout': '建立连接超时时间',
       'receiveTimeout': '接收数据超时时间',

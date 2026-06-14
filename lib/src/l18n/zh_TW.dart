@@ -405,6 +405,7 @@ class zh_TW {
       'proxyAddressHint': '如果你使用了代理伺服器，務必正確設定',
       'saveSuccess': '儲存成功',
       'saveFailed': '儲存失敗',
+      'resetSuccess': '重置成功',
       'updateSuccess': '更新成功',
       'connectTimeout': '建立連線超時時間',
       'receiveTimeout': '接收資料超時時間',

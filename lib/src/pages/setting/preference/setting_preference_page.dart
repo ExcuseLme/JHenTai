@@ -336,6 +336,11 @@ class SettingPreferencePage extends StatelessWidget {
     return ListTile(
       title: Text('scrollSensitivity'.tr),
       subtitle: Text('scrollSensitivityHint'.tr),
+      onLongPress: () {
+        scrollSensitivityController.text = '1.0';
+        preferenceSetting.saveScrollSensitivity(1.0);
+        toast('resetSuccess'.tr);
+      },
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

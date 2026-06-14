@@ -405,6 +405,7 @@ class ko_KR {
       'proxyAddressHint': '프록시 서버를 사용한다면 정확하게 설정해야 합니다.',
       'saveSuccess': '저장 성공',
       'saveFailed': 'Save failed',
+      'resetSuccess': '재설정 성공',
       'updateSuccess': '수정 성공',
       'connectTimeout': '연결 시간 초과',
       'receiveTimeout': '수신 시간 초과',
