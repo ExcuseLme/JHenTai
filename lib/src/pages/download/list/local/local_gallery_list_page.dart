@@ -13,6 +13,7 @@ import '../../../../mixin/scroll_to_top_state_mixin.dart';
 import '../../../../utils/toast_util.dart';
 import '../../../../widget/eh_image.dart';
 import '../../../../widget/eh_wheel_speed_controller.dart';
+import '../../../../widget/scaled_scroll_physics_wrapper.dart';
 import '../../download_base_page.dart';
 import 'local_gallery_list_page_logic.dart';
 import 'local_gallery_list_page_state.dart';
@@ -93,6 +94,7 @@ class LocalGalleryListPage extends StatelessWidget with Scroll2TopPageMixin {
               controller: state.scrollController,
               child: ListView.builder(
                 controller: state.scrollController,
+                physics: wrapWithScaledPhysics(null),
                 padding: const EdgeInsets.only(bottom: 80),
                 itemCount: logic.computeItemCount(),
                 itemBuilder: (context, index) {
