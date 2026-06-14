@@ -47,19 +47,18 @@ mixin Scroll2TopPageMixin on Widget {
   }
 
   Widget _buildRefreshButton() {
-    return FloatingActionButton(
-      heroTag: null,
-      onPressed: onRefresh,
-      child: refreshState == LoadingState.loading
-          ? const SizedBox(
-              width: 24,
-              height: 24,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                color: Colors.white,
-              ),
+    return Container(
+      decoration: refreshState == LoadingState.loading
+          ? BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: Colors.green, width: 2),
             )
-          : const Icon(Icons.refresh),
+          : null,
+      child: FloatingActionButton(
+        heroTag: null,
+        onPressed: onRefresh,
+        child: const Icon(Icons.refresh),
+      ),
     );
   }
 }
