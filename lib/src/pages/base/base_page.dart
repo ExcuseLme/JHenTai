@@ -13,6 +13,7 @@ import '../../mixin/scroll_to_top_page_mixin.dart';
 import '../../mixin/scroll_to_top_state_mixin.dart';
 import '../../widget/eh_gallery_collection.dart';
 import '../../widget/loading_state_indicator.dart';
+import '../../widget/scaled_scroll_physics_wrapper.dart';
 import 'base_page_logic.dart';
 import 'base_page_state.dart';
 
@@ -101,7 +102,7 @@ abstract class BasePage<L extends BasePageLogic, S extends BasePageState> extend
                 child: CustomScrollView(
                   key: state.pageStorageKey,
                   controller: state.scrollController,
-                  physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                  physics: wrapWithScaledPhysics(const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics())),
                   scrollBehavior: UIConfig.scrollBehaviourWithScrollBarWithMouse,
                   slivers: <Widget>[
                     buildPullDownIndicator(),

@@ -9,6 +9,7 @@ import '../../../../model/read_page_info.dart';
 import '../../../../setting/read_setting.dart';
 import '../../../../utils/screen_size_util.dart';
 import '../../../../widget/eh_wheel_speed_controller_for_read_page.dart';
+import '../../../../widget/scaled_scroll_physics_wrapper.dart';
 import '../base/base_layout.dart';
 import 'horizontal_list_layout_logic.dart';
 
@@ -37,7 +38,7 @@ class HorizontalListLayout extends BaseLayout {
           child: ScrollablePositionedList.separated(
             scrollDirection: Axis.horizontal,
             reverse: readSetting.isInRight2LeftDirection,
-            physics: const ClampingScrollPhysics(),
+            physics: wrapWithScaledPhysics(const ClampingScrollPhysics()),
             minCacheExtent: readPageState.readPageInfo.mode == ReadMode.online
                 ? readSetting.preloadDistance * screenHeight * 1
                 : readSetting.preloadDistanceLocal * screenHeight * 1,

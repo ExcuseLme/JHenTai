@@ -5,6 +5,7 @@ import 'package:jhentai/src/widget/eh_wheel_scroll_listener.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 import '../../../../setting/read_setting.dart';
+import '../../../../widget/scaled_scroll_physics_wrapper.dart';
 import '../base/base_layout.dart';
 import 'horizontal_page_layout_logic.dart';
 import 'horizontal_page_layout_state.dart';
@@ -23,7 +24,7 @@ class HorizontalPageLayout extends BaseLayout {
       onPointerScroll: readSetting.isInFitWidthReadDirection ? null : logic.onPointerScroll,
       child: PhotoViewGallery.builder(
         itemCount: readPageState.readPageInfo.pageCount,
-        scrollPhysics: const ClampingScrollPhysics(),
+        scrollPhysics: wrapWithScaledPhysics(const ClampingScrollPhysics()),
         pageController: logic.pageController,
         cacheExtent: readPageState.readPageInfo.mode == ReadMode.online
             ? readSetting.preloadPageCount.value.toDouble()
