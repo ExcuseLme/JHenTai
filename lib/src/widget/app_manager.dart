@@ -9,10 +9,12 @@ import 'package:jhentai/src/extension/get_logic_extension.dart';
 import '../config/theme_config.dart';
 import '../config/ui_config.dart';
 import '../routes/routes.dart';
+import '../setting/preference_setting.dart';
 import '../setting/security_setting.dart';
 import '../setting/style_setting.dart';
 import '../service/log.dart';
 import '../utils/route_util.dart';
+import 'scaled_scroll_behavior.dart';
 
 typedef DidChangePlatformBrightnessCallback = void Function();
 typedef DidChangeAppLifecycleStateCallback = void Function(AppLifecycleState state);
@@ -125,7 +127,7 @@ class _AppManagerState extends State<AppManager> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return ScrollConfiguration(
-      behavior: UIConfig.scrollBehaviourWithScrollBar,
+      behavior: ScaledScrollBehavior(scaleFactor: preferenceSetting.scrollSensitivity.value),
       child: inBlur
           ? Blur(
               blur: 100,

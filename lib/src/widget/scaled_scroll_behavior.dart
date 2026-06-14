@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:jhentai/src/config/ui_config.dart';
 import 'package:jhentai/src/widget/scaled_scroll_physics.dart';
 
 /// 自定义滚动行为，根据配置的灵敏度放大滑动距离
-class ScaledScrollBehavior extends MaterialScrollBehavior {
+class ScaledScrollBehavior extends EHScrollBehaviourWithScrollBar {
   final double scaleFactor;
 
   const ScaledScrollBehavior({this.scaleFactor = 1.0});

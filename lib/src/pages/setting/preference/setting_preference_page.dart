@@ -347,7 +347,7 @@ class SettingPreferencePage extends StatelessWidget {
               decoration: const InputDecoration(isDense: true, labelStyle: TextStyle(fontSize: 12)),
               textAlign: TextAlign.center,
               inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,1}$')),
+                FilteringTextInputFormatter.allow(RegExp(r'^-?\d*\.?\d{0,1}$')),
               ],
             ),
           ),
