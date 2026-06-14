@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:jhentai/src/mixin/scroll_to_top_logic_mixin.dart';
 import 'package:jhentai/src/mixin/scroll_to_top_state_mixin.dart';
+import 'package:jhentai/src/widget/loading_state_indicator.dart';
 
 mixin Scroll2TopPageMixin on Widget {
   Scroll2TopLogicMixin get scroll2TopLogic;
@@ -12,7 +13,7 @@ mixin Scroll2TopPageMixin on Widget {
   VoidCallback? get onRefresh => null;
 
   /// 刷新状态，子类可重写
-  RxBool? get refreshState => null;
+  LoadingState? get refreshState => null;
 
   Widget buildFloatingActionButton() {
     return GetBuilder<Scroll2TopLogicMixin>(
@@ -49,7 +50,7 @@ mixin Scroll2TopPageMixin on Widget {
     return FloatingActionButton(
       heroTag: null,
       onPressed: onRefresh,
-      child: refreshState?.value == true
+      child: refreshState == LoadingState.loading
           ? const SizedBox(
               width: 24,
               height: 24,

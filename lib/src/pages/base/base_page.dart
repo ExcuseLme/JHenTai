@@ -50,7 +50,7 @@ abstract class BasePage<L extends BasePageLogic, S extends BasePageState> extend
   VoidCallback? get onRefresh => logic.handleRefresh;
 
   @override
-  RxBool? get refreshState => logic.refreshState;
+  LoadingState? get refreshState => logic.state.refreshState;
 
   @override
   Widget build(BuildContext context) {

@@ -61,7 +61,7 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
   VoidCallback? get onRefresh => logic.handleRefresh;
 
   @override
-  RxBool? get refreshState => logic.refreshState;
+  LoadingState? get refreshState => logic.state.refreshState;
 
   DetailsPage({super.key}) {
     logic = Get.put(DetailsPageLogic(), tag: tag);
