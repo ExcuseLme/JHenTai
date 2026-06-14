@@ -204,7 +204,6 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
           controller: state.scrollController,
           cacheExtent: 5000,
           slivers: [
-            CupertinoSliverRefreshControl(onRefresh: logic.handleRefresh),
             if (preferenceSetting.showAllGalleryTitles.isTrue) _buildSubTitle(context),
             buildDetail(context),
             buildDivider(),
