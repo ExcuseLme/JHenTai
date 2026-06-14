@@ -6,7 +6,7 @@ import 'package:jhentai/src/widget/scaled_scroll_physics.dart';
 class ScaledScrollBehavior extends EHScrollBehaviourWithScrollBar {
   final double scaleFactor;
 
-  const ScaledScrollBehavior({this.scaleFactor = 1.0});
+  ScaledScrollBehavior({this.scaleFactor = 1.0});
 
   @override
   ScrollPhysics getScrollPhysics(BuildContext context) {
