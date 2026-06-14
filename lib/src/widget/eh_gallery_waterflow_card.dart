@@ -80,7 +80,18 @@ class EHGalleryWaterFlowCard extends StatelessWidget {
     return Stack(
       children: [
         _buildCover(context),
-        Positioned(bottom: 4, right: 4, child: _buildLanguageChip()),
+        Positioned(
+          bottom: 4,
+          right: 4,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (downloaded) _buildDownloadIcon().marginOnly(right: 2),
+              if (gallery.isFavorite) _buildFavoriteIcon().marginOnly(right: 2),
+              _buildLanguageChip(),
+            ],
+          ),
+        ),
       ],
     );
   }
