@@ -350,7 +350,6 @@ class zh_CN {
       'scrollCurve_easeInOut': '慢-快-慢（对称）。平衡过渡。',
       'scrollCurve_decelerate': '快-慢。惯性滑行效果。',
       'scrollCurve_bounceOut': '末端弹跳。弹性停止效果。',
-      'scrollCurve_elasticOut': '弹性回弹。弹簧效果。',
       'scrollCurve_fastOutSlowIn': 'Material Design 推荐。流畅过渡。',
       'whenScrollUp': '向上滚动时',
       'whenScrollDown': '向下滚动时',
@@ -691,6 +690,7 @@ favnote：匹配收藏备注
       /// search page
       'search': '搜索',
       'searchWithArtist': '搜索当前作者',
+      'searchWithGroup': '搜索当前团队',
       'searchFailed': '搜索失败',
       'fileSearchFailed': '以图搜图失败',
       'tab': '标签页',

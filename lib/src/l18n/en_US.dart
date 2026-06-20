@@ -350,7 +350,6 @@ class en_US {
       'scrollCurve_easeInOut': 'Slow-fast-slow (symmetric). Balanced transition.',
       'scrollCurve_decelerate': 'Fast-slow. Inertia-like gliding effect.',
       'scrollCurve_bounceOut': 'Bounce at end. Elastic stopping effect.',
-      'scrollCurve_elasticOut': 'Elastic bounce. Spring-like effect.',
       'scrollCurve_fastOutSlowIn': 'Material Design recommended. Smooth transitions.',
       'whenScrollUp': 'When Scroll Up',
       'whenScrollDown': 'When Scroll Down',
@@ -685,6 +684,7 @@ class en_US {
       /// search page
       'search': 'Search',
       'searchWithArtist': 'Search with Author',
+      'searchWithGroup': 'Search with Current Group',
       'searchFailed': 'Search Failed',
       'fileSearchFailed': 'File Search Failed',
       'tab': 'Tab',

@@ -332,7 +332,6 @@ enum ScrollCurveEnum {
   easeInOut,
   decelerate,
   bounceOut,
-  elasticOut,
   fastOutSlowIn,
 }
 
@@ -353,8 +352,6 @@ extension ScrollCurveEnumExtension on ScrollCurveEnum {
         return Curves.decelerate;
       case ScrollCurveEnum.bounceOut:
         return Curves.bounceOut;
-      case ScrollCurveEnum.elasticOut:
-        return Curves.elasticOut;
       case ScrollCurveEnum.fastOutSlowIn:
         return Curves.fastOutSlowIn;
     }

@@ -351,6 +351,22 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
                   },
                 ));
               }
+
+              List<String> groups = (tags['group'] ?? []).map((t) => t.tagData.key).toList();
+              if (groups.isNotEmpty) {
+                String groupKeyword = groups.map((g) => 'group:"$g"').join(' ');
+                buttonItems.add(ContextMenuButtonItem(
+                  label: 'searchWithGroup'.tr,
+                  onPressed: () {
+                    ContextMenuController.removeAny();
+                    newSearch(
+                      keyword: '$groupKeyword ${editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text)}',
+                      forceNewRoute: true,
+                      galleryCategory: category,
+                    );
+                  },
+                ));
+              }
             }
 
             return AdaptiveTextSelectionToolbar.buttonItems(
@@ -438,6 +454,22 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
                           ContextMenuController.removeAny();
                           newSearch(
                             keyword: '$artistKeyword ${editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text)}',
+                            forceNewRoute: true,
+                            galleryCategory: category,
+                          );
+                        },
+                      ));
+                    }
+
+                    List<String> groups = (tags['group'] ?? []).map((t) => t.tagData.key).toList();
+                    if (groups.isNotEmpty) {
+                      String groupKeyword = groups.map((g) => 'group:"$g"').join(' ');
+                      buttonItems.add(ContextMenuButtonItem(
+                        label: 'searchWithGroup'.tr,
+                        onPressed: () {
+                          ContextMenuController.removeAny();
+                          newSearch(
+                            keyword: '$groupKeyword ${editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text)}',
                             forceNewRoute: true,
                             galleryCategory: category,
                           );

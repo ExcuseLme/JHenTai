@@ -350,7 +350,6 @@ class zh_TW {
       'scrollCurve_easeInOut': '慢-快-慢（對稱）。平衡過渡。',
       'scrollCurve_decelerate': '快-慢。慣性滑行效果。',
       'scrollCurve_bounceOut': '末端彈跳。彈性停止效果。',
-      'scrollCurve_elasticOut': '彈性回彈。彈簧效果。',
       'scrollCurve_fastOutSlowIn': 'Material Design 推薦。流暢過渡。',
       'whenScrollUp': '向上滾動時',
       'whenScrollDown': '向下滾動時',
@@ -691,6 +690,7 @@ favnote：配對收藏備註
       /// search page
       'search': '搜尋',
       'searchWithArtist': '搜尋當前作者',
+      'searchWithGroup': '搜尋當前團隊',
       'searchFailed': '搜尋失敗',
       'fileSearchFailed': '以圖搜圖失敗',
       'tab': '分頁',

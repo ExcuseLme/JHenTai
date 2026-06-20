@@ -350,7 +350,6 @@ class ko_KR {
       'scrollCurve_easeInOut': '느리게-빠르게-느리게 (대칭). 균형 잡힌 전환.',
       'scrollCurve_decelerate': '빠르게-느리게. 관성 미끄러짐 효과.',
       'scrollCurve_bounceOut': '끝에서 튕김. 탄성 정지 효과.',
-      'scrollCurve_elasticOut': '탄성 반동. 스프링 효과.',
       'scrollCurve_fastOutSlowIn': 'Material Design 권장. 부드러운 전환.',
       'whenScrollUp': 'When Scroll Up',
       'whenScrollDown': 'When Scroll Down',
@@ -685,6 +684,7 @@ class ko_KR {
       /// search page
       'search': '검색',
       'searchWithArtist': '작성자로 검색',
+      'searchWithGroup': '현재 그룹으로 검색',
       'searchFailed': '검색 실패',
       'fileSearchFailed': '파일 검색 실패',
       'tab': '탭',

@@ -4,6 +4,7 @@ import 'package:jhentai/src/extension/list_extension.dart';
 import 'package:jhentai/src/pages/gallerys/dashboard/dashboard_page_logic.dart';
 import 'package:jhentai/src/pages/gallerys/dashboard/simple/simple_dashboard_page_logic.dart';
 import 'package:jhentai/src/pages/search/mobile_v2/search_page_mobile_v2.dart';
+import 'package:jhentai/src/widget/animated_download_icon.dart';
 
 import '../../../mixin/double_tap_to_refresh_state_mixin.dart';
 import '../../../model/tab_bar_icon.dart';
@@ -108,7 +109,7 @@ class MobileLayoutPageV2State with DoubleTapToRefreshStateMixin {
         name: TabBarIconNameEnum.download,
         routeName: Routes.download,
         selectedIcon: const Icon(Icons.download),
-        unselectedIcon: const Icon(Icons.download_outlined),
+        unselectedIcon: const AnimatedDownloadIcon(),
         page: () => const DownloadPage(),
         shouldRender: false,
       ),
