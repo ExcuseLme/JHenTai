@@ -450,7 +450,7 @@ class ArchiveListDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
                 : archiveDownloadInfo.archiveStatus == ArchiveStatus.completed
                     ? Icons.done
                     : Icons.pause,
-            size: 22,
+            size: 36,
             color: UIConfig.resumePauseButtonColor(context),
           ),
         );

@@ -99,7 +99,7 @@ class _SpinningRingPainter extends CustomPainter {
     final center = Offset(size.width / 2, size.height / 2);
     final radius = size.width / 2 + 2;
     final paint = Paint()
-      ..color = Colors.blue.withOpacity(0.8)
+      ..color = Colors.grey
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
 
