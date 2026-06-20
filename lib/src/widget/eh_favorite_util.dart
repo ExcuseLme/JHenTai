@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:jhentai/src/exception/eh_site_exception.dart';
+import 'package:jhentai/src/extension/dio_exception_extension.dart';
 import 'package:jhentai/src/model/gallery.dart';
 import 'package:jhentai/src/model/gallery_note.dart';
 import 'package:jhentai/src/network/eh_request.dart';
