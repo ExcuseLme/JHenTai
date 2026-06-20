@@ -143,7 +143,7 @@ class EHGalleryWaterFlowCard extends StatelessWidget {
   }
 
   Widget _buildCover(BuildContext context) {
-    return GestureDetector(
+    return EHGestureDetector(
       onLongPress: handleLongPressCover != null ? () => handleLongPressCover!(gallery) : null,
       child: LayoutBuilder(
         builder: (context, constraints) {

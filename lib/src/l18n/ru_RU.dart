@@ -137,6 +137,7 @@ class ru_RU {
       'favoriteGallerySuccess': "Галерея успешно добавлена в избранное",
       'favoriteGalleryFailed': "Не удалось добавить галерею в избранное",
       'removeFavoriteSuccess': "Успешно удалено из избранного",
+      'cancelFavorite': 'Отмена избранного...',
       'removeFavoriteFailed': "Не удалось удалить из избранного",
       'getGalleryFavoriteInfoFailed': 'Не удалось получить информацию об избранном для галереи',
       'favoriteNoteSlotFullHint': 'Слоты заметок избранного заполнены, пожалуйста, сначала удалите некоторые заметки',

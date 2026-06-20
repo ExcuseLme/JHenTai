@@ -135,6 +135,7 @@ class ko_KR {
       'favoriteGallerySuccess': "즐겨찾기 저장 성공",
       'favoriteGalleryFailed': "즐겨찾기 저장 실패",
       'removeFavoriteSuccess': "Remove Favorite Success",
+      'cancelFavorite': '즐겨찾기 취소 중...',
       'removeFavoriteFailed': "Remove Favorite Failed",
       'getGalleryFavoriteInfoFailed': 'Get gallery favorite info failed',
       'favoriteNoteSlotFullHint': 'Favorite note slot is full, please delete some notes first',

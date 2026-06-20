@@ -128,6 +128,7 @@ Future<void> _addFavoriteOnCard(Gallery gallery, int? currentFavIndex, int newFa
 
 Future<void> _removeFavoriteOnCard(Gallery gallery, int? currentFavIndex) async {
   log.info('Remove favorite gallery from card: ${gallery.gid}');
+  toast('cancelFavorite'.tr, isCenter: false);
   await ehRequest.requestRemoveFavorite(gallery.gid, gallery.token);
   favoriteSetting.decrementFavByIndex(currentFavIndex);
   gallery.favoriteTagIndex = null;

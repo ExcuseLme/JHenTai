@@ -119,7 +119,7 @@ class EHGalleryListCard extends StatelessWidget {
   }
 
   Widget buildGalleryCardCover(BuildContext context) {
-    return GestureDetector(
+    return EHGestureDetector(
       onLongPress: handleLongPressCover != null ? () => handleLongPressCover!(gallery) : null,
       child: EHImage(
         galleryImage: gallery.cover,
