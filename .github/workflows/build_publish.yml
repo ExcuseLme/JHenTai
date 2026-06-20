@@ -30,7 +30,7 @@ jobs:
             artifact_name: release-Android
             artifact_path: build/app/outputs/apk/release/*.apk
           - target: Windows
-            os: windows-latest
+            os: windows-2019
             artifact_name: release-Windows
             artifact_path: build/windows/*.zip
     outputs:
@@ -100,8 +100,6 @@ jobs:
       # Build Windows .zip
       - name: Build Windows
         if: matrix.target == 'Windows'
-        env:
-          CMAKE_GENERATOR: Visual Studio 17 2022
         run: |
           flutter build windows -t lib/src/main.dart --release
           $DestDir = "build\windows\JHenTai_${{ steps.get_version.outputs.version }}"
