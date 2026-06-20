@@ -335,7 +335,7 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
                 },
               ));
 
-              LinkedHashMap<String, List<GalleryTag>> tags = state.galleryDetails?.tags ?? state.gallery?.tags ?? <String, List<GalleryTag>>{};
+              LinkedHashMap<String, List<GalleryTag>> tags = state.galleryDetails?.tags ?? state.gallery?.tags ?? LinkedHashMap<String, List<GalleryTag>>();
               List<String> artists = (tags['artist'] ?? []).map((t) => t.tagData.key).toList();
               if (artists.isNotEmpty) {
                 String artistKeyword = artists.map((a) => 'artist:"$a"').join(' ');
@@ -428,7 +428,7 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
                       },
                     ));
 
-              LinkedHashMap<String, List<GalleryTag>> tags = state.galleryDetails?.tags ?? state.gallery?.tags ?? <String, List<GalleryTag>>{};
+              LinkedHashMap<String, List<GalleryTag>> tags = state.galleryDetails?.tags ?? state.gallery?.tags ?? LinkedHashMap<String, List<GalleryTag>>();
                     List<String> artists = (tags['artist'] ?? []).map((t) => t.tagData.key).toList();
                     if (artists.isNotEmpty) {
                       String artistKeyword = artists.map((a) => 'artist:"$a"').join(' ');
