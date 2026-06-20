@@ -135,6 +135,7 @@ class zh_TW {
       'favoriteGallerySuccess': "收藏畫廊成功",
       'favoriteGalleryFailed': "收藏畫廊失敗",
       'removeFavoriteSuccess': "取消收藏成功",
+      'cancelFavorite': '取消收藏中...',
       'removeFavoriteFailed': "取消收藏失敗",
       'getGalleryFavoriteInfoFailed': '獲取畫廊收藏資訊失敗',
       'favoriteNoteSlotFullHint': '收藏備註已滿，無法新增備註',
@@ -340,6 +341,7 @@ class zh_TW {
       'simpleDashboardModeHint': '隱藏排行榜和熱門模組',
       'hideBottomBar': '隱藏底部導航欄',
       'hideScroll2TopButton': '隱藏快速回頂按鈕',
+      'hideScroll2BottomButton': '隱藏快速到底按鈕',
       'whenScrollUp': '向上滾動時',
       'whenScrollDown': '向下滾動時',
       'preloadGalleryCover': '預先載入畫廊封面',
@@ -678,6 +680,7 @@ favnote：配對收藏備註
 
       /// search page
       'search': '搜尋',
+      'searchWithArtist': '搜尋當前作者',
       'searchFailed': '搜尋失敗',
       'fileSearchFailed': '以圖搜圖失敗',
       'tab': '分頁',

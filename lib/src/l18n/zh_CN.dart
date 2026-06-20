@@ -135,6 +135,7 @@ class zh_CN {
       'favoriteGallerySuccess': "收藏画廊成功",
       'favoriteGalleryFailed': "收藏画廊失败",
       'removeFavoriteSuccess': "取消收藏成功",
+      'cancelFavorite': '取消收藏中...',
       'removeFavoriteFailed': "取消收藏失败",
       'getGalleryFavoriteInfoFailed': '获取画廊收藏信息失败',
       'favoriteNoteSlotFullHint': '收藏备注已满，无法添加新备注',
@@ -340,6 +341,7 @@ class zh_CN {
       'simpleDashboardModeHint': '隐藏排行榜和热门模块',
       'hideBottomBar': '隐藏底部导航栏',
       'hideScroll2TopButton': '隐藏快速回顶按钮',
+      'hideScroll2BottomButton': '隐藏快速到底按钮',
       'whenScrollUp': '向上滚动时',
       'whenScrollDown': '向下滚动时',
       'preloadGalleryCover': '预载画廊封面',
@@ -678,6 +680,7 @@ favnote：匹配收藏备注
 
       /// search page
       'search': '搜索',
+      'searchWithArtist': '搜索当前作者',
       'searchFailed': '搜索失败',
       'fileSearchFailed': '以图搜图失败',
       'tab': '标签页',

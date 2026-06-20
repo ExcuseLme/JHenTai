@@ -136,6 +136,7 @@ class pt_BR {
       'favoriteGallerySuccess': "Favorite Gallery Success",
       'favoriteGalleryFailed': "Falha na galeria Favorita",
       'removeFavoriteSuccess': "Remove Favorite Success",
+      'cancelFavorite': 'Cancelando favorito...',
       'removeFavoriteFailed': "Remove Favorite Failed",
       'getGalleryFavoriteInfoFailed': 'Get gallery favorite info failed',
       'favoriteNoteSlotFullHint': 'Favorite note slot is full, please delete some notes first',
@@ -341,6 +342,7 @@ class pt_BR {
       'simpleDashboardModeHint': 'Hide Ranklist and Popular',
       'hideBottomBar': 'Ocultar barra inferior',
       'hideScroll2TopButton': 'Hide Scroll to Top Button',
+      'hideScroll2BottomButton': 'Hide Scroll to Bottom Button',
       'whenScrollUp': 'When Scroll Up',
       'whenScrollDown': 'When Scroll Down',
       'preloadGalleryCover': 'Preload gallery cover',
@@ -674,6 +676,7 @@ class pt_BR {
 
       /// search page
       'search': 'Pesquisar',
+      'searchWithArtist': 'Pesquisar com Autor',
       'searchFailed': 'Falha ao pesquisar',
       'fileSearchFailed': 'Falha ao pesquisr arquivo',
       'tab': 'Tab',

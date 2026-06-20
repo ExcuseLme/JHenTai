@@ -135,6 +135,7 @@ class ko_KR {
       'favoriteGallerySuccess': "즐겨찾기 저장 성공",
       'favoriteGalleryFailed': "즐겨찾기 저장 실패",
       'removeFavoriteSuccess': "Remove Favorite Success",
+      'cancelFavorite': '즐겨찾기 취소 중...',
       'removeFavoriteFailed': "Remove Favorite Failed",
       'getGalleryFavoriteInfoFailed': 'Get gallery favorite info failed',
       'favoriteNoteSlotFullHint': 'Favorite note slot is full, please delete some notes first',
@@ -340,6 +341,7 @@ class ko_KR {
       'simpleDashboardModeHint': 'Hide Ranklist and Popular',
       'hideBottomBar': '하단 메뉴 숨기기',
       'hideScroll2TopButton': 'Hide Scroll to Top Button',
+      'hideScroll2BottomButton': 'Hide Scroll to Bottom Button',
       'whenScrollUp': 'When Scroll Up',
       'whenScrollDown': 'When Scroll Down',
       'preloadGalleryCover': 'Preload gallery cover',
@@ -672,6 +674,7 @@ class ko_KR {
 
       /// search page
       'search': '검색',
+      'searchWithArtist': '작성자로 검색',
       'searchFailed': '검색 실패',
       'fileSearchFailed': '파일 검색 실패',
       'tab': '탭',

@@ -27,6 +27,7 @@ class EHGalleryWaterFlowCard extends StatelessWidget {
   final CardCallback handleTapCard;
   final CardCallback? handleLongPressCard;
   final CardCallback? handleSecondaryTapCard;
+  final CardCallback? handleLongPressCover;
 
   const EHGalleryWaterFlowCard({
     Key? key,
@@ -36,6 +37,7 @@ class EHGalleryWaterFlowCard extends StatelessWidget {
     required this.handleTapCard,
     this.handleLongPressCard,
     this.handleSecondaryTapCard,
+    this.handleLongPressCover,
   }) : super(key: key);
 
   @override
@@ -141,34 +143,37 @@ class EHGalleryWaterFlowCard extends StatelessWidget {
   }
 
   Widget _buildCover(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        FittedSizes fittedSizes = applyBoxFit(
-          BoxFit.fitWidth,
-          Size(gallery.cover.width ?? 150.0, gallery.cover.height ?? 200.0),
-          Size(
-            constraints.maxWidth,
-            min(
-              constraints.maxHeight,
-              listMode == ListMode.waterfallFlowBig ? UIConfig.waterFallFlowCardMaxHeightBig : UIConfig.waterFallFlowCardMaxHeightSmall,
+    return EHGestureDetector(
+      onLongPress: handleLongPressCover != null ? () => handleLongPressCover!(gallery) : null,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          FittedSizes fittedSizes = applyBoxFit(
+            BoxFit.fitWidth,
+            Size(gallery.cover.width ?? 150.0, gallery.cover.height ?? 200.0),
+            Size(
+              constraints.maxWidth,
+              min(
+                constraints.maxHeight,
+                listMode == ListMode.waterfallFlowBig ? UIConfig.waterFallFlowCardMaxHeightBig : UIConfig.waterFallFlowCardMaxHeightSmall,
+              ),
             ),
-          ),
-        );
+          );
 
-        return EHImage(
-          galleryImage: gallery.cover,
-          containerHeight: fittedSizes.destination.height,
-          containerWidth: fittedSizes.destination.width,
-          containerColor: UIConfig.waterFallFlowCardBackGroundColor(context),
-          heroTag: gallery.blockedByLocalRules ? null : gallery.cover,
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(listMode == ListMode.waterfallFlowBig ? 12 : 8),
-            topRight: Radius.circular(listMode == ListMode.waterfallFlowBig ? 12 : 8),
-            bottomLeft: Radius.circular(listMode == ListMode.waterfallFlowBig || listMode == ListMode.waterfallFlowMedium ? 0 : 8),
-            bottomRight: Radius.circular(listMode == ListMode.waterfallFlowBig || listMode == ListMode.waterfallFlowMedium ? 0 : 8),
-          ),
-        );
-      },
+          return EHImage(
+            galleryImage: gallery.cover,
+            containerHeight: fittedSizes.destination.height,
+            containerWidth: fittedSizes.destination.width,
+            containerColor: UIConfig.waterFallFlowCardBackGroundColor(context),
+            heroTag: gallery.blockedByLocalRules ? null : gallery.cover,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(listMode == ListMode.waterfallFlowBig ? 12 : 8),
+              topRight: Radius.circular(listMode == ListMode.waterfallFlowBig ? 12 : 8),
+              bottomLeft: Radius.circular(listMode == ListMode.waterfallFlowBig || listMode == ListMode.waterfallFlowMedium ? 0 : 8),
+              bottomRight: Radius.circular(listMode == ListMode.waterfallFlowBig || listMode == ListMode.waterfallFlowMedium ? 0 : 8),
+            ),
+          );
+        },
+      ),
     );
   }
 

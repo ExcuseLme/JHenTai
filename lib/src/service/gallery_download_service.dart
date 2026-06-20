@@ -181,6 +181,12 @@ class GalleryDownloadService extends GetxController with GridBasePageServiceMixi
     downloadProgress.downloadStatus = DownloadStatus.paused;
     update(['$galleryDownloadProgressId::${gallery.gid}']);
 
+    int index = gallerys.indexWhere((e) => e.gid == gallery.gid);
+    if (index != -1) {
+      gallerys[index] = gallerys[index].copyWith(downloadStatusIndex: DownloadStatus.paused.index);
+    }
+    update([galleryCountChangedId]);
+
     for (AsyncTask task in galleryDownloadInfo.tasks) {
       executor.cancelTask(task);
     }
@@ -229,6 +235,12 @@ class GalleryDownloadService extends GetxController with GridBasePageServiceMixi
 
     downloadProgress.downloadStatus = DownloadStatus.downloading;
     update(['$galleryDownloadProgressId::${gallery.gid}']);
+
+    int index = gallerys.indexWhere((e) => e.gid == gallery.gid);
+    if (index != -1) {
+      gallerys[index] = gallerys[index].copyWith(downloadStatusIndex: DownloadStatus.downloading.index);
+    }
+    update([galleryCountChangedId]);
 
     /// can't reuse
     galleryDownloadInfo.cancelToken = CancelToken();
@@ -1496,6 +1508,7 @@ class GalleryDownloadService extends GetxController with GridBasePageServiceMixi
     galleryDownloadInfos[gallery.gid]!.downloadProgress.downloadStatus = downloadStatus;
 
     _saveGalleryMetadataInDisk(gallery);
+    update([galleryCountChangedId]);
   }
 
   Future<bool> _updateImageStatus(GalleryDownloadedData gallery, GalleryImage image, int serialNo, DownloadStatus downloadStatus) async {

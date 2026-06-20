@@ -12,6 +12,7 @@ import 'package:jhentai/src/pages/setting/setting_page.dart';
 import 'package:jhentai/src/routes/routes.dart';
 import 'package:jhentai/src/setting/user_setting.dart';
 import 'package:jhentai/src/utils/route_util.dart';
+import 'package:jhentai/src/widget/animated_download_icon.dart';
 import 'package:jhentai/src/widget/will_pop_interceptor.dart';
 import '../../../setting/preference_setting.dart';
 import '../../../widget/eh_log_out_dialog.dart';
@@ -94,7 +95,7 @@ class MobileLayoutPageV2 extends StatelessWidget {
           onDestinationSelected: logic.handleTapNavigationBarButton,
           destinations: [
             NavigationDestination(icon: const Icon(Icons.home), label: 'home'.tr),
-            NavigationDestination(icon: const Icon(Icons.download), label: 'download'.tr),
+            NavigationDestination(icon: const AnimatedDownloadIcon(), label: 'download'.tr),
             NavigationDestination(icon: const Icon(Icons.settings), label: 'setting'.tr),
           ],
         ),

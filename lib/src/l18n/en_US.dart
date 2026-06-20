@@ -135,6 +135,7 @@ class en_US {
       'favoriteGallerySuccess': "Favorite Gallery Success",
       'favoriteGalleryFailed': "Favorite Gallery Failed",
       'removeFavoriteSuccess': "Remove Favorite Success",
+      'cancelFavorite': 'Canceling favorite...',
       'removeFavoriteFailed': "Remove Favorite Failed",
       'getGalleryFavoriteInfoFailed': 'Get gallery favorite info failed',
       'favoriteNoteSlotFullHint': 'Favorite note slot is full, please delete some notes first',
@@ -340,6 +341,7 @@ class en_US {
       'simpleDashboardModeHint': 'Hide Ranklist and Popular',
       'hideBottomBar': 'Hide Bottom Bar',
       'hideScroll2TopButton': 'Hide Scroll to Top Button',
+      'hideScroll2BottomButton': 'Hide Scroll to Bottom Button',
       'whenScrollUp': 'When Scroll Up',
       'whenScrollDown': 'When Scroll Down',
       'preloadGalleryCover': 'Preload gallery cover',
@@ -672,6 +674,7 @@ class en_US {
 
       /// search page
       'search': 'Search',
+      'searchWithArtist': 'Search with Author',
       'searchFailed': 'Search Failed',
       'fileSearchFailed': 'File Search Failed',
       'tab': 'Tab',

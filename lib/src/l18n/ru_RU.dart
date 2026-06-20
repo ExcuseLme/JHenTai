@@ -137,6 +137,7 @@ class ru_RU {
       'favoriteGallerySuccess': "Галерея успешно добавлена в избранное",
       'favoriteGalleryFailed': "Не удалось добавить галерею в избранное",
       'removeFavoriteSuccess': "Успешно удалено из избранного",
+      'cancelFavorite': 'Отмена избранного...',
       'removeFavoriteFailed': "Не удалось удалить из избранного",
       'getGalleryFavoriteInfoFailed': 'Не удалось получить информацию об избранном для галереи',
       'favoriteNoteSlotFullHint': 'Слоты заметок избранного заполнены, пожалуйста, сначала удалите некоторые заметки',
@@ -345,6 +346,7 @@ class ru_RU {
       'simpleDashboardModeHint': 'Скрыть Рейтинги и Популярное',
       'hideBottomBar': 'Скрыть нижнюю панель',
       'hideScroll2TopButton': 'Скрыть кнопку "Наверх"',
+      'hideScroll2BottomButton': 'Скрыть кнопку "Вниз"',
       'whenScrollUp': 'При прокрутке вверх',
       'whenScrollDown': 'При прокрутке вниз',
       'preloadGalleryCover': 'Предзагружать обложки галерей',
@@ -682,6 +684,7 @@ class ru_RU {
 
       /// search page
       'search': 'Поиск',
+      'searchWithArtist': 'Искать у автора',
       'searchFailed': 'Ошибка поиска',
       'fileSearchFailed': 'Ошибка поиска по файлу',
       'tab': 'Вкладка',

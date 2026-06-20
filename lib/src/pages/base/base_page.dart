@@ -11,6 +11,7 @@ import '../../config/ui_config.dart';
 import '../../mixin/scroll_to_top_logic_mixin.dart';
 import '../../mixin/scroll_to_top_page_mixin.dart';
 import '../../mixin/scroll_to_top_state_mixin.dart';
+import '../../widget/eh_favorite_util.dart';
 import '../../widget/eh_gallery_collection.dart';
 import '../../widget/loading_state_indicator.dart';
 import '../../widget/scaled_scroll_physics_wrapper.dart';
@@ -174,6 +175,7 @@ abstract class BasePage<L extends BasePageLogic, S extends BasePageState> extend
         handleTapCard: logic.handleTapGalleryCard,
         handleLongPressCard: (gallery) => logic.handleLongPressCard(context, gallery),
         handleSecondaryTapCard: (gallery) => logic.handleSecondaryTapCard(context, gallery),
+        handleLongPressCover: longPressFavoriteOnCard,
         handleLoadMore: logic.loadMore,
       ),
     );

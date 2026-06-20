@@ -30,6 +30,7 @@ class EHGalleryListCard extends StatelessWidget {
   final CardCallback handleTapCard;
   final CardCallback? handleLongPressCard;
   final CardCallback? handleSecondaryTapCard;
+  final CardCallback? handleLongPressCover;
   final bool withTags;
 
   const EHGalleryListCard({
@@ -41,6 +42,7 @@ class EHGalleryListCard extends StatelessWidget {
     this.withTags = true,
     this.handleLongPressCard,
     this.handleSecondaryTapCard,
+    this.handleLongPressCover,
   }) : super(key: key);
 
   @override
@@ -117,13 +119,16 @@ class EHGalleryListCard extends StatelessWidget {
   }
 
   Widget buildGalleryCardCover(BuildContext context) {
-    return EHImage(
-      galleryImage: gallery.cover,
-      containerColor: UIConfig.galleryCardBackGroundColor(context),
-      containerHeight: withTags ? UIConfig.galleryCardHeight : UIConfig.galleryCardHeightWithoutTags,
-      containerWidth: withTags ? UIConfig.galleryCardCoverWidth : UIConfig.galleryCardCoverWidthWithoutTags,
-      heroTag: gallery.blockedByLocalRules ? null : gallery.cover,
-      fit: BoxFit.fitWidth,
+    return EHGestureDetector(
+      onLongPress: handleLongPressCover != null ? () => handleLongPressCover!(gallery) : null,
+      child: EHImage(
+        galleryImage: gallery.cover,
+        containerColor: UIConfig.galleryCardBackGroundColor(context),
+        containerHeight: withTags ? UIConfig.galleryCardHeight : UIConfig.galleryCardHeightWithoutTags,
+        containerWidth: withTags ? UIConfig.galleryCardCoverWidth : UIConfig.galleryCardCoverWidthWithoutTags,
+        heroTag: gallery.blockedByLocalRules ? null : gallery.cover,
+        fit: BoxFit.fitWidth,
+      ),
     );
   }
 
@@ -279,7 +284,7 @@ class EHGalleryListCard extends StatelessWidget {
 
   Widget _buildFavoriteIcon() => Icon(Icons.favorite, size: 11, color: UIConfig.favoriteTagColor[gallery.favoriteTagIndex!]);
 
-  Text _buildPageCount(BuildContext context) =>
+  Widget _buildPageCount(BuildContext context) =>
       Text(gallery.pageCount.toString() + 'P', style: TextStyle(fontSize: UIConfig.galleryCardTextSize, color: UIConfig.galleryCardTextColor(context)));
 
   Text _buildLanguage(BuildContext context) {
