@@ -12,6 +12,7 @@ on:
     paths-ignore:
       - '**/*.md'
       - 'changelog/**'
+  workflow_dispatch:
 
 # If previous workflow is still running, we push again, we will cancel the previous workflow
 concurrency:
