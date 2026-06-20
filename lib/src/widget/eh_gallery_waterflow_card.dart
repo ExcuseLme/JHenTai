@@ -27,6 +27,8 @@ class EHGalleryWaterFlowCard extends StatelessWidget {
   final CardCallback handleTapCard;
   final CardCallback? handleLongPressCard;
   final CardCallback? handleSecondaryTapCard;
+  final CardCallback? handleTapPageCount;
+  final CardCallback? handleLongPressPageCount;
 
   const EHGalleryWaterFlowCard({
     Key? key,
@@ -36,6 +38,8 @@ class EHGalleryWaterFlowCard extends StatelessWidget {
     required this.handleTapCard,
     this.handleLongPressCard,
     this.handleSecondaryTapCard,
+    this.handleTapPageCount,
+    this.handleLongPressPageCount,
   }) : super(key: key);
 
   @override
@@ -190,7 +194,11 @@ class EHGalleryWaterFlowCard extends StatelessWidget {
 
   Widget _buildFavoriteIcon() => Icon(Icons.favorite, size: 10, color: UIConfig.favoriteTagColor[gallery.favoriteTagIndex!]);
 
-  Widget _buildPageCount() => Text(gallery.pageCount.toString() + 'P', style: const TextStyle(fontSize: 9));
+  Widget _buildPageCount() => GestureDetector(
+        onTap: handleTapPageCount != null ? () => handleTapPageCount!(gallery) : null,
+        onLongPress: handleLongPressPageCount != null ? () => handleLongPressPageCount!(gallery) : null,
+        child: Text(gallery.pageCount.toString() + 'P', style: const TextStyle(fontSize: 9)),
+      );
 
   Widget _buildLanguage() => Text(LocaleConsts.language2Abbreviation[gallery.language] ?? '', style: const TextStyle(fontSize: 9));
 

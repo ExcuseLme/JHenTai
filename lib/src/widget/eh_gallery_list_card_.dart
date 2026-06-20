@@ -30,6 +30,8 @@ class EHGalleryListCard extends StatelessWidget {
   final CardCallback handleTapCard;
   final CardCallback? handleLongPressCard;
   final CardCallback? handleSecondaryTapCard;
+  final CardCallback? handleTapPageCount;
+  final CardCallback? handleLongPressPageCount;
   final bool withTags;
 
   const EHGalleryListCard({
@@ -41,6 +43,8 @@ class EHGalleryListCard extends StatelessWidget {
     this.withTags = true,
     this.handleLongPressCard,
     this.handleSecondaryTapCard,
+    this.handleTapPageCount,
+    this.handleLongPressPageCount,
   }) : super(key: key);
 
   @override
@@ -279,8 +283,11 @@ class EHGalleryListCard extends StatelessWidget {
 
   Widget _buildFavoriteIcon() => Icon(Icons.favorite, size: 11, color: UIConfig.favoriteTagColor[gallery.favoriteTagIndex!]);
 
-  Text _buildPageCount(BuildContext context) =>
-      Text(gallery.pageCount.toString() + 'P', style: TextStyle(fontSize: UIConfig.galleryCardTextSize, color: UIConfig.galleryCardTextColor(context)));
+  Widget _buildPageCount(BuildContext context) => GestureDetector(
+        onTap: handleTapPageCount != null ? () => handleTapPageCount!(gallery) : null,
+        onLongPress: handleLongPressPageCount != null ? () => handleLongPressPageCount!(gallery) : null,
+        child: Text(gallery.pageCount.toString() + 'P', style: TextStyle(fontSize: UIConfig.galleryCardTextSize, color: UIConfig.galleryCardTextColor(context))),
+      );
 
   Text _buildLanguage(BuildContext context) {
     return Text(
