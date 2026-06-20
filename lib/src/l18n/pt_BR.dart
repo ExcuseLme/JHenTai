@@ -686,6 +686,7 @@ class pt_BR {
       /// search page
       'search': 'Pesquisar',
       'searchWithArtist': 'Pesquisar com Autor',
+      'searchWithGroup': 'Pesquisar com Grupo Atual',
       'searchFailed': 'Falha ao pesquisar',
       'fileSearchFailed': 'Falha ao pesquisr arquivo',
       'tab': 'Tab',

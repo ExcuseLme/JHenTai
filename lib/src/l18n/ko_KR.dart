@@ -684,6 +684,7 @@ class ko_KR {
       /// search page
       'search': '검색',
       'searchWithArtist': '작성자로 검색',
+      'searchWithGroup': '현재 그룹으로 검색',
       'searchFailed': '검색 실패',
       'fileSearchFailed': '파일 검색 실패',
       'tab': '탭',

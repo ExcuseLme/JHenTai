@@ -690,6 +690,7 @@ favnote：匹配收藏备注
       /// search page
       'search': '搜索',
       'searchWithArtist': '搜索当前作者',
+      'searchWithGroup': '搜索当前团队',
       'searchFailed': '搜索失败',
       'fileSearchFailed': '以图搜图失败',
       'tab': '标签页',

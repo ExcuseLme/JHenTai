@@ -694,6 +694,7 @@ class ru_RU {
       /// search page
       'search': 'Поиск',
       'searchWithArtist': 'Искать у автора',
+      'searchWithGroup': 'Искать в текущей группе',
       'searchFailed': 'Ошибка поиска',
       'fileSearchFailed': 'Ошибка поиска по файлу',
       'tab': 'Вкладка',
