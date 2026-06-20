@@ -349,7 +349,6 @@ class en_US {
       'scrollCurve_easeOut': 'Fast-slow. Object decelerating to stop.',
       'scrollCurve_easeInOut': 'Slow-fast-slow (symmetric). Balanced transition.',
       'scrollCurve_decelerate': 'Fast-slow. Inertia-like gliding effect.',
-      'scrollCurve_accelerate': 'Slow-fast. Accelerating start.',
       'scrollCurve_bounceOut': 'Bounce at end. Elastic stopping effect.',
       'scrollCurve_elasticOut': 'Elastic bounce. Spring-like effect.',
       'scrollCurve_fastOutSlowIn': 'Material Design recommended. Smooth transitions.',

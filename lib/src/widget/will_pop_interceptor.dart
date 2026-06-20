@@ -7,6 +7,7 @@ import 'package:jhentai/src/pages/home_page.dart';
 import 'package:jhentai/src/pages/layout/mobile_v2/mobile_layout_page_v2_state.dart';
 import 'package:jhentai/src/setting/style_setting.dart';
 import 'package:jhentai/src/utils/route_util.dart';
+import 'package:jhentai/src/utils/toast_util.dart';
 
 class WillPopInterceptor extends StatefulWidget {
   final Widget child;
@@ -18,6 +19,8 @@ class WillPopInterceptor extends StatefulWidget {
 }
 
 class _WillPopInterceptorState extends State<WillPopInterceptor> {
+  DateTime? _lastPopTime;
+
   @override
   Widget build(BuildContext context) {
     return PopScope(

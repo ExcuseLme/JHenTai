@@ -349,7 +349,6 @@ class zh_TW {
       'scrollCurve_easeOut': '快-慢。物體減速停止。',
       'scrollCurve_easeInOut': '慢-快-慢（對稱）。平衡過渡。',
       'scrollCurve_decelerate': '快-慢。慣性滑行效果。',
-      'scrollCurve_accelerate': '慢-快。加速啟動效果。',
       'scrollCurve_bounceOut': '末端彈跳。彈性停止效果。',
       'scrollCurve_elasticOut': '彈性回彈。彈簧效果。',
       'scrollCurve_fastOutSlowIn': 'Material Design 推薦。流暢過渡。',

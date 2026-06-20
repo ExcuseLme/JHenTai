@@ -349,7 +349,6 @@ class ko_KR {
       'scrollCurve_easeOut': '빠르게-느리게. 물체가 감속하여 멈추는 효과.',
       'scrollCurve_easeInOut': '느리게-빠르게-느리게 (대칭). 균형 잡힌 전환.',
       'scrollCurve_decelerate': '빠르게-느리게. 관성 미끄러짐 효과.',
-      'scrollCurve_accelerate': '느리게-빠르게. 가속 시작 효과.',
       'scrollCurve_bounceOut': '끝에서 튕김. 탄성 정지 효과.',
       'scrollCurve_elasticOut': '탄성 반동. 스프링 효과.',
       'scrollCurve_fastOutSlowIn': 'Material Design 권장. 부드러운 전환.',

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/animation.dart';
@@ -332,7 +331,6 @@ enum ScrollCurveEnum {
   easeOut,
   easeInOut,
   decelerate,
-  accelerate,
   bounceOut,
   elasticOut,
   fastOutSlowIn,
@@ -353,8 +351,6 @@ extension ScrollCurveEnumExtension on ScrollCurveEnum {
         return Curves.easeInOut;
       case ScrollCurveEnum.decelerate:
         return Curves.decelerate;
-      case ScrollCurveEnum.accelerate:
-        return Curves.accelerate;
       case ScrollCurveEnum.bounceOut:
         return Curves.bounceOut;
       case ScrollCurveEnum.elasticOut:

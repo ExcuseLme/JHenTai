@@ -350,7 +350,6 @@ class pt_BR {
       'scrollCurve_easeOut': 'Rápido-lento. Objeto desacelerando até parar.',
       'scrollCurve_easeInOut': 'Lento-rápido-lento (simétrico). Transição equilibrada.',
       'scrollCurve_decelerate': 'Rápido-lento. Efeito de deslizamento por inércia.',
-      'scrollCurve_accelerate': 'Lento-rápido. Início acelerado.',
       'scrollCurve_bounceOut': 'Salto no final. Efeito de parada elástica.',
       'scrollCurve_elasticOut': 'Retorno elástico. Efeito de mola.',
       'scrollCurve_fastOutSlowIn': 'Recomendado pelo Material Design. Transições suaves.',
