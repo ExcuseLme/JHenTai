@@ -13,6 +13,7 @@ import 'package:jhentai/src/utils/snack_util.dart';
 import 'package:jhentai/src/utils/toast_util.dart';
 import 'package:jhentai/src/widget/eh_favorite_dialog.dart';
 
+import '../mixin/update_global_gallery_status_logic_mixin.dart';
 import '../service/log.dart';
 
 bool _favoriteLoading = false;
@@ -123,6 +124,7 @@ Future<void> _addFavoriteOnCard(Gallery gallery, int? currentFavIndex, int newFa
   favoriteSetting.decrementFavByIndex(currentFavIndex);
   gallery.favoriteTagIndex = newFavIndex;
   gallery.favoriteTagName = favoriteSetting.favoriteTagNames[newFavIndex];
+  doUpdateGlobalGalleryStatus();
   toast('favoriteGallerySuccess'.tr, isCenter: false);
 }
 
@@ -133,5 +135,6 @@ Future<void> _removeFavoriteOnCard(Gallery gallery, int? currentFavIndex) async 
   favoriteSetting.decrementFavByIndex(currentFavIndex);
   gallery.favoriteTagIndex = null;
   gallery.favoriteTagName = null;
+  doUpdateGlobalGalleryStatus();
   toast('removeFavoriteSuccess'.tr, isCenter: false);
 }
