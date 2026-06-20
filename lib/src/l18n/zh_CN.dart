@@ -340,6 +340,7 @@ class zh_CN {
       'simpleDashboardModeHint': '隐藏排行榜和热门模块',
       'hideBottomBar': '隐藏底部导航栏',
       'hideScroll2TopButton': '隐藏快速回顶按钮',
+      'hideScroll2BottomButton': '隐藏快速到底按钮',
       'whenScrollUp': '向上滚动时',
       'whenScrollDown': '向下滚动时',
       'preloadGalleryCover': '预载画廊封面',

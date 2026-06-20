@@ -10,6 +10,7 @@ mixin Scroll2TopLogicMixin on GetxController {
   final String scroll2TopButtonId = 'scroll2TopButtonId';
 
   Worker? scroll2TopSettingWorker;
+  Worker? scroll2BottomSettingWorker;
 
   Scroll2TopStateMixin get scroll2TopState;
 
@@ -18,10 +19,13 @@ mixin Scroll2TopLogicMixin on GetxController {
       (preferenceSetting.hideScroll2TopButton.value == Scroll2TopButtonModeEnum.scrollDown && scroll2TopState.isScrollingDown) ||
       (preferenceSetting.hideScroll2TopButton.value == Scroll2TopButtonModeEnum.scrollUp && !scroll2TopState.isScrollingDown);
 
+  bool get shouldDisplayScrollBottomFAB => !preferenceSetting.hideScroll2BottomButton.value;
+
   @override
   void onInit() {
     super.onInit();
     scroll2TopSettingWorker = ever(preferenceSetting.hideScroll2TopButton, (_) => updateSafely([scroll2TopButtonId]));
+    scroll2BottomSettingWorker = ever(preferenceSetting.hideScroll2BottomButton, (_) => updateSafely([scroll2TopButtonId]));
   }
 
   @override
@@ -29,6 +33,7 @@ mixin Scroll2TopLogicMixin on GetxController {
     super.dispose();
     scroll2TopState.scrollController.dispose();
     scroll2TopSettingWorker?.dispose();
+    scroll2BottomSettingWorker?.dispose();
   }
 
   void jump2Top() {
@@ -41,6 +46,16 @@ mixin Scroll2TopLogicMixin on GetxController {
     if (scroll2TopState.scrollController.hasClients) {
       scroll2TopState.scrollController.animateTo(
         0,
+        duration: const Duration(milliseconds: 400),
+        curve: Curves.ease,
+      );
+    }
+  }
+
+  void scroll2Bottom() {
+    if (scroll2TopState.scrollController.hasClients) {
+      scroll2TopState.scrollController.animateTo(
+        scroll2TopState.scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 400),
         curve: Curves.ease,
       );

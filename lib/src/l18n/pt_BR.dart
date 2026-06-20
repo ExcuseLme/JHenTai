@@ -341,6 +341,7 @@ class pt_BR {
       'simpleDashboardModeHint': 'Hide Ranklist and Popular',
       'hideBottomBar': 'Ocultar barra inferior',
       'hideScroll2TopButton': 'Hide Scroll to Top Button',
+      'hideScroll2BottomButton': 'Hide Scroll to Bottom Button',
       'whenScrollUp': 'When Scroll Up',
       'whenScrollDown': 'When Scroll Down',
       'preloadGalleryCover': 'Preload gallery cover',

@@ -345,6 +345,7 @@ class ru_RU {
       'simpleDashboardModeHint': 'Скрыть Рейтинги и Популярное',
       'hideBottomBar': 'Скрыть нижнюю панель',
       'hideScroll2TopButton': 'Скрыть кнопку "Наверх"',
+      'hideScroll2BottomButton': 'Скрыть кнопку "Вниз"',
       'whenScrollUp': 'При прокрутке вверх',
       'whenScrollDown': 'При прокрутке вниз',
       'preloadGalleryCover': 'Предзагружать обложки галерей',
