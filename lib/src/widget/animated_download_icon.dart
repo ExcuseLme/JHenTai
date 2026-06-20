@@ -20,7 +20,7 @@ class _AnimatedDownloadIconState extends State<AnimatedDownloadIcon> with Single
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 1),
       vsync: this,
     );
     _animation = Tween<double>(begin: 0, end: 1).animate(_controller);
@@ -70,8 +70,11 @@ class _AnimatedDownloadIconState extends State<AnimatedDownloadIcon> with Single
           return AnimatedBuilder(
             animation: _animation,
             builder: (context, child) {
-              return Transform.rotate(
-                angle: _animation.value * 2 * pi,
+              return CustomPaint(
+                painter: _SpinningRingPainter(
+                  progress: _animation.value,
+                  isActive: isActive,
+                ),
                 child: child,
               );
             },
@@ -80,5 +83,40 @@ class _AnimatedDownloadIconState extends State<AnimatedDownloadIcon> with Single
         },
       ),
     );
+  }
+}
+
+class _SpinningRingPainter extends CustomPainter {
+  final double progress;
+  final bool isActive;
+
+  _SpinningRingPainter({required this.progress, required this.isActive});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (!isActive) return;
+
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = size.width / 2 + 2;
+    final paint = Paint()
+      ..color = Colors.blue.withOpacity(0.8)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2;
+
+    final startAngle = progress * 2 * pi;
+    const sweepAngle = pi / 2;
+
+    canvas.drawArc(
+      Rect.fromCircle(center: center, radius: radius),
+      startAngle,
+      sweepAngle,
+      false,
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant _SpinningRingPainter oldDelegate) {
+    return oldDelegate.progress != progress || oldDelegate.isActive != isActive;
   }
 }
