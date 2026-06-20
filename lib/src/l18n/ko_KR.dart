@@ -340,6 +340,7 @@ class ko_KR {
       'simpleDashboardModeHint': 'Hide Ranklist and Popular',
       'hideBottomBar': '하단 메뉴 숨기기',
       'hideScroll2TopButton': 'Hide Scroll to Top Button',
+      'hideScroll2BottomButton': 'Hide Scroll to Bottom Button',
       'whenScrollUp': 'When Scroll Up',
       'whenScrollDown': 'When Scroll Down',
       'preloadGalleryCover': 'Preload gallery cover',

@@ -45,6 +45,7 @@ class SettingPreferencePage extends StatelessWidget {
               if (styleSetting.isInV2Layout) _buildSimpleDashboardMode(),
               if (styleSetting.isInV2Layout) _buildShowBottomNavigation(),
               if (styleSetting.isInV2Layout || styleSetting.actualLayout == LayoutMode.desktop) _buildHideScroll2TopButton(),
+              if (styleSetting.isInV2Layout || styleSetting.actualLayout == LayoutMode.desktop) _buildHideScroll2BottomButton(),
               _buildPreloadGalleryCover(),
               _buildEnableSwipeBackGesture(),
               if (styleSetting.isInV2Layout) _buildEnableLeftMenuDrawerGesture(),
@@ -253,6 +254,14 @@ class SettingPreferencePage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildHideScroll2BottomButton() {
+    return SwitchListTile(
+      title: Text('hideScroll2BottomButton'.tr),
+      value: preferenceSetting.hideScroll2BottomButton.value,
+      onChanged: preferenceSetting.saveHideScroll2BottomButton,
     );
   }
 

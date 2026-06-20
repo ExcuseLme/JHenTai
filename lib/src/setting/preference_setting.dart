@@ -19,6 +19,7 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
   RxBool simpleDashboardMode = false.obs;
   RxBool hideBottomBar = false.obs;
   Rx<Scroll2TopButtonModeEnum> hideScroll2TopButton = Scroll2TopButtonModeEnum.scrollDown.obs;
+  RxBool hideScroll2BottomButton = false.obs;
   RxBool preloadGalleryCover = false.obs;
   RxBool enableSwipeBackGesture = true.obs;
   RxBool enableLeftMenuDrawerGesture = true.obs;
@@ -64,6 +65,7 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
     simpleDashboardMode.value = map['simpleDashboardMode'] ?? simpleDashboardMode.value;
     hideBottomBar.value = map['hideBottomBar'] ?? hideBottomBar.value;
     hideScroll2TopButton.value = Scroll2TopButtonModeEnum.values[map['hideScroll2TopButton'] ?? Scroll2TopButtonModeEnum.scrollDown.index];
+    hideScroll2BottomButton.value = map['hideScroll2BottomButton'] ?? hideScroll2BottomButton.value;
     showAllGalleryTitles.value = map['showAllGalleryTitles'] ?? showAllGalleryTitles.value;
     showGalleryTagVoteStatus.value = map['showGalleryTagVoteStatus'] ?? showGalleryTagVoteStatus.value;
     showComments.value = map['showComments'] ?? showComments.value;
@@ -100,6 +102,7 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
       'simpleDashboardMode': simpleDashboardMode.value,
       'hideBottomBar': hideBottomBar.value,
       'hideScroll2TopButton': hideScroll2TopButton.value.index,
+      'hideScroll2BottomButton': hideScroll2BottomButton.value,
       'showAllGalleryTitles': showAllGalleryTitles.value,
       'showGalleryTagVoteStatus': showGalleryTagVoteStatus.value,
       'showComments': showComments.value,
@@ -195,6 +198,12 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
   Future<void> saveHideScroll2TopButton(Scroll2TopButtonModeEnum hideScroll2TopButton) async {
     log.debug('saveHideScroll2TopButton:$hideScroll2TopButton');
     this.hideScroll2TopButton.value = hideScroll2TopButton;
+    await saveBeanConfig();
+  }
+
+  Future<void> saveHideScroll2BottomButton(bool hideScroll2BottomButton) async {
+    log.debug('saveHideScroll2BottomButton:$hideScroll2BottomButton');
+    this.hideScroll2BottomButton.value = hideScroll2BottomButton;
     await saveBeanConfig();
   }
 

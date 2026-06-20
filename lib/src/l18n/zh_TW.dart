@@ -340,6 +340,7 @@ class zh_TW {
       'simpleDashboardModeHint': '隱藏排行榜和熱門模組',
       'hideBottomBar': '隱藏底部導航欄',
       'hideScroll2TopButton': '隱藏快速回頂按鈕',
+      'hideScroll2BottomButton': '隱藏快速到底按鈕',
       'whenScrollUp': '向上滾動時',
       'whenScrollDown': '向下滾動時',
       'preloadGalleryCover': '預先載入畫廊封面',
