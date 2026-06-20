@@ -1496,6 +1496,7 @@ class GalleryDownloadService extends GetxController with GridBasePageServiceMixi
     galleryDownloadInfos[gallery.gid]!.downloadProgress.downloadStatus = downloadStatus;
 
     _saveGalleryMetadataInDisk(gallery);
+    update([galleryCountChangedId]);
   }
 
   Future<bool> _updateImageStatus(GalleryDownloadedData gallery, GalleryImage image, int serialNo, DownloadStatus downloadStatus) async {
