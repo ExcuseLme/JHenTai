@@ -16,19 +16,12 @@ import 'package:jhentai/src/widget/eh_favorite_dialog.dart';
 import '../mixin/update_global_gallery_status_logic_mixin.dart';
 import '../service/log.dart';
 
-bool _favoriteLoading = false;
-
 /// 等效于详情页 handleTapFavorite：点击页码 → 收藏/取消收藏
 Future<void> tapFavoriteOnCard(Gallery gallery) async {
   if (!userSetting.hasLoggedIn()) {
     toast('needLoginToOperate'.tr);
     return;
   }
-
-  if (_favoriteLoading) {
-    return;
-  }
-  _favoriteLoading = true;
 
   try {
     int? currentFavIndex = gallery.favoriteTagIndex;
@@ -57,7 +50,6 @@ Future<void> tapFavoriteOnCard(Gallery gallery) async {
       );
 
       if (result == null) {
-        _favoriteLoading = false;
         return;
       }
 
@@ -76,8 +68,6 @@ Future<void> tapFavoriteOnCard(Gallery gallery) async {
   } catch (e, s) {
     log.error('favoriteGalleryFailed'.tr, e, s);
     snack('favoriteGalleryFailed'.tr, e.toString(), isShort: true);
-  } finally {
-    _favoriteLoading = false;
   }
 }
 
@@ -88,18 +78,12 @@ Future<void> longPressFavoriteOnCard(Gallery gallery) async {
     return;
   }
 
-  if (_favoriteLoading) {
-    return;
-  }
-  _favoriteLoading = true;
-
   try {
     int? currentFavIndex = gallery.favoriteTagIndex;
 
     if (currentFavIndex != null) {
       await _removeFavoriteOnCard(gallery, currentFavIndex);
     } else {
-      _favoriteLoading = false;
       await tapFavoriteOnCard(gallery);
       return;
     }
@@ -112,8 +96,6 @@ Future<void> longPressFavoriteOnCard(Gallery gallery) async {
   } catch (e, s) {
     log.error('removeFavoriteFailed'.tr, e, s);
     snack('removeFavoriteFailed'.tr, e.toString(), isShort: true);
-  } finally {
-    _favoriteLoading = false;
   }
 }
 
