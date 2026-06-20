@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:jhentai/src/pages/home_page.dart';
+import 'package:jhentai/src/pages/layout/mobile_v2/mobile_layout_page_v2_state.dart';
 import 'package:jhentai/src/setting/style_setting.dart';
 import 'package:jhentai/src/utils/route_util.dart';
-
-import '../utils/toast_util.dart';
 
 class WillPopInterceptor extends StatefulWidget {
   final Widget child;
@@ -19,8 +18,6 @@ class WillPopInterceptor extends StatefulWidget {
 }
 
 class _WillPopInterceptorState extends State<WillPopInterceptor> {
-  DateTime? _lastPopTime;
-
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -40,9 +37,9 @@ class _WillPopInterceptorState extends State<WillPopInterceptor> {
   }
 
   /// system back
-  Future<bool> _handlePopApp() {
+  Future<bool> _handlePopApp() async {
     if (styleSetting.isInMobileLayout) {
-      return _handleDoubleTapPopApp();
+      return _handleMobileLayoutPop();
     }
 
     if (styleSetting.isInTabletLayout) {
@@ -70,6 +67,22 @@ class _WillPopInterceptorState extends State<WillPopInterceptor> {
     }
 
     return _handleDoubleTapPopApp();
+  }
+
+  /// mobile layout: toggle left drawer
+  Future<bool> _handleMobileLayoutPop() async {
+    final scaffoldState = MobileLayoutPageV2State.scaffoldKey.currentState;
+    if (scaffoldState == null) {
+      return Future.value(false);
+    }
+
+    if (scaffoldState.isDrawerOpen) {
+      scaffoldState.closeDrawer();
+    } else {
+      scaffoldState.openDrawer();
+    }
+
+    return Future.value(false);
   }
 
   /// double tap back button to exit app
