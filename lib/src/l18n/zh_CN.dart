@@ -135,6 +135,7 @@ class zh_CN {
       'favoriteGallerySuccess': "收藏画廊成功",
       'favoriteGalleryFailed': "收藏画廊失败",
       'removeFavoriteSuccess': "取消收藏成功",
+      'cancelFavorite': '取消收藏中...',
       'removeFavoriteFailed': "取消收藏失败",
       'getGalleryFavoriteInfoFailed': '获取画廊收藏信息失败',
       'favoriteNoteSlotFullHint': '收藏备注已满，无法添加新备注',

@@ -135,6 +135,7 @@ class zh_TW {
       'favoriteGallerySuccess': "收藏畫廊成功",
       'favoriteGalleryFailed': "收藏畫廊失敗",
       'removeFavoriteSuccess': "取消收藏成功",
+      'cancelFavorite': '取消收藏中...',
       'removeFavoriteFailed': "取消收藏失敗",
       'getGalleryFavoriteInfoFailed': '獲取畫廊收藏資訊失敗',
       'favoriteNoteSlotFullHint': '收藏備註已滿，無法新增備註',

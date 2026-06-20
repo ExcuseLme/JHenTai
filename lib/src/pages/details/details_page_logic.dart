@@ -500,6 +500,7 @@ class DetailsPageLogic extends GetxController with LoginRequiredMixin, Scroll2To
 
     try {
       if (operation.isDelete) {
+        toast('cancelFavorite'.tr, isCenter: false);
         await _removeFavorite(operation.favIndex);
       } else {
         await ehRequest.requestAddFavorite(state.galleryUrl.gid, state.galleryUrl.token, operation.favIndex, operation.note);
@@ -561,6 +562,7 @@ class DetailsPageLogic extends GetxController with LoginRequiredMixin, Scroll2To
     if (currentFavIndex != null) {
       state.favoriteState = LoadingState.loading;
       updateSafely([favoriteId]);
+      toast('cancelFavorite'.tr, isCenter: false);
 
       try {
         await _removeFavorite(currentFavIndex);

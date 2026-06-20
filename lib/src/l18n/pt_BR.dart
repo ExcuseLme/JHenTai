@@ -136,6 +136,7 @@ class pt_BR {
       'favoriteGallerySuccess': "Favorite Gallery Success",
       'favoriteGalleryFailed': "Falha na galeria Favorita",
       'removeFavoriteSuccess': "Remove Favorite Success",
+      'cancelFavorite': 'Cancelando favorito...',
       'removeFavoriteFailed': "Remove Favorite Failed",
       'getGalleryFavoriteInfoFailed': 'Get gallery favorite info failed',
       'favoriteNoteSlotFullHint': 'Favorite note slot is full, please delete some notes first',
