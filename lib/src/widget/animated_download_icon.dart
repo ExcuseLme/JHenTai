@@ -45,7 +45,7 @@ class _AnimatedDownloadIconState extends State<AnimatedDownloadIcon> with Single
     );
 
     bool hasArchiveDownloading = archiveService.archives.any(
-      (a) => a.downloadStatusIndex == DownloadStatus.downloading.index,
+      (a) => a.archiveStatusCode >= ArchiveStatus.unlocking.code && a.archiveStatusCode <= ArchiveStatus.unpacking.code,
     );
 
     return hasGalleryDownloading || hasArchiveDownloading;
