@@ -37,6 +37,8 @@ jobs:
       version: ${{ steps.get_version.outputs.version }}
       arch: ${{ steps.get_version.outputs.arch}}
     runs-on: ${{ matrix.os }}
+    env:
+      FLUTTER_VERSION: 3.27.4
     steps:
       # Checkout branch
       - name: Checkout
@@ -61,7 +63,8 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: 'master'
           cache: true
       # Output Flutter Version
       - name: Output Flutter Version
@@ -94,6 +97,14 @@ jobs:
           cd build/app/outputs/apk/release
           mv app-arm64-v8a-release.apk JHenTai-${{ steps.get_version.outputs.version }}-arm64-v8a.apk
           rm -f app-armeabi-v7a-release.apk app-x86_64-release.apk
+      # Install VS 2019 Build Tools (required by Flutter 3.27.x)
+      - name: Install Visual Studio 2019 Build Tools
+        if: matrix.target == 'Windows'
+        shell: pwsh
+        run: |
+          $installerPath = "$env:TEMP\vs_buildtools.exe"
+          Invoke-WebRequest -Uri "https://aka.ms/vs/16/release/vs_buildtools.exe" -OutFile $installerPath
+          Start-Process -FilePath $installerPath -ArgumentList "--quiet", "--wait", "--norestart", "--nocache", "--add", "Microsoft.VisualStudio.Workload.VCTools", "--add", "Microsoft.VisualStudio.Component.VC.Tools.x86.x64" -Wait -NoNewWindow
       # Build Windows .zip
       - name: Build Windows
         if: matrix.target == 'Windows'
