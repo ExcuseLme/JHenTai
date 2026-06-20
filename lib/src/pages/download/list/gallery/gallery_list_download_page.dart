@@ -453,7 +453,7 @@ class GalleryListDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
                 : downloadStatus == DownloadStatus.downloading
                     ? Icons.pause
                     : Icons.done,
-            size: 26,
+            size: 36,
             color: UIConfig.resumePauseButtonColor(context),
           ),
         );
