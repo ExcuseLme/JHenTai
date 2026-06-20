@@ -355,7 +355,6 @@ class ru_RU {
       'scrollCurve_easeInOut': 'Медленно-быстро-медленно (симметрично). Сбалансированный переход.',
       'scrollCurve_decelerate': 'Быстро-медленно. Импульсное скольжение.',
       'scrollCurve_bounceOut': 'Прыжок в конце. Эластичная остановка.',
-      'scrollCurve_elasticOut': 'Эластичный отскок. Пружинный эффект.',
       'scrollCurve_fastOutSlowIn': 'Рекомендовано Material Design. Плавные переходы.',
       'whenScrollUp': 'При прокрутке вверх',
       'whenScrollDown': 'При прокрутке вниз',
