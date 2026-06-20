@@ -57,8 +57,14 @@ mixin Scroll2TopLogicMixin on GetxController {
       scroll2TopState.scrollController.animateTo(
         scroll2TopState.scrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 400),
-        curve: Curves.ease,
-      );
+        curve: Curves.decelerate,
+      ).then((_) {
+        if (scroll2TopState.scrollController.hasClients) {
+          scroll2TopState.scrollController.jumpTo(
+            scroll2TopState.scrollController.position.maxScrollExtent,
+          );
+        }
+      });
     }
   }
 
