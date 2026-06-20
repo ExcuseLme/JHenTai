@@ -676,6 +676,7 @@ class pt_BR {
 
       /// search page
       'search': 'Pesquisar',
+      'searchWithArtist': 'Pesquisar com Autor',
       'searchFailed': 'Falha ao pesquisar',
       'fileSearchFailed': 'Falha ao pesquisr arquivo',
       'tab': 'Tab',

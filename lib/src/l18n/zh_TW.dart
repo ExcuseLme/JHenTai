@@ -680,6 +680,7 @@ favnote：配對收藏備註
 
       /// search page
       'search': '搜尋',
+      'searchWithArtist': '搜尋當前作者',
       'searchFailed': '搜尋失敗',
       'fileSearchFailed': '以圖搜圖失敗',
       'tab': '分頁',
