@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math';
 
 import 'package:animate_do/animate_do.dart';
@@ -333,6 +334,23 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
                   );
                 },
               ));
+
+              LinkedHashMap<String, List<GalleryTag>> tags = state.galleryDetails?.tags ?? state.gallery?.tags ?? {};
+              List<String> artists = (tags['artist'] ?? []).map((t) => t.tagData.key).toList();
+              if (artists.isNotEmpty) {
+                String artistKeyword = artists.map((a) => 'artist:"$a"').join(' ');
+                buttonItems.add(ContextMenuButtonItem(
+                  label: 'searchWithArtist'.tr,
+                  onPressed: () {
+                    ContextMenuController.removeAny();
+                    newSearch(
+                      keyword: '$artistKeyword ${editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text)}',
+                      forceNewRoute: true,
+                      galleryCategory: category,
+                    );
+                  },
+                ));
+              }
             }
 
             return AdaptiveTextSelectionToolbar.buttonItems(
@@ -409,6 +427,23 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
                         );
                       },
                     ));
+
+                    LinkedHashMap<String, List<GalleryTag>> tags = state.galleryDetails?.tags ?? state.gallery?.tags ?? {};
+                    List<String> artists = (tags['artist'] ?? []).map((t) => t.tagData.key).toList();
+                    if (artists.isNotEmpty) {
+                      String artistKeyword = artists.map((a) => 'artist:"$a"').join(' ');
+                      buttonItems.add(ContextMenuButtonItem(
+                        label: 'searchWithArtist'.tr,
+                        onPressed: () {
+                          ContextMenuController.removeAny();
+                          newSearch(
+                            keyword: '$artistKeyword ${editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text)}',
+                            forceNewRoute: true,
+                            galleryCategory: category,
+                          );
+                        },
+                      ));
+                    }
                   }
 
                   return AdaptiveTextSelectionToolbar.buttonItems(

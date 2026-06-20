@@ -674,6 +674,7 @@ class en_US {
 
       /// search page
       'search': 'Search',
+      'searchWithArtist': 'Search with Author',
       'searchFailed': 'Search Failed',
       'fileSearchFailed': 'File Search Failed',
       'tab': 'Tab',
