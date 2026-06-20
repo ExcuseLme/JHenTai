@@ -46,8 +46,8 @@ mixin Scroll2TopLogicMixin on GetxController {
     if (scroll2TopState.scrollController.hasClients) {
       scroll2TopState.scrollController.animateTo(
         0,
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.ease,
+        duration: const Duration(milliseconds: 250),
+        curve: preferenceSetting.scrollCurve.value.curve,
       );
     }
   }
@@ -56,8 +56,8 @@ mixin Scroll2TopLogicMixin on GetxController {
     if (scroll2TopState.scrollController.hasClients) {
       scroll2TopState.scrollController.animateTo(
         scroll2TopState.scrollController.position.maxScrollExtent,
-        duration: const Duration(milliseconds: 400),
-        curve: Curves.ease,
+        duration: const Duration(milliseconds: 250),
+        curve: preferenceSetting.scrollCurve.value.curve,
       );
     }
   }

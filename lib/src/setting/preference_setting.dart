@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:math';
 import 'dart:ui';
 
+import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 import 'package:jhentai/src/enum/config_enum.dart';
 import 'package:jhentai/src/model/tab_bar_icon.dart';
@@ -42,6 +44,7 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
   RxBool showHVInfo = false.obs;
   RxBool useBuiltInBlockedUsers = true.obs;
   RxDouble scrollSensitivity = 1.0.obs;
+  Rx<ScrollCurveEnum> scrollCurve = ScrollCurveEnum.ease.obs;
 
   @override
   ConfigEnum get configEnum => ConfigEnum.preferenceSetting;
@@ -84,6 +87,7 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
     showHVInfo.value = map['showHVInfo'] ?? showHVInfo.value;
     useBuiltInBlockedUsers.value = map['useBuiltInBlockedUsers'] ?? useBuiltInBlockedUsers.value;
     scrollSensitivity.value = (map['scrollSensitivity'] ?? scrollSensitivity.value).toDouble();
+    scrollCurve.value = ScrollCurveEnum.values[map['scrollCurve'] ?? ScrollCurveEnum.ease.index];
   }
 
   @override
@@ -119,6 +123,7 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
       'showHVInfo': showHVInfo.value,
       'useBuiltInBlockedUsers': useBuiltInBlockedUsers.value,
       'scrollSensitivity': scrollSensitivity.value,
+      'scrollCurve': scrollCurve.value.index,
     });
   }
 
@@ -308,8 +313,56 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
     this.scrollSensitivity.value = value;
     await saveBeanConfig();
   }
+
+  Future<void> saveScrollCurve(ScrollCurveEnum value) async {
+    log.debug('saveScrollCurve:$value');
+    this.scrollCurve.value = value;
+    await saveBeanConfig();
+  }
 }
 
 enum Scroll2TopButtonModeEnum { scrollUp, scrollDown, never, always }
 
 enum SearchBehaviour { inheritAll, inheritPartially, none }
+
+enum ScrollCurveEnum {
+  linear,
+  ease,
+  easeIn,
+  easeOut,
+  easeInOut,
+  decelerate,
+  accelerate,
+  bounceOut,
+  elasticOut,
+  fastOutSlowIn,
+}
+
+extension ScrollCurveEnumExtension on ScrollCurveEnum {
+  Curve get curve {
+    switch (this) {
+      case ScrollCurveEnum.linear:
+        return Curves.linear;
+      case ScrollCurveEnum.ease:
+        return Curves.ease;
+      case ScrollCurveEnum.easeIn:
+        return Curves.easeIn;
+      case ScrollCurveEnum.easeOut:
+        return Curves.easeOut;
+      case ScrollCurveEnum.easeInOut:
+        return Curves.easeInOut;
+      case ScrollCurveEnum.decelerate:
+        return Curves.decelerate;
+      case ScrollCurveEnum.accelerate:
+        return Curves.accelerate;
+      case ScrollCurveEnum.bounceOut:
+        return Curves.bounceOut;
+      case ScrollCurveEnum.elasticOut:
+        return Curves.elasticOut;
+      case ScrollCurveEnum.fastOutSlowIn:
+        return Curves.fastOutSlowIn;
+    }
+  }
+
+  String get descriptionKey => 'scrollCurve_${name}';
+}
