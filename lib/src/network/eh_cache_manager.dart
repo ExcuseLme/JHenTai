@@ -152,9 +152,28 @@ class EHCacheManager extends Interceptor {
   Future<void> _saveResponse(Response response, CacheOptions cacheOptions) async {
     CacheResponse cacheResponse = CacheResponse.fromResponse(response, cacheOptions);
 
+    /// Compare with existing cache to avoid unnecessary DB writes
+    CacheResponse? existing = await _getCacheStore(cacheOptions).get(cacheResponse.cacheKey);
+    if (existing != null && existing.content.length == cacheResponse.content.length && _listEquals(existing.content, cacheResponse.content)) {
+      /// Content unchanged, only update expiry
+      if (!existing.expired()) {
+        response.extra[CacheResponse.extraKey] = cacheResponse.cacheKey;
+        return;
+      }
+    }
+
     await _getCacheStore(cacheOptions).upsertCache(cacheResponse);
 
     response.extra[CacheResponse.extraKey] = cacheResponse.cacheKey;
+  }
+
+  static bool _listEquals(List<int> a, List<int> b) {
+    if (identical(a, b)) return true;
+    if (a.length != b.length) return false;
+    for (int i = 0; i < a.length; i++) {
+      if (a[i] != b[i]) return false;
+    }
+    return true;
   }
 
   Future<CacheResponse> _updateCacheResponse(CacheResponse cacheResponse, CacheOptions cacheOptions) async {

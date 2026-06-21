@@ -24,8 +24,18 @@ class EHCookieManager extends Interceptor {
   }
 
   Future<void> replaceCookies(List<Cookie> cookies) async {
+    /// Snapshot current state for diff check
+    List<Cookie> oldCookies = List.from(this.cookies);
+
     this.cookies.removeWhere((cookie) => cookies.any((c) => c.name == cookie.name));
     this.cookies.addAll(cookies);
+
+    /// Only write to DB if cookies actually changed
+    bool changed = oldCookies.length != this.cookies.length ||
+        oldCookies.any((old) => !this.cookies.any((c) => c.name == old.name && c.value == old.value));
+    if (!changed) {
+      return;
+    }
 
     List<Cookie> storeCookies = List.from(this.cookies)..removeWhere((cookie) => cookie.name == 'nw' || cookie.name == 'datatags');
     await localConfigService.write(configKey: ConfigEnum.ehCookie, value: jsonEncode(storeCookies.map((cookie) => cookie.toString()).toList()));
