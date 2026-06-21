@@ -44,6 +44,7 @@ Widget EHGalleryCollection({
                 : null,
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
             child: EHGalleryListCard(
+              key: ValueKey('${gallerys[index].gid}_${gallerys[index].favoriteTagIndex}'),
               gallery: gallerys[index],
               downloaded: galleryDownloadService.containGallery(gallerys[index].gid) || archiveDownloadService.containArchive(gallerys[index].gid),
               listMode: listMode,
@@ -86,6 +87,7 @@ Widget EHGalleryCollection({
             }
 
             return EHGalleryWaterFlowCard(
+              key: ValueKey('${gallerys[index].gid}_${gallerys[index].favoriteTagIndex}'),
               gallery: gallerys[index],
               downloaded: galleryDownloadService.containGallery(gallerys[index].gid) || archiveDownloadService.containArchive(gallerys[index].gid),
               listMode: listMode,
