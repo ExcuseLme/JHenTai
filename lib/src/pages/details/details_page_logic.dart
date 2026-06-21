@@ -224,6 +224,16 @@ class DetailsPageLogic extends GetxController with LoginRequiredMixin, Scroll2To
 
     state.galleryDetails = detailPageInfo.galleryDetails;
     state.apikey = detailPageInfo.apikey;
+
+    /// Sync favorite status from galleryDetails to gallery so that
+    /// the gallery list (which shares the same Gallery object reference)
+    /// reflects the server's latest favorite state.
+    if (state.gallery != null && state.galleryDetails != null) {
+      state.gallery!
+        ..favoriteTagIndex = state.galleryDetails!.favoriteTagIndex
+        ..favoriteTagName = state.galleryDetails!.favoriteTagName;
+    }
+
     state.nextPageIndexToLoadThumbnails = 1;
     state.loadingThumbnailsState = LoadingState.idle;
 
