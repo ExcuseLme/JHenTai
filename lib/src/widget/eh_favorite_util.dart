@@ -101,22 +101,48 @@ Future<void> longPressFavoriteOnCard(Gallery gallery) async {
 
 Future<void> _addFavoriteOnCard(Gallery gallery, int? currentFavIndex, int newFavIndex, String note) async {
   log.info('Favorite gallery from card: ${gallery.gid}');
-  await ehRequest.requestAddFavorite(gallery.gid, gallery.token, newFavIndex, note);
-  favoriteSetting.incrementFavByIndex(newFavIndex);
-  favoriteSetting.decrementFavByIndex(currentFavIndex);
+
+  /// Optimistic update: apply before network request
+  int? previousFavIndex = gallery.favoriteTagIndex;
+  String? previousFavName = gallery.favoriteTagName;
   gallery.favoriteTagIndex = newFavIndex;
   gallery.favoriteTagName = favoriteSetting.favoriteTagNames[newFavIndex];
   doUpdateGlobalGalleryStatus();
-  toast('favoriteGallerySuccess'.tr, isCenter: false);
+
+  try {
+    await ehRequest.requestAddFavorite(gallery.gid, gallery.token, newFavIndex, note);
+    favoriteSetting.incrementFavByIndex(newFavIndex);
+    favoriteSetting.decrementFavByIndex(currentFavIndex);
+    toast('favoriteGallerySuccess'.tr, isCenter: false);
+  } catch (e) {
+    /// Rollback optimistic update on failure
+    gallery.favoriteTagIndex = previousFavIndex;
+    gallery.favoriteTagName = previousFavName;
+    doUpdateGlobalGalleryStatus();
+    rethrow;
+  }
 }
 
 Future<void> _removeFavoriteOnCard(Gallery gallery, int? currentFavIndex) async {
   log.info('Remove favorite gallery from card: ${gallery.gid}');
   toast('cancelFavorite'.tr, isCenter: false);
-  await ehRequest.requestRemoveFavorite(gallery.gid, gallery.token);
-  favoriteSetting.decrementFavByIndex(currentFavIndex);
+
+  /// Optimistic update: apply before network request
+  int? previousFavIndex = gallery.favoriteTagIndex;
+  String? previousFavName = gallery.favoriteTagName;
   gallery.favoriteTagIndex = null;
   gallery.favoriteTagName = null;
   doUpdateGlobalGalleryStatus();
-  toast('removeFavoriteSuccess'.tr, isCenter: false);
+
+  try {
+    await ehRequest.requestRemoveFavorite(gallery.gid, gallery.token);
+    favoriteSetting.decrementFavByIndex(currentFavIndex);
+    toast('removeFavoriteSuccess'.tr, isCenter: false);
+  } catch (e) {
+    /// Rollback optimistic update on failure
+    gallery.favoriteTagIndex = previousFavIndex;
+    gallery.favoriteTagName = previousFavName;
+    doUpdateGlobalGalleryStatus();
+    rethrow;
+  }
 }

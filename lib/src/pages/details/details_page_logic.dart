@@ -224,6 +224,16 @@ class DetailsPageLogic extends GetxController with LoginRequiredMixin, Scroll2To
 
     state.galleryDetails = detailPageInfo.galleryDetails;
     state.apikey = detailPageInfo.apikey;
+
+    /// Sync favorite status from galleryDetails to gallery so that
+    /// the gallery list (which shares the same Gallery object reference)
+    /// reflects the server's latest favorite state.
+    if (state.gallery != null && state.galleryDetails != null) {
+      state.gallery!
+        ..favoriteTagIndex = state.galleryDetails!.favoriteTagIndex
+        ..favoriteTagName = state.galleryDetails!.favoriteTagName;
+    }
+
     state.nextPageIndexToLoadThumbnails = 1;
     state.loadingThumbnailsState = LoadingState.idle;
 
@@ -498,36 +508,59 @@ class DetailsPageLogic extends GetxController with LoginRequiredMixin, Scroll2To
 
     log.info('Favorite gallery: ${state.galleryUrl.gid}');
 
+    /// Optimistic update: apply favorite change immediately so the list
+    /// reflects the new state before the network request completes.
+    int? previousFavIndex = state.gallery?.favoriteTagIndex;
+    String? previousFavName = state.gallery?.favoriteTagName;
+    int? previousDetailsFavIndex = state.galleryDetails?.favoriteTagIndex;
+    String? previousDetailsFavName = state.galleryDetails?.favoriteTagName;
+
     try {
       if (operation.isDelete) {
         toast('cancelFavorite'.tr, isCenter: false);
+
+        /// Apply optimistic update before network request
+        state.gallery
+          ?..favoriteTagIndex = null
+          ..favoriteTagName = null;
+        state.galleryDetails
+          ?..favoriteTagIndex = null
+          ..favoriteTagName = null;
+        updateGlobalGalleryStatus();
+
         await _removeFavorite(operation.favIndex);
       } else {
-        await ehRequest.requestAddFavorite(state.galleryUrl.gid, state.galleryUrl.token, operation.favIndex, operation.note);
-        favoriteSetting.incrementFavByIndex(operation.favIndex);
-        favoriteSetting.decrementFavByIndex(currentFavIndex);
+        /// Apply optimistic update before network request
         state.gallery
           ?..favoriteTagIndex = operation.favIndex
           ..favoriteTagName = favoriteSetting.favoriteTagNames[operation.favIndex];
         state.galleryDetails
           ?..favoriteTagIndex = operation.favIndex
           ..favoriteTagName = favoriteSetting.favoriteTagNames[operation.favIndex];
+        updateGlobalGalleryStatus();
+
+        await ehRequest.requestAddFavorite(state.galleryUrl.gid, state.galleryUrl.token, operation.favIndex, operation.note);
+        favoriteSetting.incrementFavByIndex(operation.favIndex);
+        favoriteSetting.decrementFavByIndex(currentFavIndex);
       }
     } on DioException catch (e) {
       log.error(operation.isDelete ? 'removeFavoriteFailed'.tr : 'favoriteGalleryFailed'.tr, e.errorMsg);
       snack(operation.isDelete ? 'removeFavoriteFailed'.tr : 'favoriteGalleryFailed'.tr, e.errorMsg ?? '', isShort: true);
+      _rollbackFavoriteOptimisticUpdate(previousFavIndex, previousFavName, previousDetailsFavIndex, previousDetailsFavName);
       state.favoriteState = LoadingState.error;
       updateSafely([favoriteId]);
       return;
     } on EHSiteException catch (e) {
       log.error(operation.isDelete ? 'removeFavoriteFailed'.tr : 'favoriteGalleryFailed'.tr, e.message);
       snack(operation.isDelete ? 'removeFavoriteFailed'.tr : 'favoriteGalleryFailed'.tr, e.message, isShort: true);
+      _rollbackFavoriteOptimisticUpdate(previousFavIndex, previousFavName, previousDetailsFavIndex, previousDetailsFavName);
       state.favoriteState = LoadingState.error;
       updateSafely([favoriteId]);
       return;
     } catch (e, s) {
       log.error(operation.isDelete ? 'removeFavoriteFailed'.tr : 'favoriteGalleryFailed'.tr, e, s);
       snack(operation.isDelete ? 'removeFavoriteFailed'.tr : 'favoriteGalleryFailed'.tr, e.toString(), isShort: true);
+      _rollbackFavoriteOptimisticUpdate(previousFavIndex, previousFavName, previousDetailsFavIndex, previousDetailsFavName);
       state.favoriteState = LoadingState.error;
       updateSafely([favoriteId]);
       return;
@@ -564,23 +597,40 @@ class DetailsPageLogic extends GetxController with LoginRequiredMixin, Scroll2To
       updateSafely([favoriteId]);
       toast('cancelFavorite'.tr, isCenter: false);
 
+      /// Optimistic update: apply before network request
+      int? previousFavIndex = state.gallery?.favoriteTagIndex;
+      String? previousFavName = state.gallery?.favoriteTagName;
+      int? previousDetailsFavIndex = state.galleryDetails?.favoriteTagIndex;
+      String? previousDetailsFavName = state.galleryDetails?.favoriteTagName;
+
+      state.gallery
+        ?..favoriteTagIndex = null
+        ..favoriteTagName = null;
+      state.galleryDetails
+        ?..favoriteTagIndex = null
+        ..favoriteTagName = null;
+      updateGlobalGalleryStatus();
+
       try {
         await _removeFavorite(currentFavIndex);
       } on DioException catch (e) {
         log.error('removeFavoriteFailed'.tr, e.errorMsg);
         snack('removeFavoriteFailed'.tr, e.errorMsg ?? '', isShort: true);
+        _rollbackFavoriteOptimisticUpdate(previousFavIndex, previousFavName, previousDetailsFavIndex, previousDetailsFavName);
         state.favoriteState = LoadingState.error;
         updateSafely([favoriteId]);
         return;
       } on EHSiteException catch (e) {
         log.error('removeFavoriteFailed'.tr, e.message);
         snack('removeFavoriteFailed'.tr, e.message, isShort: true);
+        _rollbackFavoriteOptimisticUpdate(previousFavIndex, previousFavName, previousDetailsFavIndex, previousDetailsFavName);
         state.favoriteState = LoadingState.error;
         updateSafely([favoriteId]);
         return;
       } catch (e, s) {
         log.error('removeFavoriteFailed'.tr, e, s);
         snack('removeFavoriteFailed'.tr, e.toString(), isShort: true);
+        _rollbackFavoriteOptimisticUpdate(previousFavIndex, previousFavName, previousDetailsFavIndex, previousDetailsFavName);
         state.favoriteState = LoadingState.error;
         updateSafely([favoriteId]);
         return;
@@ -596,6 +646,17 @@ class DetailsPageLogic extends GetxController with LoginRequiredMixin, Scroll2To
 
     // 如果未收藏，弹出收藏夹选择对话框（与原来的行为一致）
     handleTapFavorite(useDefault: false);
+  }
+
+  /// Rollback optimistic favorite update by restoring previous state.
+  void _rollbackFavoriteOptimisticUpdate(int? prevFavIndex, String? prevFavName, int? prevDetailsFavIndex, String? prevDetailsFavName) {
+    state.gallery
+      ?..favoriteTagIndex = prevFavIndex
+      ..favoriteTagName = prevFavName;
+    state.galleryDetails
+      ?..favoriteTagIndex = prevDetailsFavIndex
+      ..favoriteTagName = prevDetailsFavName;
+    updateGlobalGalleryStatus();
   }
 
   /// 取消收藏的核心逻辑
