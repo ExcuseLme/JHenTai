@@ -23,7 +23,6 @@ import 'package:jhentai/src/utils/snack_util.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:retry/retry.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../database/database.dart';
@@ -68,10 +67,7 @@ class ScheduleService with JHLifeCircleBeanErrorCatch implements JHLifeCircleBea
     String latestVersion;
 
     try {
-      latestVersion = (await retry(
-        () => ehRequest.get(url: url, parser: EHSpiderParser.githubReleasePage2LatestVersion),
-        maxAttempts: 3,
-      ))
+      latestVersion = (await ehRequest.get(url: url, parser: EHSpiderParser.githubReleasePage2LatestVersion))
           .trim()
           .split('+')[0];
     } on Exception catch (_) {
@@ -192,11 +188,7 @@ class ScheduleService with JHLifeCircleBeanErrorCatch implements JHLifeCircleBea
 
     ({String? dawnInfo, String? hvUrl}) eventInfo;
     try {
-      eventInfo = await retry(
-        () => ehRequest.requestNews(EHSpiderParser.newsPage2Event),
-        retryIf: (e) => e is DioException,
-        maxAttempts: 3,
-      );
+      eventInfo = await ehRequest.requestNews(EHSpiderParser.newsPage2Event);
     } catch (e) {
       log.warning('ScheduleService checkDawn failed', e);
       return;

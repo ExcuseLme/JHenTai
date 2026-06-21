@@ -7,7 +7,6 @@ import 'package:jhentai/src/extension/dio_exception_extension.dart';
 import 'package:jhentai/src/network/eh_request.dart';
 import 'package:jhentai/src/setting/user_setting.dart';
 import 'package:jhentai/src/utils/eh_spider_parser.dart';
-import 'package:retry/retry.dart';
 
 import '../exception/eh_site_exception.dart';
 import '../model/profile.dart';
@@ -96,11 +95,7 @@ class SiteSetting with JHLifeCircleBeanWithConfigStorage implements JHLifeCircle
       int thumbnailRows,
     }) settings;
     try {
-      settings = await retry(
-        () => ehRequest.requestSettingPage(EHSpiderParser.settingPage2SiteSetting),
-        retryIf: (e) => e is DioException,
-        maxAttempts: 3,
-      );
+      settings = await ehRequest.requestSettingPage(EHSpiderParser.settingPage2SiteSetting);
     } on DioException catch (e) {
       log.error('Fetch site setting from $site fail', e.errorMsg);
       return;

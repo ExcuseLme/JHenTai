@@ -13,7 +13,6 @@ import 'package:jhentai/src/network/eh_request.dart';
 import 'package:jhentai/src/setting/super_resolution_setting.dart';
 import 'package:jhentai/src/utils/table.dart';
 import 'package:path/path.dart';
-import 'package:retry/retry.dart';
 
 import '../database/dao/super_resolution_info_dao.dart';
 import '../model/gallery_image.dart';
@@ -114,8 +113,7 @@ class SuperResolutionService extends GetxController with JHLifeCircleBeanErrorCa
     final String extractPath = join(pathService.getVisibleDir().path, model.type);
 
     try {
-      await retry(
-        () => ehRequest.download(
+      await ehRequest.download(
           url: downloadUrl,
           path: modelDownloadPath,
           receiveTimeout: 10 * 60 * 1000,
@@ -123,12 +121,9 @@ class SuperResolutionService extends GetxController with JHLifeCircleBeanErrorCa
             downloadProgress = (count / total * 100).toStringAsFixed(2) + '%';
             updateSafely([downloadId]);
           },
-        ),
-        maxAttempts: 5,
-        onRetry: (error) => log.warning('Download super-resolution model failed, retry.'),
-      );
+        );
     } on DioException catch (e) {
-      log.error('Download super-resolution model failed after 5 times', e.errorMsg);
+      log.error('Download super-resolution model failed', e.errorMsg);
       downloadState = LoadingState.error;
       updateSafely([downloadId]);
       return;

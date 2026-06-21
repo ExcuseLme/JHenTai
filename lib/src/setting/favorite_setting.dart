@@ -7,7 +7,6 @@ import 'package:jhentai/src/extension/dio_exception_extension.dart';
 import 'package:jhentai/src/network/eh_request.dart';
 import 'package:jhentai/src/setting/user_setting.dart';
 import 'package:jhentai/src/service/log.dart';
-import 'package:retry/retry.dart';
 
 import '../exception/eh_site_exception.dart';
 import '../service/jh_service.dart';
@@ -93,15 +92,9 @@ class FavoriteSetting with JHLifeCircleBeanWithConfigStorage implements JHLifeCi
 
     log.info('Fetch favorite setting from EH');
     try {
-      await retry(
-        () async {
-          Map<String, List> map = await ehRequest.requestFavoritePage(EHSpiderParser.favoritePage2FavoriteTagsAndCounts);
-          favoriteTagNames.value = map['favoriteTagNames'] as List<String>;
-          favoriteCounts = map['favoriteCounts'] as List<int>;
-        },
-        retryIf: (e) => e is DioException,
-        maxAttempts: 3,
-      );
+      Map<String, List> map = await ehRequest.requestFavoritePage(EHSpiderParser.favoritePage2FavoriteTagsAndCounts);
+      favoriteTagNames.value = map['favoriteTagNames'] as List<String>;
+      favoriteCounts = map['favoriteCounts'] as List<int>;
     } on DioException catch (e) {
       log.error('Fetch favorite setting from EH fail', e.errorMsg);
       return;

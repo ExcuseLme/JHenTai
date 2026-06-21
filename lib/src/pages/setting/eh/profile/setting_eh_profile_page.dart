@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:jhentai/src/extension/dio_exception_extension.dart';
 import 'package:jhentai/src/extension/widget_extension.dart';
 import 'package:jhentai/src/widget/loading_state_indicator.dart';
-import 'package:retry/retry.dart';
 
 import '../../../../exception/eh_site_exception.dart';
 import '../../../../model/profile.dart';
@@ -91,11 +90,7 @@ class _SettingEHProfilePageState extends State<SettingEHProfilePage> {
       int thumbnailRows,
     }) settings;
     try {
-      settings = await retry(
-        () => ehRequest.requestSettingPage(EHSpiderParser.settingPage2SiteSetting),
-        retryIf: (e) => e is DioException,
-        maxAttempts: 3,
-      );
+      settings = await ehRequest.requestSettingPage(EHSpiderParser.settingPage2SiteSetting);
     } on DioException catch (e) {
       log.error('Load profile fail', e.errorMsg);
       setState(() {
