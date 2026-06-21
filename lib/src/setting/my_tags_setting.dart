@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:jhentai/src/database/database.dart';
 import 'package:jhentai/src/extension/dio_exception_extension.dart';
 import 'package:jhentai/src/setting/user_setting.dart';
-import 'package:retry/retry.dart';
 
 import '../exception/eh_site_exception.dart';
 import '../model/tag_set.dart';
@@ -50,11 +49,7 @@ class MyTagsSetting with JHLifeCircleBeanErrorCatch implements JHLifeCircleBean 
 
     ({List<({int number, String name})> tagSets, bool tagSetEnable, Color? tagSetBackgroundColor, List<WatchedTag> tags, String apikey}) defaultTagSetPageInfo;
     try {
-      defaultTagSetPageInfo = await retry(
-        () => ehRequest.requestMyTagsPage(tagSetNo: defaultTagSetNo, parser: EHSpiderParser.myTagsPage2TagSetNamesAndTagSetsAndApikey),
-        retryIf: (e) => e is DioException,
-        maxAttempts: 3,
-      );
+      defaultTagSetPageInfo = await ehRequest.requestMyTagsPage(tagSetNo: defaultTagSetNo, parser: EHSpiderParser.myTagsPage2TagSetNamesAndTagSetsAndApikey);
     } on DioException catch (e) {
       log.error('getTagSetFailed'.tr, e.errorMsg);
       return;
@@ -91,11 +86,7 @@ class MyTagsSetting with JHLifeCircleBeanErrorCatch implements JHLifeCircleBean 
 
     ({List<({int number, String name})> tagSets, bool tagSetEnable, Color? tagSetBackgroundColor, List<WatchedTag> tags, String apikey}) pageInfo;
     try {
-      pageInfo = await retry(
-        () => ehRequest.requestMyTagsPage(tagSetNo: tagSetNo, parser: EHSpiderParser.myTagsPage2TagSetNamesAndTagSetsAndApikey),
-        retryIf: (e) => e is DioException,
-        maxAttempts: 3,
-      );
+      pageInfo = await ehRequest.requestMyTagsPage(tagSetNo: tagSetNo, parser: EHSpiderParser.myTagsPage2TagSetNamesAndTagSetsAndApikey);
     } on DioException catch (e) {
       log.error('getTagSetFailed'.tr, e.errorMsg);
       return;

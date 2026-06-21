@@ -16,7 +16,6 @@ import 'package:jhentai/src/utils/archive_util.dart';
 import 'package:jhentai/src/utils/eh_spider_parser.dart';
 import 'package:jhentai/src/widget/loading_state_indicator.dart';
 import 'package:path/path.dart';
-import 'package:retry/retry.dart';
 
 import '../utils/byte_util.dart';
 import 'jh_service.dart';
@@ -74,17 +73,13 @@ class TagSearchOrderOptimizationService with JHLifeCircleBeanErrorCatch implemen
     /// get latest tag
     String tag;
     try {
-      tag = await retry(
-        () => ehRequest.get(
+      tag = await ehRequest.get(
           url: releaseUrl,
           options: Options(followRedirects: false, validateStatus: (status) => status == 302),
           parser: EHSpiderParser.latestReleaseResponse2Tag,
-        ),
-        maxAttempts: 5,
-        onRetry: (error) => log.warning('Fetch tag order optimization data from github failed, retry.'),
-      );
+        );
     } on DioException catch (e) {
-      log.error('Fetch tag order optimization data from github failed after 5 times', e.errorMsg);
+      log.error('Fetch tag order optimization data from github failed', e.errorMsg);
       loadingState.value = LoadingState.error;
       await localConfigService.write(configKey: ConfigEnum.tagSearchOrderOptimizationServiceLoadingState, value: loadingState.value.index.toString());
       return;
@@ -99,18 +94,14 @@ class TagSearchOrderOptimizationService with JHLifeCircleBeanErrorCatch implemen
 
     /// download tag count metadata
     try {
-      await retry(
-        () => ehRequest.download(
+      await ehRequest.download(
           url: 'https://github.com/mokurin000/e-hentai-tag-count/releases/download/$tag/tid_count_tag.csv.gz',
           path: savePath,
           receiveTimeout: 10 * 60 * 1000,
           onReceiveProgress: (count, total) => downloadProgress.value = byte2String(count.toDouble()),
-        ),
-        maxAttempts: 5,
-        onRetry: (error) => log.warning('Download tag order optimization data failed, retry.'),
-      );
+        );
     } on DioException catch (e) {
-      log.error('Download tag translation data failed after 5 times', e.errorMsg);
+      log.error('Download tag translation data failed', e.errorMsg);
       loadingState.value = LoadingState.error;
       await localConfigService.write(configKey: ConfigEnum.tagSearchOrderOptimizationServiceLoadingState, value: loadingState.value.index.toString());
       return;

@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:jhentai/src/enum/config_enum.dart';
 import 'package:jhentai/src/setting/preference_setting.dart';
 import 'package:jhentai/src/utils/eh_spider_parser.dart';
-import 'package:retry/retry.dart';
 
 import '../network/eh_request.dart';
 import 'jh_service.dart';
@@ -49,16 +48,12 @@ class BuiltInBlockedUserService with JHLifeCircleBeanWithConfigStorage implement
   Future<void> doAfterBeanReady() async {
     String json;
     try {
-      json = await retry(
-        () => ehRequest.get(
+      json = await ehRequest.get(
           url: 'https://raw.githubusercontent.com/jiangtian616/JHenTai/refs/heads/master/built_in_blocked_user.json',
           parser: simpleParser,
-        ),
-        maxAttempts: 5,
-        onRetry: (error) => log.warning('Get built-in blocked user data failed, retrying', error),
-      );
+        );
     } on DioException catch (e) {
-      log.error('Get built-in blocked user data failed after 5 times', e);
+      log.error('Get built-in blocked user data failed', e);
       return;
     }
 
