@@ -1,12 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:get/get_utils/src/extensions/widget_extensions.dart';
 import 'package:jhentai/src/config/ui_config.dart';
 
 import '../utils/route_util.dart';
+import 'eh_rating_bar.dart';
 
 class EHRatingDialog extends StatefulWidget {
   final double rating;
@@ -36,16 +36,13 @@ class _EHRatingDialogState extends State<EHRatingDialog> {
 
   Widget _buildRatingBar() {
     return Center(
-      child: RatingBar.builder(
-        unratedColor: UIConfig.galleryRatingStarUnRatedColor(context),
-        minRating: 0.5,
+      child: EHRatingBar(
         initialRating: max(rating, 0.5),
         itemCount: 5,
         allowHalfRating: true,
         itemSize: UIConfig.ratingDialogStarSize,
-        itemPadding: const EdgeInsets.only(left: 4),
-        updateOnDrag: true,
-        itemBuilder: (context, index) => Icon(Icons.star, color: hasRated ? UIConfig.galleryRatingStarRatedColor(context) : UIConfig.galleryRatingStarColor),
+        unratedColor: UIConfig.galleryRatingStarUnRatedColor(context),
+        ratedColor: hasRated ? UIConfig.galleryRatingStarRatedColor(context) : UIConfig.galleryRatingStarColor,
         onRatingUpdate: (rating) => setState(() => this.rating = rating),
       ),
     );

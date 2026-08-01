@@ -42,17 +42,24 @@ class _EHFavoriteDialogState extends State<EHFavoriteDialog> {
 
   bool remember = false;
 
-  bool inNoteMode = false;
+  /// 使用 ValueNotifier 实现局部更新，避免整个列表重建
+  final ValueNotifier<bool> _inNoteModeNotifier = ValueNotifier(false);
 
   LoadingState _loadingState = LoadingState.idle;
+
+  /// 用于取消异步任务
+  bool _disposed = false;
 
   @override
   void initState() {
     selectedIndex = widget.selectedIndex;
+
+    // 立即显示为成功状态，让用户可以立即操作
+    _loadingState = LoadingState.success;
+
+    // 如果需要加载 note，异步执行
     if (widget.needInitNote) {
-      _initFavoriteNote();
-    } else {
-      _loadingState = LoadingState.success;
+      _initFavoriteNoteAsync();
     }
 
     super.initState();
@@ -60,7 +67,9 @@ class _EHFavoriteDialogState extends State<EHFavoriteDialog> {
 
   @override
   void dispose() {
+    _disposed = true;
     _controller.dispose();
+    _inNoteModeNotifier.dispose();
     super.dispose();
   }
 
@@ -118,48 +127,51 @@ class _EHFavoriteDialogState extends State<EHFavoriteDialog> {
                   trailing: IconButton(
                     icon: const Icon(Icons.edit_note),
                     onPressed: () {
-                      setState(() {
-                        inNoteMode = !inNoteMode;
-                      });
+                      _inNoteModeNotifier.value = !_inNoteModeNotifier.value;
                     },
                   ),
                 ).marginOnly(top: 4),
-                if (inNoteMode)
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ConstrainedBox(
-                          constraints: const BoxConstraints(maxWidth: 160),
-                          child: TextField(
-                            controller: _controller,
-                            inputFormatters: [LengthLimitingTextInputFormatter(200)],
-                            style: const TextStyle(fontSize: 12),
-                            minLines: 1,
-                            maxLines: 4,
-                            decoration: const InputDecoration(isDense: true),
-                          ),
-                        ).paddingOnly(left: 8),
-                      ),
-                      TextButton(
-                        child: Text('OK'.tr),
-                        onPressed: () {
-                          if (selectedIndex == null) {
-                            toast('addNoteHint'.tr);
-                            return;
-                          }
-
-                          backRoute(
-                            result: (
-                              isDelete: false,
-                              favIndex: selectedIndex,
-                              note: _controller.text,
-                              remember: remember,
+                ValueListenableBuilder<bool>(
+                  valueListenable: _inNoteModeNotifier,
+                  builder: (context, inNoteMode, child) {
+                    if (!inNoteMode) return const SizedBox.shrink();
+                    return Row(
+                      children: [
+                        Expanded(
+                          child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 160),
+                            child: TextField(
+                              controller: _controller,
+                              inputFormatters: [LengthLimitingTextInputFormatter(200)],
+                              style: const TextStyle(fontSize: 12),
+                              minLines: 1,
+                              maxLines: 4,
+                              decoration: const InputDecoration(isDense: true),
                             ),
-                          );
-                        },
-                      ),
-                    ],
-                  ).marginOnly(top: 4, bottom: 4),
+                          ).paddingOnly(left: 8),
+                        ),
+                        TextButton(
+                          child: Text('OK'.tr),
+                          onPressed: () {
+                            if (selectedIndex == null) {
+                              toast('addNoteHint'.tr);
+                              return;
+                            }
+
+                            backRoute(
+                              result: (
+                                isDelete: false,
+                                favIndex: selectedIndex,
+                                note: _controller.text,
+                                remember: remember,
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ).marginOnly(top: 4, bottom: 4);
+                  },
+                ),
               ],
             ),
           ),
@@ -181,28 +193,55 @@ class _EHFavoriteDialogState extends State<EHFavoriteDialog> {
     GalleryNote note;
     try {
       note = await widget.initNoteFuture!();
+      if (_disposed) return; // 已关闭，取消更新
       _controller.text = note.note;
       setState(() {
-        if (_controller.text.isNotEmpty) {
-          inNoteMode = true;
-        }
         _loadingState = LoadingState.success;
       });
+      if (_disposed) return;
+      // 使用 ValueNotifier 局部更新
+      if (_controller.text.isNotEmpty) {
+        _inNoteModeNotifier.value = true;
+      }
     } on DioException catch (e) {
+      if (_disposed) return;
       log.error('getGalleryFavoriteInfoFailed'.tr, e.errorMsg);
       snack('getGalleryFavoriteInfoFailed'.tr, e.errorMsg ?? '', isShort: true);
       setState(() => _loadingState = LoadingState.error);
       return;
     } on EHSiteException catch (e) {
+      if (_disposed) return;
       log.error('getGalleryFavoriteInfoFailed'.tr, e.message);
       snack('getGalleryFavoriteInfoFailed'.tr, e.message, isShort: true);
       setState(() => _loadingState = LoadingState.error);
       return;
     } catch (e, s) {
+      if (_disposed) return;
       log.error('getGalleryFavoriteInfoFailed'.tr, e, s);
       snack('getGalleryFavoriteInfoFailed'.tr, e.toString(), isShort: true);
       setState(() => _loadingState = LoadingState.error);
       return;
+    }
+  }
+
+  /// 异步加载 favorite note，不阻塞 UI
+  Future<void> _initFavoriteNoteAsync() async {
+    assert(widget.initNoteFuture != null);
+
+    log.info('Get gallery favorite info (async)');
+    GalleryNote note;
+    try {
+      note = await widget.initNoteFuture!();
+      if (_disposed) return; // 已关闭，取消更新
+      _controller.text = note.note;
+      if (_disposed) return;
+      // 使用 ValueNotifier 局部更新，只有备注输入框会重建
+      if (_controller.text.isNotEmpty) {
+        _inNoteModeNotifier.value = true;
+      }
+    } catch (e) {
+      // 异步加载失败不显示错误，因为用户已经可以操作
+      log.warning('Async load favorite note failed: $e');
     }
   }
 }
