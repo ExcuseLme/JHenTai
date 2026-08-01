@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/services.dart';
 import 'package:jhentai/src/extension/widget_extension.dart';
 import 'package:jhentai/src/model/config.dart';
 import 'package:jhentai/src/network/eh_request.dart';
@@ -45,10 +46,13 @@ class _SettingAdvancedPageState extends State<SettingAdvancedPage> {
   LoadingState _exportDataLoadingState = LoadingState.idle;
   LoadingState _importDataLoadingState = LoadingState.idle;
 
+  late TextEditingController _longPressDurationController;
+
   @override
   void initState() {
     super.initState();
 
+    _longPressDurationController = TextEditingController(text: advancedSetting.longPressDuration.value.toString());
     _loadingLogSize();
     _getImagesCacheSize();
   }
@@ -72,6 +76,7 @@ class _SettingAdvancedPageState extends State<SettingAdvancedPage> {
             _buildCheckClipboard(),
             if (GetPlatform.isAndroid) _buildVerifyAppLinks(),
             _buildInNoImageMode(),
+            _buildLongPressDuration(context),
             _buildImportData(context),
             _buildExportData(context),
           ],
@@ -209,6 +214,48 @@ class _SettingAdvancedPageState extends State<SettingAdvancedPage> {
       title: Text('noImageMode'.tr),
       value: advancedSetting.inNoImageMode.value,
       onChanged: advancedSetting.saveInNoImageMode,
+    );
+  }
+
+  Widget _buildLongPressDuration(BuildContext context) {
+    return ListTile(
+      title: Text('longPressDuration'.tr),
+      subtitle: Text('longPressDurationHint'.tr),
+      onLongPress: () {
+        advancedSetting.saveLongPressDuration(AdvancedSetting.defaultLongPressDuration);
+        _longPressDurationController.text = AdvancedSetting.defaultLongPressDuration.toString();
+        toast('resetSuccess'.tr);
+      },
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 60,
+            child: TextField(
+              controller: _longPressDurationController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(isDense: true, labelStyle: TextStyle(fontSize: 12)),
+              textAlign: TextAlign.center,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+            ),
+          ),
+          Text('ms', style: UIConfig.settingPageListTileTrailingTextStyle(context)),
+          IconButton(
+            onPressed: () {
+              int? value = int.tryParse(_longPressDurationController.value.text);
+              if (value == null || value < 200) {
+                _longPressDurationController.text = '200';
+                value = 200;
+              }
+              advancedSetting.saveLongPressDuration(value);
+              toast('saveSuccess'.tr);
+            },
+            icon: Icon(Icons.check, color: UIConfig.resumePauseButtonColor(context)),
+          ),
+        ],
+      ),
     );
   }
 

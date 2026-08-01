@@ -21,6 +21,7 @@ import 'package:jhentai/src/service/archive_download_service.dart';
 import 'package:jhentai/src/utils/uuid_util.dart';
 import 'package:jhentai/src/widget/eh_alert_dialog.dart';
 import 'package:jhentai/src/widget/eh_gallery_detail_dialog.dart';
+import 'package:jhentai/src/widget/eh_gesture_detector.dart';
 import 'package:jhentai/src/widget/eh_image.dart';
 import 'package:jhentai/src/widget/eh_tag.dart';
 import 'package:jhentai/src/widget/eh_thumbnail.dart';
@@ -263,7 +264,7 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
           );
         }
 
-        return GestureDetector(
+        return EHGestureDetector(
           onTap: () => toRoute(Routes.singleImagePage, arguments: cover),
           child: EHImage(
             galleryImage: cover,

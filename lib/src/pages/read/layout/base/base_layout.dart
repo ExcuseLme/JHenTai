@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:jhentai/src/extension/get_logic_extension.dart';
 import 'package:jhentai/src/model/read_page_info.dart';
 import 'package:jhentai/src/setting/read_setting.dart';
+import 'package:jhentai/src/widget/eh_gesture_detector.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../../../config/ui_config.dart';
@@ -98,7 +99,7 @@ abstract class BaseLayout extends StatelessWidget {
   Widget _buildParsingHrefsIndicator(BuildContext context, int index) {
     Size placeHolderSize = logic.getPlaceHolderSize(index);
 
-    return GestureDetector(
+    return EHGestureDetector(
       onTap: () => readPageLogic.beginToParseImageHref(index),
       child: SizedBox(
         height: placeHolderSize.height,
@@ -128,7 +129,7 @@ abstract class BaseLayout extends StatelessWidget {
   Widget _buildParsingUrlIndicator(BuildContext context, int index) {
     Size placeHolderSize = logic.getPlaceHolderSize(index);
 
-    return GestureDetector(
+    return EHGestureDetector(
       onTap: () => readPageLogic.beginToParseImageUrl(index, true),
       child: SizedBox(
         height: placeHolderSize.height,
@@ -155,7 +156,7 @@ abstract class BaseLayout extends StatelessWidget {
   }
 
   Widget _buildOnlineImage(BuildContext context, int index) {
-    return GestureDetector(
+    return EHGestureDetector(
       onLongPressStart: (details) => logic.showOnlineImageContextMenu(index, context, position: details.globalPosition),
       onSecondaryTapDown: (details) => logic.showOnlineImageContextMenu(index, context, position: details.globalPosition),
       child: EHImage(
@@ -257,7 +258,7 @@ abstract class BaseLayout extends StatelessWidget {
           return _buildLocalImage(context, index);
         }
 
-        return GestureDetector(
+        return EHGestureDetector(
           onLongPressStart: (details) => logic.showLocalImageContextMenu(index, context, position: details.globalPosition),
           onSecondaryTapDown: (details) => logic.showLocalImageContextMenu(index, context, position: details.globalPosition),
           child: EHImage(
@@ -317,7 +318,7 @@ abstract class BaseLayout extends StatelessWidget {
   }
 
   Widget _buildLocalImage(BuildContext context, int index) {
-    return GestureDetector(
+    return EHGestureDetector(
       onLongPressStart: (details) => logic.showLocalImageContextMenu(index, context, position: details.globalPosition),
       onSecondaryTapDown: (details) => logic.showLocalImageContextMenu(index, context, position: details.globalPosition),
       child: EHImage(

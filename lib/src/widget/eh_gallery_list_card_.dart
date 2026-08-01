@@ -12,6 +12,7 @@ import 'package:jhentai/src/model/gallery_tag.dart';
 import 'package:jhentai/src/setting/preference_setting.dart';
 import 'package:jhentai/src/setting/style_setting.dart';
 import 'package:waterfall_flow/waterfall_flow.dart';
+import 'package:jhentai/src/widget/eh_gesture_detector.dart';
 
 import '../consts/locale_consts.dart';
 import '../utils/date_util.dart';
@@ -44,7 +45,7 @@ class EHGalleryListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return EHGestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => handleTapCard(gallery),
       onLongPress: handleLongPressCard == null ? null : () => handleLongPressCard!(gallery),
