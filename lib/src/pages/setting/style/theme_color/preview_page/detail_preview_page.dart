@@ -13,6 +13,7 @@ import 'package:jhentai/src/model/gallery_url.dart';
 import 'package:jhentai/src/pages/details/details_page.dart';
 import 'package:jhentai/src/pages/details/details_page_logic.dart';
 import 'package:jhentai/src/pages/details/details_page_state.dart';
+import 'package:jhentai/src/widget/scaled_scroll_physics_wrapper.dart';
 import 'package:html/dom.dart' as dom;
 import 'package:jhentai/src/widget/keep_alive.dart';
 
@@ -71,7 +72,7 @@ class DetailPreviewPage extends DetailsPage {
           child: LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) => ListView(
               scrollDirection: Axis.horizontal,
-              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+              physics: wrapWithScaledPhysics(const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics())),
               itemExtent: max(UIConfig.detailsPageActionExtent, (constraints.maxWidth - 15 * 2) / 9),
               padding: EdgeInsets.zero,
               children: [

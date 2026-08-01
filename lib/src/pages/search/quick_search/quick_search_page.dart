@@ -4,6 +4,7 @@ import 'package:jhentai/src/extension/widget_extension.dart';
 import 'package:jhentai/src/model/search_config.dart';
 import 'package:jhentai/src/service/quick_search_service.dart';
 import 'package:jhentai/src/utils/search_util.dart';
+import 'package:jhentai/src/widget/scaled_scroll_physics_wrapper.dart';
 
 class QuickSearchPage extends StatelessWidget {
   final bool automaticallyImplyLeading;
@@ -30,6 +31,7 @@ class QuickSearchPage extends StatelessWidget {
             scrollController: scrollController,
             itemCount: quickSearchService.quickSearchConfigs.length,
             onReorder: quickSearchService.reOrderQuickSearch,
+            physics: wrapWithScaledPhysics(null),
             padding: const EdgeInsets.only(bottom: 120),
             itemBuilder: (_, int index) => Column(
               key: Key(entries[index].key),

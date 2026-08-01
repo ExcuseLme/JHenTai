@@ -6,6 +6,7 @@ import 'package:jhentai/src/pages/layout/mobile_v2/notification/tap_menu_button_
 import 'package:jhentai/src/setting/style_setting.dart';
 import 'package:jhentai/src/service/log.dart';
 import 'package:jhentai/src/widget/eh_wheel_speed_controller.dart';
+import 'package:jhentai/src/widget/scaled_scroll_physics_wrapper.dart';
 
 import '../../config/ui_config.dart';
 import '../../mixin/scroll_to_top_logic_mixin.dart';
@@ -101,7 +102,7 @@ abstract class BasePage<L extends BasePageLogic, S extends BasePageState> extend
                 child: CustomScrollView(
                   key: state.pageStorageKey,
                   controller: state.scrollController,
-                  physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+                  physics: wrapWithScaledPhysics(const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics())),
                   scrollBehavior: UIConfig.scrollBehaviourWithScrollBarWithMouse,
                   slivers: <Widget>[
                     buildPullDownIndicator(),

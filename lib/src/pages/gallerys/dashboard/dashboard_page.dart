@@ -9,6 +9,7 @@ import 'package:jhentai/src/utils/route_util.dart';
 import 'package:jhentai/src/widget/eh_wheel_speed_controller.dart';
 import 'package:jhentai/src/widget/eh_dashboard_card.dart';
 import 'package:jhentai/src/widget/loading_state_indicator.dart';
+import 'package:jhentai/src/widget/scaled_scroll_physics_wrapper.dart';
 
 import '../../../config/ui_config.dart';
 import '../../layout/mobile_v2/mobile_layout_page_v2_state.dart';
@@ -59,7 +60,7 @@ class DashboardPage extends BasePage {
           child: CustomScrollView(
             key: state.pageStorageKey,
             controller: state.scrollController,
-            physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+            physics: wrapWithScaledPhysics(const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics())),
             scrollBehavior: UIConfig.scrollBehaviourWithScrollBarWithMouse,
             slivers: [
               buildPullDownIndicator(),

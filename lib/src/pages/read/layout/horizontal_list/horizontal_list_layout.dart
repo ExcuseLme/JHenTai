@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jhentai/src/pages/read/layout/horizontal_list/horizontal_list_layout_state.dart';
+import 'package:jhentai/src/widget/scaled_scroll_physics_wrapper.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:zoom_view/zoom_view.dart';
@@ -39,7 +40,7 @@ class HorizontalListLayout extends BaseLayout {
           child: ScrollablePositionedList.separated(
             scrollDirection: Axis.horizontal,
             reverse: logic.readPageLogic.isInRight2LeftDirection,
-            physics: const ClampingScrollPhysics(),
+            physics: wrapWithScaledPhysics(const ClampingScrollPhysics()),
             minCacheExtent: readPageState.readPageInfo.mode == ReadMode.online
                 ? readSetting.preloadDistance * screenHeight * 1
                 : readSetting.preloadDistanceLocal * screenHeight * 1,

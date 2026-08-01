@@ -5,6 +5,7 @@ import 'package:jhentai/src/model/tab_bar_icon.dart';
 import 'package:jhentai/src/service/tag_search_order_service.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../../../config/ui_config.dart';
 import '../../../consts/locale_consts.dart';
 import '../../../l18n/locale_text.dart';
 import '../../../model/jh_layout.dart';
@@ -14,10 +15,14 @@ import '../../../setting/preference_setting.dart';
 import '../../../setting/style_setting.dart';
 import '../../../utils/locale_util.dart';
 import '../../../utils/route_util.dart';
+import '../../../utils/toast_util.dart';
 import '../../../widget/loading_state_indicator.dart';
 
 class SettingPreferencePage extends StatelessWidget {
-  const SettingPreferencePage({Key? key}) : super(key: key);
+  final TextEditingController scrollSensitivityController =
+      TextEditingController(text: preferenceSetting.scrollSensitivity.value.toStringAsFixed(1));
+
+  SettingPreferencePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +45,7 @@ class SettingPreferencePage extends StatelessWidget {
               if (styleSetting.isInV2Layout) _buildEnableLeftMenuDrawerGesture(),
               if (styleSetting.isInV2Layout) _buildQuickSearch(),
               if (styleSetting.isInV2Layout) _buildDrawerGestureEdgeWidth(context),
+              _buildScrollSensitivity(context),
               _buildShowAllGalleryTitles(),
               _buildShowGalleryTagVoteStatus(),
               _buildShowComments(),
@@ -299,6 +305,51 @@ class SettingPreferencePage extends StatelessWidget {
           ],
         );
       }),
+    );
+  }
+
+  Widget _buildScrollSensitivity(BuildContext context) {
+    return ListTile(
+      title: Text('scrollSensitivity'.tr),
+      subtitle: Text('scrollSensitivityHint'.tr),
+      onLongPress: () {
+        scrollSensitivityController.text = '1.0';
+        preferenceSetting.saveScrollSensitivity(1.0);
+        toast('resetSuccess'.tr);
+      },
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 50,
+            child: TextField(
+              controller: scrollSensitivityController,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              decoration: const InputDecoration(isDense: true, labelStyle: TextStyle(fontSize: 12)),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              double? value = double.tryParse(scrollSensitivityController.value.text);
+              if (value == null || value < 1.0) {
+                scrollSensitivityController.text = '1.0';
+                value = 1.0;
+              } else {
+                // 修正为一位小数
+                double correctedValue = double.parse(value.toStringAsFixed(1));
+                if (correctedValue != value) {
+                  scrollSensitivityController.text = correctedValue.toStringAsFixed(1);
+                  value = correctedValue;
+                }
+              }
+              preferenceSetting.saveScrollSensitivity(value);
+              toast('saveSuccess'.tr);
+            },
+            icon: Icon(Icons.check, color: UIConfig.resumePauseButtonColor(context)),
+          ),
+        ],
+      ),
     );
   }
 

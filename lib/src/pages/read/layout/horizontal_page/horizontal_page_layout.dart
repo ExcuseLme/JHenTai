@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jhentai/src/model/read_page_info.dart';
 import 'package:jhentai/src/widget/eh_wheel_scroll_listener.dart';
+import 'package:jhentai/src/widget/scaled_scroll_physics_wrapper.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 import '../../../../setting/read_setting.dart';
@@ -24,7 +25,7 @@ class HorizontalPageLayout extends BaseLayout {
       child: PhotoViewGallery.builder(
         enableCtrlScrollZoom: true,
         itemCount: readPageState.readPageInfo.pageCount,
-        scrollPhysics: const ClampingScrollPhysics(),
+        scrollPhysics: wrapWithScaledPhysics(const ClampingScrollPhysics()),
         pageController: logic.pageController,
         cacheExtent: readPageState.readPageInfo.mode == ReadMode.online
             ? readSetting.preloadPageCount.value.toDouble()

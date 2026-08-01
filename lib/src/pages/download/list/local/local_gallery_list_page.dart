@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:jhentai/src/service/local_gallery_service.dart';
 import 'package:jhentai/src/widget/fade_slide_widget.dart';
 import 'package:jhentai/src/widget/loading_state_indicator.dart';
+import 'package:jhentai/src/widget/scaled_scroll_physics_wrapper.dart';
 import 'package:path/path.dart' as p;
 
 import '../../../../config/ui_config.dart';
@@ -93,6 +94,7 @@ class LocalGalleryListPage extends StatelessWidget with Scroll2TopPageMixin {
               controller: state.scrollController,
               child: ListView.builder(
                 controller: state.scrollController,
+                physics: wrapWithScaledPhysics(null),
                 padding: const EdgeInsets.only(bottom: 80),
                 itemCount: logic.computeItemCount(),
                 itemBuilder: (context, index) {
