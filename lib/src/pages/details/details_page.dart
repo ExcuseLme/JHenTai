@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math';
 
 import 'package:animate_do/animate_do.dart';
@@ -317,27 +318,71 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
             height: UIConfig.detailsPageTitleTextHeight,
           ),
           contextMenuBuilder: (BuildContext context, EditableTextState editableTextState) {
-            AdaptiveTextSelectionToolbar toolbar = AdaptiveTextSelectionToolbar.buttonItems(
-              buttonItems: editableTextState.contextMenuButtonItems,
-              anchors: editableTextState.contextMenuAnchors,
-            );
+            String? category = state.galleryDetails?.category ?? state.gallery?.category ?? state.galleryMetadata?.category;
+            List<ContextMenuButtonItem> buttonItems = [];
 
             if (!editableTextState.currentTextEditingValue.selection.isCollapsed) {
-              toolbar.buttonItems?.add(
-                ContextMenuButtonItem(
-                  label: 'search'.tr,
+              buttonItems.add(ContextMenuButtonItem(
+                type: ContextMenuButtonType.copy,
+                onPressed: () => editableTextState.copySelection(SelectionChangedCause.toolbar),
+              ));
+            }
+            buttonItems.add(ContextMenuButtonItem(
+              type: ContextMenuButtonType.selectAll,
+              onPressed: () => editableTextState.selectAll(SelectionChangedCause.toolbar),
+            ));
+
+            if (!editableTextState.currentTextEditingValue.selection.isCollapsed) {
+              buttonItems.add(ContextMenuButtonItem(
+                label: 'search'.tr,
+                onPressed: () {
+                  ContextMenuController.removeAny();
+                  newSearch(
+                    keyword: editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text),
+                    forceNewRoute: true,
+                    galleryCategory: category,
+                  );
+                },
+              ));
+
+              LinkedHashMap<String, List<GalleryTag>> tags = state.galleryDetails?.tags ?? state.gallery?.tags ?? LinkedHashMap<String, List<GalleryTag>>();
+              List<String> artists = (tags['artist'] ?? []).map((t) => t.tagData.key).toList();
+              if (artists.isNotEmpty) {
+                String artistKeyword = artists.map((a) => 'artist:"$a"').join(' ');
+                buttonItems.add(ContextMenuButtonItem(
+                  label: 'searchWithArtist'.tr,
                   onPressed: () {
                     ContextMenuController.removeAny();
                     newSearch(
-                      keyword: editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text),
+                      keyword: '$artistKeyword ${editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text)}',
                       forceNewRoute: true,
+                      galleryCategory: category,
                     );
                   },
-                ),
-              );
+                ));
+              }
+
+              List<String> groups = (tags['group'] ?? []).map((t) => t.tagData.key).toList();
+              if (groups.isNotEmpty) {
+                String groupKeyword = groups.map((g) => 'group:"$g"').join(' ');
+                buttonItems.add(ContextMenuButtonItem(
+                  label: 'searchWithGroup'.tr,
+                  onPressed: () {
+                    ContextMenuController.removeAny();
+                    newSearch(
+                      keyword: '$groupKeyword ${editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text)}',
+                      forceNewRoute: true,
+                      galleryCategory: category,
+                    );
+                  },
+                ));
+              }
             }
 
-            return toolbar;
+            return AdaptiveTextSelectionToolbar.buttonItems(
+              buttonItems: buttonItems,
+              anchors: editableTextState.contextMenuAnchors,
+            );
           },
         ).enableMouseDrag(withScrollBar: false);
       },
@@ -382,27 +427,71 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
                 maxLines: 2,
                 style: UIConfig.detailsPageSubTitleTextStyle(context),
                 contextMenuBuilder: (BuildContext context, EditableTextState editableTextState) {
-                  AdaptiveTextSelectionToolbar toolbar = AdaptiveTextSelectionToolbar.buttonItems(
-                    buttonItems: editableTextState.contextMenuButtonItems,
-                    anchors: editableTextState.contextMenuAnchors,
-                  );
+                  String? category = state.galleryDetails?.category ?? state.gallery?.category ?? state.galleryMetadata?.category;
+                  List<ContextMenuButtonItem> buttonItems = [];
 
                   if (!editableTextState.currentTextEditingValue.selection.isCollapsed) {
-                    toolbar.buttonItems?.add(
-                      ContextMenuButtonItem(
-                        label: 'search'.tr,
+                    buttonItems.add(ContextMenuButtonItem(
+                      type: ContextMenuButtonType.copy,
+                      onPressed: () => editableTextState.copySelection(SelectionChangedCause.toolbar),
+                    ));
+                  }
+                  buttonItems.add(ContextMenuButtonItem(
+                    type: ContextMenuButtonType.selectAll,
+                    onPressed: () => editableTextState.selectAll(SelectionChangedCause.toolbar),
+                  ));
+
+                  if (!editableTextState.currentTextEditingValue.selection.isCollapsed) {
+                    buttonItems.add(ContextMenuButtonItem(
+                      label: 'search'.tr,
+                      onPressed: () {
+                        ContextMenuController.removeAny();
+                        newSearch(
+                          keyword: editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text),
+                          forceNewRoute: true,
+                          galleryCategory: category,
+                        );
+                      },
+                    ));
+
+                    LinkedHashMap<String, List<GalleryTag>> tags = state.galleryDetails?.tags ?? state.gallery?.tags ?? LinkedHashMap<String, List<GalleryTag>>();
+                    List<String> artists = (tags['artist'] ?? []).map((t) => t.tagData.key).toList();
+                    if (artists.isNotEmpty) {
+                      String artistKeyword = artists.map((a) => 'artist:"$a"').join(' ');
+                      buttonItems.add(ContextMenuButtonItem(
+                        label: 'searchWithArtist'.tr,
                         onPressed: () {
                           ContextMenuController.removeAny();
                           newSearch(
-                            keyword: editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text),
+                            keyword: '$artistKeyword ${editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text)}',
                             forceNewRoute: true,
+                            galleryCategory: category,
                           );
                         },
-                      ),
-                    );
+                      ));
+                    }
+
+                    List<String> groups = (tags['group'] ?? []).map((t) => t.tagData.key).toList();
+                    if (groups.isNotEmpty) {
+                      String groupKeyword = groups.map((g) => 'group:"$g"').join(' ');
+                      buttonItems.add(ContextMenuButtonItem(
+                        label: 'searchWithGroup'.tr,
+                        onPressed: () {
+                          ContextMenuController.removeAny();
+                          newSearch(
+                            keyword: '$groupKeyword ${editableTextState.currentTextEditingValue.selection.textInside(editableTextState.currentTextEditingValue.text)}',
+                            forceNewRoute: true,
+                            galleryCategory: category,
+                          );
+                        },
+                      ));
+                    }
                   }
 
-                  return toolbar;
+                  return AdaptiveTextSelectionToolbar.buttonItems(
+                    buttonItems: buttonItems,
+                    anchors: editableTextState.contextMenuAnchors,
+                  );
                 },
               ),
             );
@@ -432,21 +521,31 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
             style: TextStyle(fontSize: UIConfig.detailsPageUploaderTextSize, color: UIConfig.detailsPageUploaderTextColor(context)),
             onTap: logic.searchUploader,
             contextMenuBuilder: (BuildContext context, EditableTextState editableTextState) {
-              AdaptiveTextSelectionToolbar toolbar = AdaptiveTextSelectionToolbar.editableText(
-                editableTextState: editableTextState,
-              );
+              List<ContextMenuButtonItem> buttonItems = [];
 
-              toolbar.buttonItems?.add(
-                ContextMenuButtonItem(
-                  label: 'blockUploaderLocally'.tr,
-                  onPressed: () {
-                    ContextMenuController.removeAny();
-                    logic.blockUploader(logic.uploader);
-                  },
-                ),
-              );
+              if (!editableTextState.currentTextEditingValue.selection.isCollapsed) {
+                buttonItems.add(ContextMenuButtonItem(
+                  type: ContextMenuButtonType.copy,
+                  onPressed: () => editableTextState.copySelection(SelectionChangedCause.toolbar),
+                ));
+              }
+              buttonItems.add(ContextMenuButtonItem(
+                type: ContextMenuButtonType.selectAll,
+                onPressed: () => editableTextState.selectAll(SelectionChangedCause.toolbar),
+              ));
 
-              return toolbar;
+              buttonItems.add(ContextMenuButtonItem(
+                label: 'blockUploaderLocally'.tr,
+                onPressed: () {
+                  ContextMenuController.removeAny();
+                  logic.blockUploader(logic.uploader);
+                },
+              ));
+
+              return AdaptiveTextSelectionToolbar.buttonItems(
+                buttonItems: buttonItems,
+                anchors: editableTextState.contextMenuAnchors,
+              );
             },
           ),
         );
@@ -1297,11 +1396,12 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
   }
 
   List<Widget> _buildSubTags(List<GalleryTag> tags) {
+    String? category = state.galleryDetails?.category ?? state.gallery?.category ?? state.galleryMetadata?.category;
     return tags
         .map(
           (tag) => EHTag(
             tag: tag,
-            onTap: (tag) => newSearch(keyword: '${tag.tagData.namespace}:"${tag.tagData.key}\$"', forceNewRoute: true),
+            onTap: (tag) => newSearch(keyword: '${tag.tagData.namespace}:"${tag.tagData.key}\$"', forceNewRoute: true, galleryCategory: category),
             onSecondaryTap: logic.showTagDialog,
             onLongPress: logic.showTagDialog,
             showTagStatus: preferenceSetting.showGalleryTagVoteStatus.isTrue,

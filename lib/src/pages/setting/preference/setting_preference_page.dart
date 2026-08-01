@@ -17,6 +17,7 @@ import '../../../setting/style_setting.dart';
 import '../../../utils/locale_util.dart';
 import '../../../utils/route_util.dart';
 import '../../../utils/toast_util.dart';
+import '../../../widget/eh_gallery_category_tag.dart';
 import '../../../widget/loading_state_indicator.dart';
 
 class SettingPreferencePage extends StatelessWidget {
@@ -57,6 +58,11 @@ class SettingPreferencePage extends StatelessWidget {
               _buildEnableDefaultTagSet(),
               if (GetPlatform.isDesktop && styleSetting.isInDesktopLayout) _buildLaunchInFullScreen(),
               _buildTagSearchConfig(),
+              _buildEnableAutoLanguageFilter(),
+              if (preferenceSetting.enableAutoLanguageFilter.isTrue) ...[
+                _buildAutoLanguageFilterCategories(context).fadeIn(const Key('autoLanguageFilterCategories')),
+                _buildAutoLanguageFilterTarget().fadeIn(const Key('autoLanguageFilterTarget')),
+              ],
               if (preferenceSetting.enableTagZHTranslation.isTrue) _buildShowR18GImageDirectly().fadeIn(const Key('showR18GImageDirectly')),
               _buildShowUtcTime(),
               _buildShowDawnInfo(),
@@ -473,6 +479,69 @@ class SettingPreferencePage extends StatelessWidget {
     );
   }
 
+  Widget _buildEnableAutoLanguageFilter() {
+    return SwitchListTile(
+      title: Text('enableAutoLanguageFilter'.tr),
+      subtitle: Text('enableAutoLanguageFilterHint'.tr),
+      value: preferenceSetting.enableAutoLanguageFilter.value,
+      onChanged: preferenceSetting.saveEnableAutoLanguageFilter,
+    );
+  }
+
+  Widget _buildAutoLanguageFilterCategories(BuildContext context) {
+    List<String> allCategories = [
+      'Doujinshi',
+      'Manga',
+      'Image Set',
+      'Game CG',
+      'Artist CG',
+      'Cosplay',
+      'Non-H',
+      'Asian Porn',
+      'Western',
+      'Misc',
+    ];
+
+    return ListTile(
+      title: Text('autoLanguageFilterCategories'.tr),
+      subtitle: Text('autoLanguageFilterCategoriesHint'.tr),
+      trailing: const Icon(Icons.keyboard_arrow_right),
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (_) => _CategorySelectDialog(
+            selectedCategories: preferenceSetting.autoLanguageFilterCategories.toList(),
+            allCategories: allCategories,
+            onConfirm: (selected) {
+              preferenceSetting.saveAutoLanguageFilterCategories(selected);
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildAutoLanguageFilterTarget() {
+    return ListTile(
+      title: Text('autoLanguageFilterTarget'.tr),
+      subtitle: Text('autoLanguageFilterTargetHint'.tr),
+      trailing: DropdownButton<String?>(
+        value: preferenceSetting.autoLanguageFilterTarget.value,
+        elevation: 4,
+        alignment: AlignmentDirectional.centerEnd,
+        onChanged: (String? newValue) => preferenceSetting.saveAutoLanguageFilterTarget(newValue),
+        menuMaxHeight: 200,
+        items: [
+          DropdownMenuItem(child: Text('nope'.tr), value: null),
+          ...LocaleConsts.language2Abbreviation.keys
+              .where((language) => language != 'japanese')
+              .map((language) => DropdownMenuItem(child: Text(language.capitalizeFirst!), value: language))
+              .toList(),
+        ],
+      ),
+    );
+  }
+
   Widget _buildShowUtcTime() {
     return SwitchListTile(
       title: Text('showUtcTime'.tr),
@@ -526,6 +595,97 @@ class SettingPreferencePage extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+class _CategorySelectDialog extends StatefulWidget {
+  final List<String> selectedCategories;
+  final List<String> allCategories;
+  final ValueChanged<List<String>> onConfirm;
+
+  const _CategorySelectDialog({
+    Key? key,
+    required this.selectedCategories,
+    required this.allCategories,
+    required this.onConfirm,
+  }) : super(key: key);
+
+  @override
+  State<_CategorySelectDialog> createState() => _CategorySelectDialogState();
+}
+
+class _CategorySelectDialogState extends State<_CategorySelectDialog> {
+  late List<String> selectedCategories;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedCategories = List.from(widget.selectedCategories);
+  }
+
+  void _toggleCategory(String category) {
+    setState(() {
+      if (selectedCategories.contains(category)) {
+        selectedCategories.remove(category);
+      } else {
+        selectedCategories.add(category);
+      }
+    });
+  }
+
+  Widget _buildTag(String category) {
+    return EHGalleryCategoryTag(
+      category: category,
+      width: 115,
+      height: 30,
+      enabled: selectedCategories.contains(category),
+      onTap: () => _toggleCategory(category),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('autoLanguageFilterCategories'.tr),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [_buildTag('Doujinshi'), _buildTag('Manga')],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [_buildTag('Image Set'), _buildTag('Game CG')],
+          ).marginOnly(top: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [_buildTag('Artist CG'), _buildTag('Cosplay')],
+          ).marginOnly(top: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [_buildTag('Non-H'), _buildTag('Asian Porn')],
+          ).marginOnly(top: 4),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [_buildTag('Western'), _buildTag('Misc')],
+          ).marginOnly(top: 4),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text('cancel'.tr),
+        ),
+        TextButton(
+          onPressed: () {
+            widget.onConfirm(selectedCategories);
+            Navigator.of(context).pop();
+          },
+          child: Text('OK'.tr),
+        ),
+      ],
     );
   }
 }

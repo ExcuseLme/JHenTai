@@ -372,6 +372,12 @@ class pt_BR {
       'inheritPartiallyHint': 'Use last search options for next search(except language and category)',
       'none': 'None',
       'noneHint': 'Use default search options for next search',
+      'enableAutoLanguageFilter': 'Auto Language Filter',
+      'enableAutoLanguageFilterHint': 'Auto set language filter when searching by gallery tag',
+      'autoLanguageFilterCategories': 'Gallery Categories',
+      'autoLanguageFilterCategoriesHint': 'Select which gallery types trigger auto language filter',
+      'autoLanguageFilterTarget': 'Target Language',
+      'autoLanguageFilterTargetHint': 'Auto set language filter value',
       'showAllGalleryTitles': 'Show All Gallery Titles',
       'showAllGalleryTitlesHint': 'Show both original and japanese titles if available',
       'showGalleryTagVoteStatus': 'Show Gallery Tag Vote Status',
@@ -694,6 +700,8 @@ class pt_BR {
 
       /// search page
       'search': 'Pesquisar',
+      'searchWithArtist': 'Pesquisar com Autor',
+      'searchWithGroup': 'Pesquisar com Grupo',
       'searchFailed': 'Falha ao pesquisar',
       'fileSearchFailed': 'Falha ao pesquisr arquivo',
       'tab': 'Tab',

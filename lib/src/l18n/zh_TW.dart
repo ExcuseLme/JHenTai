@@ -371,6 +371,12 @@ class zh_TW {
       'inheritPartiallyHint': '搜尋時使用上一次搜尋選項（除開種類和語言）',
       'none': '無',
       'noneHint': '搜尋時使用新的初始搜尋選項',
+      'enableAutoLanguageFilter': '自動語言過濾',
+      'enableAutoLanguageFilterHint': '搜尋畫廊標籤時自動設定語言過濾',
+      'autoLanguageFilterCategories': '畫廊種類',
+      'autoLanguageFilterCategoriesHint': '選擇哪些畫廊種類觸發自動語言過濾',
+      'autoLanguageFilterTarget': '目標語言',
+      'autoLanguageFilterTargetHint': '自動設定的語言過濾值',
       'showAllGalleryTitles': '顯示所有畫廊標題',
       'showAllGalleryTitlesHint': '同時顯示原標題和日文標題（如果可用）',
       'showGalleryTagVoteStatus': '顯示畫廊標籤投票狀態',
@@ -699,6 +705,8 @@ favnote：配對收藏備註
 
       /// search page
       'search': '搜尋',
+      'searchWithArtist': '搜尋作者',
+      'searchWithGroup': '搜尋團隊',
       'searchFailed': '搜尋失敗',
       'fileSearchFailed': '以圖搜圖失敗',
       'tab': '分頁',

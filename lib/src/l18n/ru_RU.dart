@@ -375,6 +375,12 @@ class ru_RU {
       'inheritPartiallyHint': 'Использовать последние параметры (кроме языка и категории)',
       'none': 'Нет',
       'noneHint': 'Использовать параметры по умолчанию для следующего поиска',
+      'enableAutoLanguageFilter': 'Автоматический фильтр языка',
+      'enableAutoLanguageFilterHint': 'Автоматически устанавливать фильтр языка при поиске по тегам галереи',
+      'autoLanguageFilterCategories': 'Категории галерей',
+      'autoLanguageFilterCategoriesHint': 'Выберите, какие типы галерей активируют автоматический фильтр языка',
+      'autoLanguageFilterTarget': 'Целевой язык',
+      'autoLanguageFilterTargetHint': 'Автоматически устанавливаемое значение фильтра языка',
       'showAllGalleryTitles': 'Показывать все названия галерей',
       'showAllGalleryTitlesHint': 'Показывать оригинальное и японское названия, если доступны',
       'showGalleryTagVoteStatus': 'Показывать статус голосования за теги галереи',
@@ -702,6 +708,8 @@ class ru_RU {
 
       /// search page
       'search': 'Поиск',
+      'searchWithArtist': 'Поиск с автором',
+      'searchWithGroup': 'Поиск с группой',
       'searchFailed': 'Ошибка поиска',
       'fileSearchFailed': 'Ошибка поиска по файлу',
       'tab': 'Вкладка',

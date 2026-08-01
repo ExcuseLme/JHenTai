@@ -371,6 +371,12 @@ class zh_CN {
       'inheritPartiallyHint': '搜索时使用上一次搜索选项（除开种类和语言）',
       'none': '无',
       'noneHint': '搜索时使用新的初始搜索选项',
+      'enableAutoLanguageFilter': '自动语言过滤',
+      'enableAutoLanguageFilterHint': '搜索画廊标签时自动设置语言过滤',
+      'autoLanguageFilterCategories': '画廊种类',
+      'autoLanguageFilterCategoriesHint': '选择哪些画廊种类触发自动语言过滤',
+      'autoLanguageFilterTarget': '目标语言',
+      'autoLanguageFilterTargetHint': '自动设置的语言过滤值',
       'showAllGalleryTitles': '显示所有画廊标题',
       'showAllGalleryTitlesHint': '同时显示原标题和日文标题（如果可用）',
       'showGalleryTagVoteStatus': '显示画廊标签投票状态',
@@ -699,6 +705,8 @@ favnote：匹配收藏备注
 
       /// search page
       'search': '搜索',
+      'searchWithArtist': '搜索作者',
+      'searchWithGroup': '搜索团队',
       'searchFailed': '搜索失败',
       'fileSearchFailed': '以图搜图失败',
       'tab': '标签页',

@@ -371,6 +371,12 @@ class ko_KR {
       'inheritPartiallyHint': 'Use last search options for next search(except language and category)',
       'none': 'None',
       'noneHint': 'Use default search options for next search',
+      'enableAutoLanguageFilter': 'Auto Language Filter',
+      'enableAutoLanguageFilterHint': 'Auto set language filter when searching by gallery tag',
+      'autoLanguageFilterCategories': 'Gallery Categories',
+      'autoLanguageFilterCategoriesHint': 'Select which gallery types trigger auto language filter',
+      'autoLanguageFilterTarget': 'Target Language',
+      'autoLanguageFilterTargetHint': 'Auto set language filter value',
       'showAllGalleryTitles': 'Show All Gallery Titles',
       'showAllGalleryTitlesHint': 'Show both original and japanese titles if available',
       'showGalleryTagVoteStatus': 'Show Gallery Tag Vote Status',
@@ -693,6 +699,8 @@ class ko_KR {
 
       /// search page
       'search': '검색',
+      'searchWithArtist': '검색作者',
+      'searchWithGroup': '검색团队',
       'searchFailed': '검색 실패',
       'fileSearchFailed': '파일 검색 실패',
       'tab': '탭',
