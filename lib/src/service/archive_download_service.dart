@@ -238,14 +238,9 @@ class ArchiveDownloadService extends GetxController with GridBasePageServiceMixi
       /// skip when use bot
       if (archiveDownloadInfo.parseSource == ArchiveParseSource.official.code) {
         try {
-          await retry(
-            () => ehRequest.requestCancelArchive(
-              url: archive.archivePageUrl.replaceFirst('--', '-'),
-              cancelToken: archiveDownloadInfo.cancelToken,
-            ),
-            retryIf: (e) => e is DioException && e.type != DioExceptionType.cancel,
-            onRetry: (e) => log.download('Cancel archive: ${archive.title} failed, retry. Reason: ${(e as DioException).message}'),
-            maxAttempts: _maxRetryTimes,
+          await ehRequest.requestCancelArchive(
+            url: archive.archivePageUrl.replaceFirst('--', '-'),
+            cancelToken: archiveDownloadInfo.cancelToken,
           );
         } on DioException catch (e) {
           if (e.type == DioExceptionType.cancel) {
@@ -516,11 +511,7 @@ class ArchiveDownloadService extends GetxController with GridBasePageServiceMixi
   Future<void> _generateComicInfoInDisk(ArchiveDownloadedData archive) async {
     GalleryDetail galleryDetail;
     try {
-      ({GalleryDetail galleryDetails, String apikey}) detailPageInfo = await retry(
-        () => ehRequest.requestDetailPage(galleryUrl: archive.galleryUrl, parser: EHSpiderParser.detailPage2GalleryAndDetailAndApikey),
-        retryIf: (e) => e is DioException,
-        maxAttempts: _maxRetryTimes,
-      );
+      ({GalleryDetail galleryDetails, String apikey}) detailPageInfo = await ehRequest.requestDetailPage(galleryUrl: archive.galleryUrl, parser: EHSpiderParser.detailPage2GalleryAndDetailAndApikey);
       galleryDetail = detailPageInfo.galleryDetails;
     } catch (e) {
       log.error('Get gallery detail failed, gallery: ${archive.gid}', e);
@@ -764,16 +755,11 @@ class ArchiveDownloadService extends GetxController with GridBasePageServiceMixi
 
     ArchiveUnlockResult result;
     try {
-      result = await retry(
-        () => ehRequest.requestUnlockArchive(
-          url: archive.archivePageUrl.replaceFirst('--', '-'),
-          isOriginal: archive.isOriginal,
-          cancelToken: archiveDownloadInfo.cancelToken,
-          parser: EHSpiderParser.unlockArchivePage2DownloadArchivePageUrl,
-        ),
-        retryIf: (e) => e is DioException && e.type != DioExceptionType.cancel,
-        onRetry: (e) => log.download('Request unlock archive: ${archive.title} failed, retry. Reason: ${(e as DioException).message}'),
-        maxAttempts: _maxRetryTimes,
+      result = await ehRequest.requestUnlockArchive(
+        url: archive.archivePageUrl.replaceFirst('--', '-'),
+        isOriginal: archive.isOriginal,
+        cancelToken: archiveDownloadInfo.cancelToken,
+        parser: EHSpiderParser.unlockArchivePage2DownloadArchivePageUrl,
       );
     } on DioException catch (e) {
       if (e.type == DioExceptionType.cancel) {
@@ -822,16 +808,11 @@ class ArchiveDownloadService extends GetxController with GridBasePageServiceMixi
 
     ArchiveUnlockResult result;
     try {
-      result = await retry(
-        () => ehRequest.requestUnlockArchive(
-          url: archive.archivePageUrl.replaceFirst('--', '-'),
-          isOriginal: archive.isOriginal,
-          cancelToken: archiveDownloadInfo.cancelToken,
-          parser: EHSpiderParser.unlockArchivePage2DownloadArchivePageUrl,
-        ),
-        retryIf: (e) => e is DioException && e.type != DioExceptionType.cancel,
-        onRetry: (e) => log.download('Request unlock archive: ${archive.title} failed, retry. Reason: ${(e as DioException).message}'),
-        maxAttempts: _maxRetryTimes,
+      result = await ehRequest.requestUnlockArchive(
+        url: archive.archivePageUrl.replaceFirst('--', '-'),
+        isOriginal: archive.isOriginal,
+        cancelToken: archiveDownloadInfo.cancelToken,
+        parser: EHSpiderParser.unlockArchivePage2DownloadArchivePageUrl,
       );
     } on DioException catch (e) {
       if (e.type == DioExceptionType.cancel) {
@@ -889,15 +870,10 @@ class ArchiveDownloadService extends GetxController with GridBasePageServiceMixi
 
     if (archiveDownloadInfo.parseSource == ArchiveParseSource.official.code) {
       try {
-        downloadPath = await retry(
-          () => ehRequest.get(
-            url: archiveDownloadInfo.downloadPageUrl!,
-            cancelToken: archiveDownloadInfo.cancelToken,
-            parser: EHSpiderParser.downloadArchivePage2DownloadUrl,
-          ),
-          retryIf: (e) => e is DioException && e.type != DioExceptionType.cancel,
-          onRetry: (e) => log.download('Parse archive download url: ${archive.title} failed, retry. Reason: ${(e as DioException).message}'),
-          maxAttempts: _maxRetryTimes,
+        downloadPath = await ehRequest.get(
+          url: archiveDownloadInfo.downloadPageUrl!,
+          cancelToken: archiveDownloadInfo.cancelToken,
+          parser: EHSpiderParser.downloadArchivePage2DownloadUrl,
         );
       } on DioException catch (e) {
         if (e.type == DioExceptionType.cancel) {

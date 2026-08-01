@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'dart:math';
 
 import 'package:collection/collection.dart';
@@ -22,7 +22,7 @@ import 'package:jhentai/src/service/super_resolution_service.dart';
 import 'package:jhentai/src/service/volume_service.dart';
 import 'package:jhentai/src/setting/style_setting.dart';
 import 'package:jhentai/src/utils/eh_executor.dart';
-import 'package:retry/retry.dart';
+
 import 'package:screen_brightness/screen_brightness.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 import 'package:throttling/throttling.dart';
@@ -299,15 +299,10 @@ class ReadPageLogic extends GetxController with WidgetsBindingObserver {
 
     DetailPageInfo detailPageInfo;
     try {
-      detailPageInfo = await retry(
-        () => ehRequest.requestDetailPage(
-          galleryUrl: state.readPageInfo.galleryUrl!,
-          thumbnailsPageIndex: requestPageIndex,
-          parser: EHSpiderParser.detailPage2RangeAndThumbnails,
-        ),
-        maxAttempts: 3,
-        retryIf: (e) => e is DioException,
-        onRetry: (e) => log.error('Get thumbnails error!', (e as DioException).errorMsg),
+      detailPageInfo = await ehRequest.requestDetailPage(
+        galleryUrl: state.readPageInfo.galleryUrl!,
+        thumbnailsPageIndex: requestPageIndex,
+        parser: EHSpiderParser.detailPage2RangeAndThumbnails,
       );
     } on DioException catch (_) {
       state.parseImageHrefErrorMsg = 'parsePageFailed'.tr;
@@ -358,12 +353,7 @@ class ReadPageLogic extends GetxController with WidgetsBindingObserver {
   Future<void> parseImageUrl(int index, bool reParse, String? reloadKey) async {
     GalleryImage image;
     try {
-      image = await retry(
-        () => requestImage(index, reParse, reloadKey),
-        maxAttempts: 3,
-        retryIf: (e) => e is DioException,
-        onRetry: (e) => log.error('Parse gallery image failed, index: ${index.toString()}', (e as DioException).errorMsg),
-      );
+      image = await requestImage(index, reParse, reloadKey);
     } on DioException catch (_) {
       state.parseImageUrlStates[index] = LoadingState.error;
       state.parseImageUrlErrorMsg[index] = 'parseURLFailed'.tr;

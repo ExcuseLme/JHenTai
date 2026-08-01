@@ -32,6 +32,7 @@ import 'package:webview_flutter/webview_flutter.dart' show WebViewCookieManager;
 import '../service/jh_service.dart';
 import '../service/local_config_service.dart';
 import '../setting/network_setting.dart';
+import '../utils/toast_util.dart';
 import 'eh_cache_manager.dart';
 import 'eh_cookie_manager.dart';
 
@@ -963,17 +964,38 @@ emyPxgcYxn/eR44/KJ4EBs+lVDR3veyJm+kXQ99b21/+jh5Xos1AnX5iItreGCc=
     ProgressCallback? onReceiveProgress,
   }) async {
     Response response;
+    int retryCount = networkSetting.autoRetryCount.value;
+    int attempt = 0;
 
-    try {
-      response = await _dio.get(
-        url,
-        queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken,
-        onReceiveProgress: onReceiveProgress,
-      );
-    } on DioException catch (e) {
-      throw _convertExceptionIfGalleryDeleted(e);
+    while (true) {
+      try {
+        response = await _dio.get(
+          url,
+          queryParameters: queryParameters,
+          options: options,
+          cancelToken: cancelToken,
+          onReceiveProgress: onReceiveProgress,
+        );
+        break;
+      } on DioException catch (e) {
+        attempt++;
+        // retryCount == -1 表示无限重试，retryCount == 0 表示不重试
+        if (_isNetworkError(e) && (retryCount == -1 || attempt <= retryCount)) {
+          log.info('Network request failed, retrying ($attempt/$retryCount): ${e.message}');
+          // 显示 toast 提示，第一次重试不显示括号内的数字
+          if (attempt == 1) {
+            toast('retrying'.tr, isCenter: false);
+          } else {
+            toast('${'retrying'.tr} ($attempt)', isCenter: false);
+          }
+          int delay = networkSetting.retryDelay.value;
+          if (delay > 0) {
+            await Future.delayed(Duration(milliseconds: delay));
+          }
+          continue;
+        }
+        throw _convertExceptionIfGalleryDeleted(e);
+      }
     }
 
     try {
@@ -996,23 +1018,52 @@ emyPxgcYxn/eR44/KJ4EBs+lVDR3veyJm+kXQ99b21/+jh5Xos1AnX5iItreGCc=
     ProgressCallback? onReceiveProgress,
   }) async {
     Response response;
-    try {
-      response = await _dio.post(
-        url,
-        data: data,
-        queryParameters: queryParameters,
-        options: options,
-        cancelToken: cancelToken,
-        onSendProgress: onSendProgress,
-        onReceiveProgress: onReceiveProgress,
-      );
-    } on DioException catch (e) {
-      throw _convertExceptionIfGalleryDeleted(e);
+    int retryCount = networkSetting.autoRetryCount.value;
+    int attempt = 0;
+
+    while (true) {
+      try {
+        response = await _dio.post(
+          url,
+          data: data,
+          queryParameters: queryParameters,
+          options: options,
+          cancelToken: cancelToken,
+          onSendProgress: onSendProgress,
+          onReceiveProgress: onReceiveProgress,
+        );
+        break;
+      } on DioException catch (e) {
+        attempt++;
+        // retryCount == -1 表示无限重试，retryCount == 0 表示不重试
+        if (_isNetworkError(e) && (retryCount == -1 || attempt <= retryCount)) {
+          log.info('Network request failed, retrying ($attempt/$retryCount): ${e.message}');
+          // 显示 toast 提示，第一次重试不显示括号内的数字
+          if (attempt == 1) {
+            toast('retrying'.tr, isCenter: false);
+          } else {
+            toast('${'retrying'.tr} ($attempt)', isCenter: false);
+          }
+          int delay = networkSetting.retryDelay.value;
+          if (delay > 0) {
+            await Future.delayed(Duration(milliseconds: delay));
+          }
+          continue;
+        }
+        throw _convertExceptionIfGalleryDeleted(e);
+      }
     }
 
     _emitEHExceptionIfFailed(response);
 
     return response;
+  }
+
+  bool _isNetworkError(DioException e) {
+    return e.type == DioExceptionType.connectionTimeout ||
+        e.type == DioExceptionType.receiveTimeout ||
+        e.type == DioExceptionType.connectionError ||
+        e.type == DioExceptionType.sendTimeout;
   }
 
   Exception _convertExceptionIfGalleryDeleted(DioException e) {

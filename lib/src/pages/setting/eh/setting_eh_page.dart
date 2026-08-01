@@ -12,7 +12,7 @@ import 'package:jhentai/src/setting/user_setting.dart';
 import 'package:jhentai/src/utils/cookie_util.dart';
 import 'package:jhentai/src/utils/eh_spider_parser.dart';
 import 'package:jhentai/src/widget/loading_state_indicator.dart';
-import 'package:retry/retry.dart';
+
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'dart:io';
@@ -257,13 +257,7 @@ class _SettingEHPageState extends State<SettingEHPage> {
 
     ({bool isDonator, int? currentConsumption, int? totalLimit, int? resetCost}) result;
     try {
-      result = await retry(
-        () async {
-          return ehRequest.requestHomePage(parser: EHSpiderParser.homePage2ImageLimit);
-        },
-        retryIf: (e) => e is DioException,
-        maxAttempts: 3,
-      );
+      result = await ehRequest.requestHomePage(parser: EHSpiderParser.homePage2ImageLimit);
     } on DioException catch (e) {
       log.error('Fetch image quota failed', e.errorMsg);
       snack('fetchImageQuotaFailed'.tr, e.errorMsg ?? '', isShort: false);
@@ -361,11 +355,7 @@ class _SettingEHPageState extends State<SettingEHPage> {
     log.debug('Load profile');
 
     try {
-      var settings = await retry(
-        () => ehRequest.requestSettingPage(EHSpiderParser.settingPage2SiteSetting),
-        retryIf: (e) => e is DioException,
-        maxAttempts: 3,
-      );
+      var settings = await ehRequest.requestSettingPage(EHSpiderParser.settingPage2SiteSetting);
       profiles = settings.profiles;
     } on DioException catch (e) {
       log.error('Load profile fail', e.errorMsg);
