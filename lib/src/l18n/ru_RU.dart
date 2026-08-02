@@ -138,6 +138,7 @@ class ru_RU {
       'failToGetThumbnails': "Не удалось получить миниатюры",
       'favoriteGallerySuccess': "Галерея успешно добавлена в избранное",
       'favoriteGalleryFailed': "Не удалось добавить галерею в избранное",
+      'cancelFavorite': "Отменить избранное",
       'removeFavoriteSuccess': "Успешно удалено из избранного",
       'removeFavoriteFailed': "Не удалось удалить из избранного",
       'getGalleryFavoriteInfoFailed': 'Не удалось получить информацию об избранном для галереи',

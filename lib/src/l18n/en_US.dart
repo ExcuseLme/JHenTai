@@ -136,6 +136,7 @@ class en_US {
       'failToGetThumbnails': "Fail To Get Thumbnails",
       'favoriteGallerySuccess': "Favorite Gallery Success",
       'favoriteGalleryFailed': "Favorite Gallery Failed",
+      'cancelFavorite': "Cancel Favorite",
       'removeFavoriteSuccess': "Remove Favorite Success",
       'removeFavoriteFailed': "Remove Favorite Failed",
       'getGalleryFavoriteInfoFailed': 'Get gallery favorite info failed',

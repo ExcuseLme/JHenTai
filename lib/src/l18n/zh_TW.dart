@@ -136,6 +136,7 @@ class zh_TW {
       'failToGetThumbnails': "獲取畫廊縮圖資料失敗",
       'favoriteGallerySuccess': "收藏畫廊成功",
       'favoriteGalleryFailed': "收藏畫廊失敗",
+      'cancelFavorite': "取消收藏",
       'removeFavoriteSuccess': "取消收藏成功",
       'removeFavoriteFailed': "取消收藏失敗",
       'getGalleryFavoriteInfoFailed': '獲取畫廊收藏資訊失敗',

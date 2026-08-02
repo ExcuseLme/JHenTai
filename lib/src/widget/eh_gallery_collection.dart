@@ -23,6 +23,7 @@ Widget EHGalleryCollection({
   required CardCallback handleTapCard,
   CardCallback? handleLongPressCard,
   CardCallback? handleSecondaryTapCard,
+  CardCallback? handleLongPressCover,
   VoidCallback? handleLoadMore,
 }) {
   Widget _buildGalleryList() {
@@ -49,6 +50,7 @@ Widget EHGalleryCollection({
               handleTapCard: (gallery) => handleTapCard(gallery),
               handleLongPressCard: handleLongPressCard == null ? null : (gallery) => handleLongPressCard(gallery),
               handleSecondaryTapCard: handleSecondaryTapCard == null ? null : (gallery) => handleSecondaryTapCard(gallery),
+              handleLongPressCover: handleLongPressCover == null ? null : (gallery) => handleLongPressCover(gallery),
               withTags: listMode == ListMode.listWithTags || listMode == ListMode.flat,
             ),
           );
@@ -90,6 +92,7 @@ Widget EHGalleryCollection({
               handleTapCard: handleTapCard,
               handleLongPressCard: handleLongPressCard == null ? null : (gallery) => handleLongPressCard(gallery),
               handleSecondaryTapCard: handleSecondaryTapCard == null ? null : (gallery) => handleSecondaryTapCard(gallery),
+              handleLongPressCover: handleLongPressCover == null ? null : (gallery) => handleLongPressCover(gallery),
             );
           },
           childCount: gallerys.length,

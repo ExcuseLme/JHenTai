@@ -30,6 +30,7 @@ class EHGalleryListCard extends StatelessWidget {
   final CardCallback handleTapCard;
   final CardCallback? handleLongPressCard;
   final CardCallback? handleSecondaryTapCard;
+  final CardCallback? handleLongPressCover;
   final bool withTags;
 
   const EHGalleryListCard({
@@ -41,11 +42,12 @@ class EHGalleryListCard extends StatelessWidget {
     this.withTags = true,
     this.handleLongPressCard,
     this.handleSecondaryTapCard,
+    this.handleLongPressCover,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return EHGestureDetector(
+    return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => handleTapCard(gallery),
       onLongPress: handleLongPressCard == null ? null : () => handleLongPressCard!(gallery),
@@ -117,13 +119,16 @@ class EHGalleryListCard extends StatelessWidget {
   }
 
   Widget buildGalleryCardCover(BuildContext context) {
-    return EHImage(
-      galleryImage: gallery.cover,
-      containerColor: UIConfig.galleryCardBackGroundColor(context),
-      containerHeight: withTags ? UIConfig.galleryCardHeight : UIConfig.galleryCardHeightWithoutTags,
-      containerWidth: withTags ? UIConfig.galleryCardCoverWidth : UIConfig.galleryCardCoverWidthWithoutTags,
-      heroTag: gallery.blockedByLocalRules ? null : gallery.cover,
-      fit: BoxFit.fitWidth,
+    return EHGestureDetector(
+      onLongPress: handleLongPressCover != null ? () => handleLongPressCover!(gallery) : null,
+      child: EHImage(
+        galleryImage: gallery.cover,
+        containerColor: UIConfig.galleryCardBackGroundColor(context),
+        containerHeight: withTags ? UIConfig.galleryCardHeight : UIConfig.galleryCardHeightWithoutTags,
+        containerWidth: withTags ? UIConfig.galleryCardCoverWidth : UIConfig.galleryCardCoverWidthWithoutTags,
+        heroTag: gallery.blockedByLocalRules ? null : gallery.cover,
+        fit: BoxFit.fitWidth,
+      ),
     );
   }
 

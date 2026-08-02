@@ -137,6 +137,7 @@ class pt_BR {
       'failToGetThumbnails': "Falha ao obter miniaturas",
       'favoriteGallerySuccess': "Favorite Gallery Success",
       'favoriteGalleryFailed': "Falha na galeria Favorita",
+      'cancelFavorite': "Cancelar Favorito",
       'removeFavoriteSuccess': "Remove Favorite Success",
       'removeFavoriteFailed': "Remove Favorite Failed",
       'getGalleryFavoriteInfoFailed': 'Get gallery favorite info failed',
