@@ -9,6 +9,7 @@ import 'package:jhentai/src/pages/download/mixin/gallery/gallery_download_page_m
 import 'package:jhentai/src/service/super_resolution_service.dart' as srs;
 import 'package:jhentai/src/setting/preference_setting.dart';
 import 'package:jhentai/src/setting/style_setting.dart';
+import 'package:jhentai/src/widget/eh_gesture_detector.dart';
 import 'package:jhentai/src/widget/grouped_list.dart';
 import '../../../../database/database.dart';
 import '../../../../mixin/scroll_to_top_page_mixin.dart';
@@ -170,7 +171,7 @@ class GalleryListDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
   }
 
   Widget _groupBuilder(BuildContext context, String groupName, bool isOpen) {
-    return GestureDetector(
+    return EHGestureDetector(
       onTap: () => logic.toggleDisplayGroups(groupName),
       onLongPress: () => logic.handleLongPressGroup(groupName),
       onSecondaryTap: () => logic.handleLongPressGroup(groupName),
@@ -201,7 +202,7 @@ class GalleryListDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
     return Slidable(
       key: Key(gallery.gid.toString()),
       endActionPane: _buildEndActionPane(context, gallery),
-      child: GestureDetector(
+      child: EHGestureDetector(
         onSecondaryTap: () => logic.handleLongPressOrSecondaryTapItem(gallery, context),
         onLongPress: () => logic.handleLongPressOrSecondaryTapItem(gallery, context),
         child: _buildCard(context, gallery).marginAll(5),
@@ -256,7 +257,7 @@ class GalleryListDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
   }
 
   Widget _buildCover(BuildContext context, GalleryDownloadedData gallery) {
-    return GestureDetector(
+    return EHGestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => toRoute(
         Routes.details,
@@ -291,7 +292,7 @@ class GalleryListDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
 
   Widget _buildInfo(BuildContext context, GalleryDownloadedData gallery) {
     return Expanded(
-      child: GestureDetector(
+      child: EHGestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => logic.handleTapItem(gallery),
         child: Stack(
@@ -441,7 +442,7 @@ class GalleryListDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
       id: '${logic.downloadService.galleryDownloadProgressId}::${gallery.gid}',
       builder: (_) {
         DownloadStatus downloadStatus = logic.downloadService.galleryDownloadInfos[gallery.gid]!.downloadProgress.downloadStatus;
-        return GestureDetector(
+        return EHGestureDetector(
           onTap: () {
             downloadStatus == DownloadStatus.paused
                 ? logic.downloadService.resumeDownloadGallery(gallery)

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:jhentai/src/service/local_gallery_service.dart';
+import 'package:jhentai/src/widget/eh_gesture_detector.dart';
 import 'package:jhentai/src/widget/fade_slide_widget.dart';
 import 'package:jhentai/src/widget/loading_state_indicator.dart';
 import 'package:jhentai/src/widget/scaled_scroll_physics_wrapper.dart';
@@ -125,7 +126,7 @@ class LocalGalleryListPage extends StatelessWidget with Scroll2TopPageMixin {
   Widget rootDirectoryItemBuilder(BuildContext context, int index) {
     String childPath = logic.computeChildPath(index);
 
-    return GestureDetector(
+    return EHGestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => logic.pushRoute(childPath),
       child: _buildDirectory(
@@ -137,7 +138,7 @@ class LocalGalleryListPage extends StatelessWidget with Scroll2TopPageMixin {
   }
 
   Widget parentDirectoryItemBuilder(BuildContext context) {
-    return GestureDetector(
+    return EHGestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: logic.backRoute,
       child: _buildDirectory(context, '/..', Icons.keyboard_return).marginAll(5),
@@ -147,7 +148,7 @@ class LocalGalleryListPage extends StatelessWidget with Scroll2TopPageMixin {
   Widget childDirectoryItemBuilder(BuildContext context, int index) {
     String childPath = logic.computeChildPath(index);
 
-    return GestureDetector(
+    return EHGestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => logic.pushRoute(childPath),
       child: _buildDirectory(
@@ -185,7 +186,7 @@ class LocalGalleryListPage extends StatelessWidget with Scroll2TopPageMixin {
     return Slidable(
       key: Key(gallery.title),
       endActionPane: _buildEndActionPane(context, gallery),
-      child: GestureDetector(
+      child: EHGestureDetector(
         onSecondaryTap: () => logic.showBottomSheet(gallery, context),
         onLongPress: () => logic.showBottomSheet(gallery, context),
         child: FadeSlideWidget(
@@ -220,7 +221,7 @@ class LocalGalleryListPage extends StatelessWidget with Scroll2TopPageMixin {
   }
 
   Widget _buildGallery(LocalGallery gallery, BuildContext context) {
-    return GestureDetector(
+    return EHGestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => logic.goToReadPage(gallery),
       child: SizedBox(

@@ -11,6 +11,7 @@ import 'package:jhentai/src/pages/download/mixin/archive/archive_download_page_l
 import 'package:jhentai/src/pages/download/mixin/archive/archive_download_page_mixin.dart';
 import 'package:jhentai/src/pages/download/mixin/archive/archive_download_page_state_mixin.dart';
 import 'package:jhentai/src/service/super_resolution_service.dart';
+import 'package:jhentai/src/widget/eh_gesture_detector.dart';
 
 import '../../../../model/gallery_image.dart';
 import '../../../../routes/routes.dart';
@@ -261,8 +262,8 @@ class ArchiveGridDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
     );
   }
 
-  GestureDetector _buildActionButton(ArchiveDownloadInfo archiveDownloadInfo, ArchiveDownloadedData archive) {
-    return GestureDetector(
+  EHGestureDetector _buildActionButton(ArchiveDownloadInfo archiveDownloadInfo, ArchiveDownloadedData archive) {
+    return EHGestureDetector(
       onTap: () => archiveDownloadInfo.archiveStatus == ArchiveStatus.needReUnlock
           ? logic.handleReUnlockArchive(archive)
           : archiveDownloadInfo.archiveStatus == ArchiveStatus.paused

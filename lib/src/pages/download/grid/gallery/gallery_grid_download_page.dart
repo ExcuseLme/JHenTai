@@ -15,6 +15,7 @@ import 'package:jhentai/src/pages/download/mixin/gallery/gallery_download_page_s
 import 'package:jhentai/src/routes/routes.dart';
 import 'package:jhentai/src/service/super_resolution_service.dart';
 import 'package:jhentai/src/utils/route_util.dart';
+import 'package:jhentai/src/widget/eh_gesture_detector.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../../../config/ui_config.dart';
@@ -291,8 +292,8 @@ class GalleryGridDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
     );
   }
 
-  GestureDetector _buildActionButton(GalleryDownloadedData gallery, GalleryDownloadProgress downloadProgress, GalleryDownloadSpeedComputer speedComputer) {
-    return GestureDetector(
+  EHGestureDetector _buildActionButton(GalleryDownloadedData gallery, GalleryDownloadProgress downloadProgress, GalleryDownloadSpeedComputer speedComputer) {
+    return EHGestureDetector(
       onTap: () {
         downloadProgress.downloadStatus == DownloadStatus.paused
             ? logic.downloadService.resumeDownloadGallery(gallery)

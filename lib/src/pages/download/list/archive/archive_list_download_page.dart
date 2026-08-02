@@ -8,6 +8,7 @@ import 'package:jhentai/src/mixin/scroll_to_top_page_mixin.dart';
 import 'package:jhentai/src/model/gallery_url.dart';
 import 'package:jhentai/src/pages/download/mixin/archive/archive_download_page_logic_mixin.dart';
 import 'package:jhentai/src/pages/download/mixin/archive/archive_download_page_state_mixin.dart';
+import 'package:jhentai/src/widget/eh_gesture_detector.dart';
 import 'package:jhentai/src/widget/grouped_list.dart';
 
 import '../../../../model/gallery_image.dart';
@@ -163,7 +164,7 @@ class ArchiveListDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
   }
 
   Widget _groupBuilder(BuildContext context, String groupName, bool isOpen) {
-    return GestureDetector(
+    return EHGestureDetector(
       onTap: () => logic.toggleDisplayGroups(groupName),
       onLongPress: () => logic.handleLongPressGroup(groupName),
       onSecondaryTap: () => logic.handleLongPressGroup(groupName),
@@ -194,7 +195,7 @@ class ArchiveListDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
     return Slidable(
       key: Key(archive.gid.toString()),
       endActionPane: _buildEndActionPane(context, archive),
-      child: GestureDetector(
+      child: EHGestureDetector(
         onSecondaryTap: () => logic.handleLongPressOrSecondaryTapItem(archive, context),
         onLongPress: () => logic.handleLongPressOrSecondaryTapItem(archive, context),
         child: _buildCard(context, archive).marginAll(5),
@@ -244,7 +245,7 @@ class ArchiveListDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
   }
 
   Widget _buildCover(ArchiveDownloadedData archive) {
-    return GestureDetector(
+    return EHGestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => toRoute(
         Routes.details,
@@ -263,7 +264,7 @@ class ArchiveListDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
 
   Widget _buildInfo(BuildContext context, ArchiveDownloadedData archive) {
     return Expanded(
-      child: GestureDetector(
+      child: EHGestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () => logic.handleTapItem(archive),
         child: Container(
@@ -343,7 +344,7 @@ class ArchiveListDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
           return const SizedBox();
         }
 
-        return GestureDetector(
+        return EHGestureDetector(
           onTap: () => logic.handleReUnlockArchive(archive),
           child: Icon(Icons.lock_open, size: 18, color: UIConfig.alertColor(context)),
         ).marginOnly(right: 8);
@@ -440,7 +441,7 @@ class ArchiveListDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
     return GetBuilder<ArchiveDownloadService>(
       id: '${ArchiveDownloadService.archiveStatusId}::${archive.gid}',
       builder: (_) {
-        return GestureDetector(
+        return EHGestureDetector(
           onTap: () => archiveDownloadInfo.archiveStatus == ArchiveStatus.paused
               ? archiveDownloadService.resumeDownloadArchive(archive.gid)
               : archiveDownloadService.pauseDownloadArchive(archive.gid),
