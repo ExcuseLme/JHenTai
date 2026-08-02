@@ -14,18 +14,44 @@ mixin Scroll2TopPageMixin on Widget {
       global: false,
       init: scroll2TopLogic,
       builder: (_) {
+        final List<Widget> buttons = [];
+
+        if (scroll2TopLogic.shouldDisplayFAB) {
+          buttons.add(
+            Opacity(
+              opacity: 0.5,
+              child: FloatingActionButton(
+                heroTag: null,
+                onPressed: scroll2TopLogic.scroll2Top,
+                child: const Icon(Icons.arrow_upward),
+              ),
+            ),
+          );
+        }
+
+        if (scroll2TopLogic.shouldDisplayScrollBottomFAB) {
+          buttons.add(
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Opacity(
+                opacity: 0.5,
+                child: FloatingActionButton(
+                  heroTag: null,
+                  onPressed: scroll2TopLogic.scroll2Bottom,
+                  child: const Icon(Icons.arrow_downward),
+                ),
+              ),
+            ),
+          );
+        }
+
         return AnimatedSwitcher(
           duration: const Duration(milliseconds: 200),
-          child: scroll2TopLogic.shouldDisplayFAB
-              ? Opacity(
-                  opacity: 0.5,
-                  child: FloatingActionButton(
-                    child: const Icon(Icons.arrow_upward),
-                    heroTag: null,
-                    onPressed: scroll2TopLogic.scroll2Top,
-                  ),
-                )
-              : null,
+          child: buttons.isEmpty ? null : Column(
+            key: ValueKey(buttons.length),
+            mainAxisSize: MainAxisSize.min,
+            children: buttons,
+          ),
         );
       },
     );

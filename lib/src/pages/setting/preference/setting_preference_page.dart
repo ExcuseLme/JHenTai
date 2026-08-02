@@ -44,6 +44,8 @@ class SettingPreferencePage extends StatelessWidget {
               if (styleSetting.isInV2Layout) _buildSimpleDashboardMode(),
               if (styleSetting.isInV2Layout) _buildShowBottomNavigation(),
               if (styleSetting.isInV2Layout || styleSetting.actualLayout == LayoutMode.desktop) _buildHideScroll2TopButton(),
+              if (styleSetting.isInV2Layout || styleSetting.actualLayout == LayoutMode.desktop) _buildHideScroll2BottomButton(),
+              if (styleSetting.isInV2Layout || styleSetting.actualLayout == LayoutMode.desktop) _buildScrollCurve(),
               _buildPreloadGalleryCover(),
               _buildEnableSwipeBackGesture(),
               if (styleSetting.isInV2Layout) _buildEnableLeftMenuDrawerGesture(),
@@ -485,6 +487,40 @@ class SettingPreferencePage extends StatelessWidget {
       subtitle: Text('enableAutoLanguageFilterHint'.tr),
       value: preferenceSetting.enableAutoLanguageFilter.value,
       onChanged: preferenceSetting.saveEnableAutoLanguageFilter,
+    );
+  }
+
+  Widget _buildHideScroll2BottomButton() {
+    return SwitchListTile(
+      title: Text('hideScroll2BottomButton'.tr),
+      value: preferenceSetting.hideScroll2BottomButton.value,
+      onChanged: preferenceSetting.saveHideScroll2BottomButton,
+    );
+  }
+
+  Widget _buildScrollCurve() {
+    return ListTile(
+      title: Text('scrollCurve'.tr),
+      subtitle: Text(
+        '${preferenceSetting.scrollCurve.value.descriptionKey}'.tr,
+        style: const TextStyle(fontSize: 12),
+      ),
+      trailing: DropdownButton<ScrollCurveEnum>(
+        value: preferenceSetting.scrollCurve.value,
+        elevation: 4,
+        alignment: AlignmentDirectional.centerEnd,
+        onChanged: (ScrollCurveEnum? newValue) {
+          if (newValue != null) {
+            preferenceSetting.saveScrollCurve(newValue);
+          }
+        },
+        items: ScrollCurveEnum.values.map((e) {
+          return DropdownMenuItem(
+            value: e,
+            child: Text(e.name),
+          );
+        }).toList(),
+      ),
     );
   }
 
