@@ -1442,6 +1442,7 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       padding: EdgeInsets.zero,
+                      physics: wrapWithScaledPhysics(null),
                       itemExtent: UIConfig.detailsPageCommentsWidth,
                       itemCount: state.galleryDetails!.comments.length,
                       itemBuilder: (BuildContext context, int index) => EHComment(
