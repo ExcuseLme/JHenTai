@@ -20,5 +20,6 @@
       "Bash(dart analyze *)",
       "WebFetch(domain:pub.dev)"
     ]
-  }
+  },
+  "spinnerTipsEnabled": false
 }

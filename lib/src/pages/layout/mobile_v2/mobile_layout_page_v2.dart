@@ -10,9 +10,9 @@ import 'package:jhentai/src/pages/layout/mobile_v2/notification/tap_menu_button_
 import 'package:jhentai/src/pages/search/quick_search/quick_search_page.dart';
 import 'package:jhentai/src/pages/setting/setting_page.dart';
 import 'package:jhentai/src/routes/routes.dart';
-import 'package:jhentai/src/service/quick_search_service.dart';
 import 'package:jhentai/src/setting/user_setting.dart';
 import 'package:jhentai/src/utils/route_util.dart';
+import 'package:jhentai/src/widget/animated_download_icon.dart';
 import 'package:jhentai/src/widget/will_pop_interceptor.dart';
 
 import '../../../network/eh_request.dart';
@@ -84,7 +84,7 @@ class MobileLayoutPageV2 extends StatelessWidget {
   }
 
   Widget buildRightDrawer() {
-    return Drawer(width: 278, child: QuickSearchPage(scrollController: quickSearchService.drawerScrollController));
+    return Drawer(width: 278, child: QuickSearchPage());
   }
 
   Widget buildBottomNavigationBar(BuildContext context) {
@@ -97,7 +97,7 @@ class MobileLayoutPageV2 extends StatelessWidget {
           onDestinationSelected: logic.handleTapNavigationBarButton,
           destinations: [
             NavigationDestination(icon: const Icon(Icons.home), label: 'home'.tr),
-            NavigationDestination(icon: const Icon(Icons.download), label: 'download'.tr),
+            NavigationDestination(icon: const AnimatedDownloadIcon(), label: 'download'.tr),
             NavigationDestination(icon: const Icon(Icons.settings), label: 'setting'.tr),
           ],
         ),

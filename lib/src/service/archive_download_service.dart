@@ -728,7 +728,7 @@ class ArchiveDownloadService extends GetxController with GridBasePageServiceMixi
     if (archiveDownloadInfo.archiveStatus != archiveStatus) {
       archiveDownloadInfo.archiveStatus = archiveStatus;
       await _updateArchiveInDatabase(gid);
-      update(['$archiveStatusId::$gid']);
+      update(['$archiveStatusId::$gid', galleryCountChangedId]);
     }
   }
 
