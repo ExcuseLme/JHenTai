@@ -34,6 +34,8 @@ class zh_TW {
       'receiveDataTimeoutHint': '接收網路資料超時',
       'archiveError': '下載歸檔錯誤',
       'edit': '編輯',
+      'confirmDestructiveActions': '二次確認破壞性操作',
+      'confirmDestructiveActionsHint': '開啟後，在下載頁刪除任務、重新下載等破壞性操作前會彈出確認框',
 
       'home': "首頁",
       'gallery': "畫廊",
@@ -526,6 +528,7 @@ class zh_TW {
       'left2rightList': '從左至右(連續)',
       'right2leftList': '從右至左(連續)',
       'enablePageTurnByVolumeKeys': '使用音量鍵翻頁',
+      'enablePageTurnByVolumeKeysHint': 'iOS 上，若音量為 0 或 100%，進入閱讀頁時音量將被自動調整以支援翻頁，退出後恢復',
       'enablePageTurnAnime': '開啟翻頁動畫',
       'enableDoubleTapToScaleUp': '允許雙擊放大圖片',
       'enableTapDragToScaleUp': '允許單擊後拖曳放大圖片',
@@ -573,6 +576,7 @@ class zh_TW {
       /// preference setting page
       'showR18GImageDirectly': '標籤資料中直接顯示R18G圖片',
       'defaultTab': '啟動時預設選單',
+      'defaultDownloadTab': '下載頁預設選單',
       'showUtcTime': '畫廊時間使用UTC顯示',
       'showDawnInfo': '顯示黎明之時事件',
       'showEncounterMonster': '顯示HV遭遇戰事件',
@@ -745,6 +749,7 @@ favnote：配對收藏備註
       'originalImage': '原圖',
       'resampleImage': '壓縮',
       'defaultGalleryGroup': '預設分組（下載）',
+      'prioritizeRecentGalleryGroups': '最近使用的下載分組優先',
       'defaultArchiveGroup': '預設分組（歸檔）',
       'never': '從不',
       'manual': '手動',

@@ -156,8 +156,8 @@ class ArchiveGridDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
           )
           .toList(),
       onTap: inEditMode ? null : () => logic.enterGroup(groupName),
-      onLongPress: inEditMode ? null : () => logic.handleLongPressGroup(groupName),
-      onSecondTap: inEditMode ? null : () => logic.handleLongPressGroup(groupName),
+      onLongPress: inEditMode ? null : (_) => logic.handleLongPressGroup(groupName),
+      onSecondTap: inEditMode ? null : (_) => logic.handleLongPressGroup(groupName),
     );
   }
 
@@ -212,8 +212,8 @@ class ArchiveGridDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
       superResolutionType: SuperResolutionType.archive,
       onTapWidget: inEditMode ? null : () => logic.handleTapItem(archive),
       onTapTitle: inEditMode ? null : () => logic.handleTapTitle(archive),
-      onLongPress: inEditMode ? null : () => logic.handleLongPressOrSecondaryTapItem(archive, context),
-      onSecondTap: inEditMode ? null : () => logic.handleLongPressOrSecondaryTapItem(archive, context),
+      onLongPress: inEditMode ? null : (position) => logic.handleLongPressOrSecondaryTapItem(archive, context, position: position),
+      onSecondTap: inEditMode ? null : (position) => logic.handleLongPressOrSecondaryTapItem(archive, context, position: position),
       onTertiaryTap: inEditMode ? null : () => logic.handleTapTitle(archive),
     );
   }

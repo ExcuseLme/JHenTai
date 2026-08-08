@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:flutter/rendering.dart';
 import 'dart:math';
 
 import 'package:animate_do/animate_do.dart';
@@ -6,7 +7,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:jhentai/src/config/ui_config.dart';
 import 'package:jhentai/src/enum/eh_namespace.dart';
@@ -118,7 +118,7 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
                         value: 0,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [Text('jump'.tr), const Icon(FontAwesomeIcons.paperPlane, size: 20)],
+                          children: [Text('jump'.tr), Icon(Icons.send, size: 20)],
                         ),
                       ),
                     PopupMenuItem(
@@ -213,7 +213,7 @@ class DetailsPage extends StatelessWidget with Scroll2TopPageMixin {
           physics: wrapWithScaledPhysics(const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics())),
           scrollBehavior: UIConfig.scrollBehaviourWithScrollBarWithMouse,
           controller: state.scrollController,
-          cacheExtent: 5000,
+          scrollCacheExtent: ScrollCacheExtent.pixels(5000),
           slivers: [
             CupertinoSliverRefreshControl(onRefresh: logic.handleRefresh),
             if (preferenceSetting.showAllGalleryTitles.isTrue) _buildSubTitle(context),

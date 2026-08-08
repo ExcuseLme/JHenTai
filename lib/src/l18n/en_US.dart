@@ -34,6 +34,8 @@ class en_US {
       'receiveDataTimeoutHint': 'Network receive data timeout',
       'archiveError': 'Download Archive Error',
       'edit': 'Edit',
+      'confirmDestructiveActions': 'Confirm destructive actions',
+      'confirmDestructiveActionsHint': 'Show a confirmation dialog before destructive actions such as deleting tasks or re-downloading in the download page',
 
       'home': "Home",
       'gallery': "Gallery",
@@ -526,6 +528,7 @@ class en_US {
       'left2rightList': 'Left to Right (Continuous)',
       'right2leftList': 'Right to Left (Continuous)',
       'enablePageTurnByVolumeKeys': 'Use volume key to turn page',
+      'enablePageTurnByVolumeKeysHint': 'On iOS, if the volume is at 0 or 100%, it will be adjusted automatically when entering the reader to support page turning, and restored on exit',
       'enablePageTurnAnime': 'Enable Turn Page Animation',
       'enableDoubleTapToScaleUp': 'Enable Double Tap to Scale up',
       'enableTapDragToScaleUp': 'Enable Tap Drag to Scale up',
@@ -573,6 +576,7 @@ class en_US {
       /// preference setting page
       'showR18GImageDirectly': 'Show R18G Image Directly',
       'defaultTab': 'Default Tab',
+      'defaultDownloadTab': 'Default Download Tab',
       'showUtcTime': 'Show UTC Time for Gallery',
       'showDawnInfo': 'Show new dawn event',
       'showEncounterMonster': 'Show hentaiVerse monster encounter event',
@@ -739,6 +743,7 @@ class en_US {
       'originalImage': 'Original',
       'resampleImage': 'Resample',
       'defaultGalleryGroup': 'Default Gallery Group',
+      'prioritizeRecentGalleryGroups': 'Prioritize Recently Used Gallery Groups',
       'defaultArchiveGroup': 'Default Archive Group',
       'never': 'Never',
       'manual': 'Manual',

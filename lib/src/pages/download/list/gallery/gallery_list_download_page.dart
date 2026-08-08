@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:jhentai/src/config/ui_config.dart';
 import 'package:jhentai/src/extension/widget_extension.dart';
@@ -66,7 +65,7 @@ class GalleryListDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
       centerTitle: true,
       leading: styleSetting.isInV2Layout
           ? IconButton(
-              icon: isRouteAtTop(Routes.download) ? const Icon(Icons.arrow_back) : const Icon(FontAwesomeIcons.bars, size: 20),
+              icon: isRouteAtTop(Routes.download) ? const Icon(Icons.arrow_back) : Icon(Icons.menu, size: 20),
               onPressed: () {
                 if (isRouteAtTop(Routes.download)) {
                   backRoute(currentRoute: Routes.download);
@@ -202,9 +201,9 @@ class GalleryListDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
     return Slidable(
       key: Key(gallery.gid.toString()),
       endActionPane: _buildEndActionPane(context, gallery),
-      child: EHGestureDetector(
-        onSecondaryTap: () => logic.handleLongPressOrSecondaryTapItem(gallery, context),
-        onLongPress: () => logic.handleLongPressOrSecondaryTapItem(gallery, context),
+      child: GestureDetector(
+        onSecondaryTapDown: (details) => logic.handleLongPressOrSecondaryTapItem(gallery, context, position: details.globalPosition),
+        onLongPressStart: (details) => logic.handleLongPressOrSecondaryTapItem(gallery, context, position: details.globalPosition),
         child: _buildCard(context, gallery).marginAll(5),
       ),
     );
@@ -221,7 +220,7 @@ class GalleryListDownloadPage extends StatelessWidget with Scroll2TopPageMixin, 
           onPressed: (_) => logic.handleChangeGroup(gallery),
         ),
         SlidableAction(
-          icon: FontAwesomeIcons.sort,
+          icon: Icons.sort,
           backgroundColor: UIConfig.downloadPageActionBackGroundColor(context),
           onPressed: (BuildContext context) => logic.showPrioritySheet(gallery, context),
         ),

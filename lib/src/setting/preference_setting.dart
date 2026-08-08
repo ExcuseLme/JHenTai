@@ -5,6 +5,7 @@ import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 import 'package:jhentai/src/enum/config_enum.dart';
 import 'package:jhentai/src/model/tab_bar_icon.dart';
+import 'package:jhentai/src/pages/download/download_base_page.dart';
 
 import '../service/jh_service.dart';
 import '../utils/locale_util.dart';
@@ -44,6 +45,8 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
   RxDouble scrollSensitivity = 1.0.obs;
   RxBool hideScroll2BottomButton = false.obs;
   Rx<ScrollCurveEnum> scrollCurve = ScrollCurveEnum.ease.obs;
+  Rx<DownloadPageGalleryType> defaultDownloadTab = DownloadPageGalleryType.download.obs;
+  RxBool confirmDestructiveActions = false.obs;
 
   @override
   ConfigEnum get configEnum => ConfigEnum.preferenceSetting;
@@ -87,6 +90,8 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
     scrollSensitivity.value = (map['scrollSensitivity'] ?? scrollSensitivity.value).toDouble();
     hideScroll2BottomButton.value = map['hideScroll2BottomButton'] ?? hideScroll2BottomButton.value;
     scrollCurve.value = ScrollCurveEnum.values[map['scrollCurve'] ?? ScrollCurveEnum.ease.index];
+    defaultDownloadTab.value = DownloadPageGalleryType.values[map['defaultDownloadTab'] ?? DownloadPageGalleryType.download.index];
+    confirmDestructiveActions.value = map['confirmDestructiveActions'] ?? confirmDestructiveActions.value;
   }
 
   @override
@@ -123,6 +128,8 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
       'scrollSensitivity': scrollSensitivity.value,
       'hideScroll2BottomButton': hideScroll2BottomButton.value,
       'scrollCurve': scrollCurve.value.index,
+      'defaultDownloadTab': defaultDownloadTab.value.index,
+      'confirmDestructiveActions': confirmDestructiveActions.value,
     });
   }
 
@@ -316,6 +323,18 @@ class PreferenceSetting with JHLifeCircleBeanWithConfigStorage implements JHLife
   Future<void> saveScrollCurve(ScrollCurveEnum value) async {
     log.debug('saveScrollCurve:$value');
     this.scrollCurve.value = value;
+    await saveBeanConfig();
+  }
+
+  Future<void> saveDefaultDownloadTab(DownloadPageGalleryType defaultDownloadTab) async {
+    log.debug('saveDefaultDownloadTab:$defaultDownloadTab');
+    this.defaultDownloadTab.value = defaultDownloadTab;
+    await saveBeanConfig();
+  }
+
+  Future<void> saveConfirmDestructiveActions(bool confirmDestructiveActions) async {
+    log.debug('saveConfirmDestructiveActions:$confirmDestructiveActions');
+    this.confirmDestructiveActions.value = confirmDestructiveActions;
     await saveBeanConfig();
   }
 }

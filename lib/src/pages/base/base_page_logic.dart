@@ -411,9 +411,9 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
     );
   }
 
-  void handleLongPressCard(BuildContext context, Gallery gallery) async {}
+  void handleLongPressCard(BuildContext context, Gallery gallery, {Offset? position}) async {}
 
-  void handleSecondaryTapCard(BuildContext context, Gallery gallery) async {}
+  void handleSecondaryTapCard(BuildContext context, Gallery gallery, {Offset? position}) async {}
 
   Future<GalleryPageInfo> getGalleryPage({String? prevGid, String? nextGid, DateTime? seek, CancelToken? cancelToken}) async {
     log.info('$runtimeType get data, prevGid:$prevGid, nextGid:$nextGid');

@@ -34,6 +34,8 @@ class pt_BR {
       'receiveDataTimeoutHint': 'Network receive data timeout',
       'archiveError': 'Download Archive Error',
       'edit': 'Edit',
+      'confirmDestructiveActions': 'Confirmar ações destrutivas',
+      'confirmDestructiveActionsHint': 'Mostrar um diálogo de confirmação antes de ações destrutivas, como excluir tarefas ou baixar novamente na página de downloads',
 
       'home': "Home",
       'gallery': "Galeria",
@@ -527,6 +529,7 @@ class pt_BR {
       'left2rightList': 'Left to Right (Continuous)',
       'right2leftList': 'Right to Left (Continuous)',
       'enablePageTurnByVolumeKeys': 'Use volume key to turn page',
+      'enablePageTurnByVolumeKeysHint': 'No iOS, se o volume estiver em 0 ou 100%, ele será ajustado automaticamente ao entrar no leitor para suportar a virada de página e restaurado ao sair',
       'enablePageTurnAnime': 'Ativar animação de virada',
       'enableDoubleTapToScaleUp': 'Ativar toque duplo para aumentar a escala',
       'enableTapDragToScaleUp': 'Enable Tap Drag to Scale up',
@@ -574,6 +577,7 @@ class pt_BR {
       /// preference setting page
       'showR18GImageDirectly': 'Show R18G Image Directly',
       'defaultTab': 'Default Tab',
+      'defaultDownloadTab': 'Default Download Tab',
       'showUtcTime': 'Show UTC Time for Gallery',
       'showDawnInfo': 'Show new dawn event',
       'showEncounterMonster': 'Show hentaiVerse monster encounter event',
@@ -740,6 +744,7 @@ class pt_BR {
       'originalImage': 'Original',
       'resampleImage': 'Redimensionada',
       'defaultGalleryGroup': 'Default Gallery Group',
+      'prioritizeRecentGalleryGroups': 'Priorizar grupos de galeria usados recentemente',
       'defaultArchiveGroup': 'Default Archive Group',
       'never': 'Nunca',
       'manual': 'Manual',

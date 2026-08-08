@@ -30,7 +30,7 @@ class QuickSearchPage extends StatelessWidget {
           return ReorderableListView.builder(
             scrollController: scrollController,
             itemCount: quickSearchService.quickSearchConfigs.length,
-            onReorder: quickSearchService.reOrderQuickSearch,
+            onReorderItem: quickSearchService.reOrderQuickSearch,
             physics: wrapWithScaledPhysics(null),
             padding: const EdgeInsets.only(bottom: 120),
             itemBuilder: (_, int index) => Column(
