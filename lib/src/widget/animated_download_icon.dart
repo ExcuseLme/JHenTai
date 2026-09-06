@@ -40,8 +40,8 @@ class _AnimatedDownloadIconState extends State<AnimatedDownloadIcon> with Single
     final galleryService = Get.find<GalleryDownloadService>();
     final archiveService = Get.find<ArchiveDownloadService>();
 
-    bool hasGalleryDownloading = galleryService.galleries.any(
-      (g) => g.downloadStatusIndex == DownloadStatus.downloading.index,
+    bool hasGalleryDownloading = galleryService.galleryDownloadInfos.values.any(
+      (g) => g.downloadProgress.downloadStatus == DownloadStatus.downloading,
     );
 
     bool hasArchiveDownloading = archiveService.archives.any(
