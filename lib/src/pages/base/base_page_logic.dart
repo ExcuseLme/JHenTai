@@ -458,3 +458,4 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
     }).toList());
   }
 }
+
