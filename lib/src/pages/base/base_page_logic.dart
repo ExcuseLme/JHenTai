@@ -425,7 +425,7 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
     List<Gallery> filteredGallerys = await _filterByBlockingRules(galleries);
 
     if (preferenceSetting.preloadGalleryCover.isTrue) {
-      for (Gallery gallery in gallerys) {
+      for (Gallery gallery in galleries) {
         getNetworkImageData(gallery.cover.url, useCache: true);
       }
     }
