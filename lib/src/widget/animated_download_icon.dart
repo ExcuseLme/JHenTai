@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jhentai/src/service/archive_download_service.dart';
-import 'package:jhentai/src/service/gallery_download_service.dart';
+import 'package:jhentai/src/service/gallery_download/gallery_download_service.dart';
 
 class AnimatedDownloadIcon extends StatefulWidget {
   const AnimatedDownloadIcon({Key? key}) : super(key: key);

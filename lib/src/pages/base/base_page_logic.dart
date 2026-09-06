@@ -129,9 +129,9 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
       return;
     }
 
-    List<Gallery> gallerys = await postHandleNewGallerys(galleryPage.gallerys, cleanDuplicate: false);
+    List<Gallery> gallerys = await postHandleNewGallerys(galleryPage.galleries, cleanDuplicate: false);
 
-    state.gallerys = gallerys;
+    state.galleries = gallerys;
     state.totalCount = galleryPage.totalCount;
     state.prevGid = galleryPage.prevGid;
     state.nextGid = galleryPage.nextGid;
@@ -140,7 +140,7 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
 
     state.refreshState = LoadingState.idle;
 
-    if (state.nextGid == null && state.prevGid == null && state.gallerys.isEmpty) {
+    if (state.nextGid == null && state.prevGid == null && state.galleries.isEmpty) {
       state.loadingState = LoadingState.noData;
     } else if (state.nextGid == null) {
       state.loadingState = LoadingState.noMore;
@@ -163,7 +163,7 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
 
     state.loadingState = LoadingState.loading;
 
-    state.gallerys.clear();
+    state.galleries.clear();
     state.prevGid = null;
     state.nextGid = null;
     state.seek = DateTime.now();
@@ -215,9 +215,9 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
       return;
     }
 
-    List<Gallery> gallerys = await postHandleNewGallerys(galleryPage.gallerys);
+    List<Gallery> gallerys = await postHandleNewGallerys(galleryPage.galleries);
 
-    state.gallerys.insertAll(0, gallerys);
+    state.galleries.insertAll(0, gallerys);
     state.totalCount = galleryPage.totalCount;
     state.prevGid = galleryPage.prevGid;
     state.favoriteSortOrder = galleryPage.favoriteSortOrder;
@@ -264,14 +264,14 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
       return;
     }
 
-    List<Gallery> gallerys = await postHandleNewGallerys(galleryPage.gallerys);
+    List<Gallery> gallerys = await postHandleNewGallerys(galleryPage.galleries);
 
-    state.gallerys.addAll(gallerys);
+    state.galleries.addAll(gallerys);
     state.totalCount = galleryPage.totalCount;
     state.nextGid = galleryPage.nextGid;
     state.favoriteSortOrder = galleryPage.favoriteSortOrder;
 
-    if (state.nextGid == null && state.prevGid == null && state.gallerys.isEmpty) {
+    if (state.nextGid == null && state.prevGid == null && state.galleries.isEmpty) {
       state.loadingState = LoadingState.noData;
     } else if (state.nextGid == null) {
       state.loadingState = LoadingState.noMore;
@@ -289,7 +289,7 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
 
     log.info('Jump page to $dateTime');
 
-    state.gallerys.clear();
+    state.galleries.clear();
     state.loadingState = LoadingState.loading;
     updateSafely();
 
@@ -322,9 +322,9 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
       return;
     }
 
-    List<Gallery> gallerys = await postHandleNewGallerys(galleryPage.gallerys);
+    List<Gallery> gallerys = await postHandleNewGallerys(galleryPage.galleries);
 
-    state.gallerys = gallerys;
+    state.galleries = gallerys;
     state.totalCount = galleryPage.totalCount;
     state.prevGid = galleryPage.prevGid;
     state.nextGid = galleryPage.nextGid;
@@ -333,7 +333,7 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
 
     state.seek = dateTime;
 
-    if (state.nextGid == null && state.prevGid == null && state.gallerys.isEmpty) {
+    if (state.nextGid == null && state.prevGid == null && state.galleries.isEmpty) {
       state.loadingState = LoadingState.noData;
     } else if (state.nextGid == null) {
       state.loadingState = LoadingState.noMore;
@@ -392,7 +392,7 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
 
   void handleSecondaryTapCard(BuildContext context, Gallery gallery, {Offset? position}) async {}
 
-  Future<GalleryPageInfo> getGalleryPage({String? prevGid, String? nextGid, DateTime? seek}) async {
+  Future<GalleryPageInfo> getGalleryPage({String? prevGid, String? nextGid, DateTime? seek, CancelToken? cancelToken}) async {
     log.info('$runtimeType get data, prevGid:$prevGid, nextGid:$nextGid');
 
     await state.searchConfigInitCompleter.future;
@@ -402,6 +402,7 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
       nextGid: nextGid,
       seek: seek,
       searchConfig: state.searchConfig,
+      cancelToken: cancelToken,
       parser: EHSpiderParser.galleryPage2GalleryPageInfo,
     );
   }
@@ -414,14 +415,14 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
     );
   }
 
-  Future<List<Gallery>> postHandleNewGallerys(List<Gallery> gallerys, {bool cleanDuplicate = true}) async {
+  Future<List<Gallery>> postHandleNewGalleries(List<Gallery> galleries, {bool cleanDuplicate = true}) async {
     if (cleanDuplicate) {
-      _cleanDuplicateGallery(gallerys);
+      _cleanDuplicateGallery(galleries);
     }
 
-    await _translateGalleryTagsIfNeeded(gallerys);
+    await _translateGalleryTagsIfNeeded(galleries);
 
-    List<Gallery> filteredGallerys = await _filterByBlockingRules(gallerys);
+    List<Gallery> filteredGallerys = await _filterByBlockingRules(galleries);
 
     if (preferenceSetting.preloadGalleryCover.isTrue) {
       for (Gallery gallery in gallerys) {
@@ -434,7 +435,7 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
 
   /// deal with the first and last page
   void _cleanDuplicateGallery(List<Gallery> newGallerys) {
-    newGallerys.removeWhere((newGallery) => state.gallerys.firstWhereOrNull((e) => e.galleryUrl == newGallery.galleryUrl) != null);
+    newGallerys.removeWhere((newGallery) => state.galleries.firstWhereOrNull((e) => e.galleryUrl == newGallery.galleryUrl) != null);
   }
 
   Future<List<Gallery>> _filterByBlockingRules(List<Gallery> newGallerys) async {
