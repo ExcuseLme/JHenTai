@@ -415,6 +415,10 @@ abstract class BasePageLogic extends GetxController with Scroll2TopLogicMixin {
     );
   }
 
+  /// Deprecated alias for backwards compatibility
+  Future<List<Gallery>> postHandleNewGallerys(List<Gallery> galleries, {bool cleanDuplicate = true}) =>
+      postHandleNewGalleries(galleries, cleanDuplicate: cleanDuplicate);
+
   Future<List<Gallery>> postHandleNewGalleries(List<Gallery> galleries, {bool cleanDuplicate = true}) async {
     if (cleanDuplicate) {
       _cleanDuplicateGallery(galleries);
