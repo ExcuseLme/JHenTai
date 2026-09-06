@@ -78,7 +78,7 @@ abstract class BasePage<L extends BasePageLogic, S extends BasePageState> extend
 
   List<Widget> buildAppBarActions() {
     return [
-      if (showJumpButton && state.gallerys.isNotEmpty)
+      if (showJumpButton && state.galleries.isNotEmpty)
         IconButton(icon: Icon(Icons.send, size: 20), onPressed: logic.handleTapJumpButton),
       if (showFilterButton) IconButton(icon: const Icon(Icons.filter_alt_outlined, size: 28), onPressed: logic.handleTapFilterButton),
     ];
@@ -93,7 +93,7 @@ abstract class BasePage<L extends BasePageLogic, S extends BasePageState> extend
       id: logic.bodyId,
       global: false,
       init: logic,
-      builder: (_) => state.gallerys.isEmpty && state.loadingState != LoadingState.idle
+      builder: (_) => state.galleries.isEmpty && state.loadingState != LoadingState.idle
           ? buildCenterStatusIndicator()
           : NotificationListener<UserScrollNotification>(
               onNotification: logic.onUserScroll,
@@ -168,7 +168,7 @@ abstract class BasePage<L extends BasePageLogic, S extends BasePageState> extend
       () => EHGalleryCollection(
         key: state.galleryCollectionKey,
         context: context,
-        gallerys: state.gallerys,
+        galleries: state.galleries,
         listMode: styleSetting.pageListMode[state.route] ?? styleSetting.listMode.value,
         loadingState: state.loadingState,
         handleTapCard: logic.handleTapGalleryCard,

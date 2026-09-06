@@ -10,7 +10,7 @@ import 'package:jhentai/src/widget/eh_gesture_detector.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../../../../config/ui_config.dart';
-import '../../../../service/gallery_download_service.dart';
+import '../../../../service/gallery_download/gallery_download_service.dart';
 import '../../../../service/super_resolution_service.dart';
 import '../../../../service/log.dart';
 import '../../../../widget/eh_image.dart';

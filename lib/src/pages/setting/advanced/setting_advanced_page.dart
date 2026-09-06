@@ -75,6 +75,7 @@ class _SettingAdvancedPageState extends State<SettingAdvancedPage> {
             _buildCheckUpdate(),
             _buildCheckClipboard(),
             if (GetPlatform.isAndroid) _buildVerifyAppLinks(),
+            if (GetPlatform.isAndroid) _buildRefreshRate(),
             _buildInNoImageMode(),
             _buildLongPressDuration(context),
             _buildImportData(context),
@@ -206,6 +207,14 @@ class _SettingAdvancedPageState extends State<SettingAdvancedPage> {
           toast('error'.tr);
         }
       },
+    );
+  }
+
+  Widget _buildRefreshRate() {
+    return ListTile(
+      title: Text('refreshRate'.tr),
+      trailing: const Icon(Icons.keyboard_arrow_right).marginOnly(right: 4),
+      onTap: () => toRoute(Routes.settingFrameRate),
     );
   }
 
