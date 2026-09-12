@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jhentai/src/extension/list_extension.dart';
-import 'package:jhentai/src/pages/gallerys/dashboard/dashboard_page_logic.dart';
-import 'package:jhentai/src/pages/gallerys/dashboard/simple/simple_dashboard_page_logic.dart';
+import 'package:jhentai/src/pages/gallery/dashboard/dashboard_page_logic.dart';
+import 'package:jhentai/src/pages/gallery/dashboard/simple/simple_dashboard_page_logic.dart';
 import 'package:jhentai/src/pages/search/mobile_v2/search_page_mobile_v2.dart';
 import 'package:jhentai/src/widget/animated_download_icon.dart';
 
@@ -13,8 +13,8 @@ import '../../../setting/preference_setting.dart';
 import '../../download/download_base_page.dart';
 import '../../favorite/favorite_page.dart';
 import '../../favorite/favorite_page_logic.dart';
-import '../../gallerys/dashboard/dashboard_page.dart';
-import '../../gallerys/dashboard/simple/simple_dashboard_page.dart';
+import '../../gallery/dashboard/dashboard_page.dart';
+import '../../gallery/dashboard/simple/simple_dashboard_page.dart';
 import '../../history/history_page.dart';
 import '../../history/history_page_logic.dart';
 import '../../popular/popular_page.dart';

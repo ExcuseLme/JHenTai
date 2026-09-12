@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jhentai/src/service/archive_download_service.dart';
-import 'package:jhentai/src/service/gallery_download_service.dart';
+import 'package:jhentai/src/service/gallery_download/gallery_download_service.dart';
 
 class AnimatedDownloadIcon extends StatefulWidget {
   const AnimatedDownloadIcon({Key? key}) : super(key: key);
@@ -40,8 +40,8 @@ class _AnimatedDownloadIconState extends State<AnimatedDownloadIcon> with Single
     final galleryService = Get.find<GalleryDownloadService>();
     final archiveService = Get.find<ArchiveDownloadService>();
 
-    bool hasGalleryDownloading = galleryService.gallerys.any(
-      (g) => g.downloadStatusIndex == DownloadStatus.downloading.index,
+    bool hasGalleryDownloading = galleryService.galleryDownloadInfos.values.any(
+      (g) => g.downloadProgress.downloadStatus == DownloadStatus.downloading,
     );
 
     bool hasArchiveDownloading = archiveService.archives.any(

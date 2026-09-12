@@ -8,10 +8,12 @@ import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:jhentai/src/enum/config_enum.dart';
 import 'package:jhentai/src/exception/eh_parse_exception.dart';
 import 'package:jhentai/src/exception/eh_site_exception.dart';
 import 'package:jhentai/src/extension/dio_exception_extension.dart';
 import 'package:jhentai/src/extension/get_logic_extension.dart';
+import 'package:jhentai/src/model/tap_zone_config.dart';
 import 'package:jhentai/src/pages/read/layout/base/base_layout_logic.dart';
 import 'package:jhentai/src/pages/read/layout/horizontal_double_column/horizontal_double_column_layout_logic.dart';
 import 'package:jhentai/src/pages/read/layout/horizontal_list/horizontal_list_layout_logic.dart';
@@ -33,7 +35,9 @@ import '../../model/gallery_image.dart';
 import '../../model/read_page_info.dart';
 import '../../network/eh_request.dart';
 import '../../routes/routes.dart';
+import '../../service/local_config_service.dart';
 import '../../service/log.dart';
+import '../../service/gallery_download/gallery_images_retainer.dart';
 import '../../service/read_progress_service.dart';
 import '../../setting/preference_setting.dart';
 import '../../setting/read_setting.dart';
@@ -44,10 +48,11 @@ import '../../widget/auto_mode_interval_dialog.dart';
 import '../../widget/eh_image.dart';
 import '../../widget/loading_state_indicator.dart';
 import '../home_page.dart';
-import '../setting/keyboard_shortcuts/setting_keyboard_shortcuts_page.dart';
 import '../setting/read/setting_read_page.dart';
+import '../setting/read/tap_zone/setting_tap_zone_page.dart';
+import '../setting/keyboard_shortcuts/setting_keyboard_shortcuts_page.dart';
 
-class ReadPageLogic extends GetxController with WidgetsBindingObserver {
+class ReadPageLogic extends GetxController with WidgetsBindingObserver, GalleryImagesRetainer {
   final String pageId = 'pageId';
   final String layoutId = 'layoutId';
   final String onlineImageId = 'onlineImageId';
@@ -62,6 +67,8 @@ class ReadPageLogic extends GetxController with WidgetsBindingObserver {
   final String pageNoId = 'pageNoId';
   final String thumbnailNoId = 'thumbnailsId';
   final String sliderId = 'sliderId';
+  final String tapZoneId = 'tapZoneId';
+  final String guideOverlayId = 'guideOverlayId';
 
   ReadPageState state = ReadPageState();
 
@@ -93,6 +100,8 @@ class ReadPageLogic extends GetxController with WidgetsBindingObserver {
   late Worker landscapeImageRegionWidthRatioLister;
   late Worker portraitDisplayFirstPageAloneListener;
   late Worker landscapeDisplayFirstPageAloneListener;
+  late Worker autoDetectWebtoonListener;
+  late Worker tapZoneConfigListener;
 
   /// Tracks the last known portrait state for orientation-specific read direction
   bool? _lastIsPortrait;
@@ -112,6 +121,16 @@ class ReadPageLogic extends GetxController with WidgetsBindingObserver {
   @override
   void onReady() {
     super.onReady();
+
+    /// Retain the gallery's image list for the lifetime of the read page.
+    /// The caller (goToReadPage) already ensured [ensureImagesLoaded] so the
+    /// list is resident when [ReadPageState] was constructed; this retain
+    /// keeps it resident even if the download completes mid-read (eviction
+    /// is deferred to our onClose). Online / archive / local modes have no
+    /// service-side list to retain — skip.
+    if (state.readPageInfo.mode == ReadMode.downloaded && state.readPageInfo.gid != null) {
+      retainGalleryImages(state.readPageInfo.gid!);
+    }
 
     WidgetsBinding.instance.addObserver(this);
 
@@ -168,6 +187,7 @@ class ReadPageLogic extends GetxController with WidgetsBindingObserver {
         onEffectiveSettingChanged();
       }
     });
+    autoDetectWebtoonListener = ever(readSetting.autoDetectWebtoon, (_) => onEffectiveSettingChanged());
     portraitImageRegionWidthRatioLister = ever(readSetting.portraitImageRegionWidthRatio, (_) {
       if (readSetting.enableOrientationSpecificReadDirection.isTrue && isPortrait) {
         updateSafely([layoutId]);
@@ -228,10 +248,29 @@ class ReadPageLogic extends GetxController with WidgetsBindingObserver {
 
     _syncDisplayFirstPageAloneToState();
 
+    tapZoneConfigListener = ever(readSetting.tapZoneConfigJson, (_) => updateSafely([tapZoneId]));
+
+    _maybeShowTapZoneGuide();
+
     inited = true;
     if (!delayInitCompleter.isCompleted) {
       delayInitCompleter.complete();
     }
+  }
+
+  Future<void> _maybeShowTapZoneGuide() async {
+    String? shown = await localConfigService.read(configKey: ConfigEnum.tapZoneGuideShown);
+    if (shown != null) {
+      return;
+    }
+    state.showTapZoneGuide = true;
+    updateSafely([guideOverlayId]);
+  }
+
+  void dismissTapZoneGuide() {
+    state.showTapZoneGuide = false;
+    update([guideOverlayId]);
+    localConfigService.write(configKey: ConfigEnum.tapZoneGuideShown, value: 'true');
   }
 
   @override
@@ -259,6 +298,8 @@ class ReadPageLogic extends GetxController with WidgetsBindingObserver {
     landscapeImageRegionWidthRatioLister.dispose();
     portraitDisplayFirstPageAloneListener.dispose();
     landscapeDisplayFirstPageAloneListener.dispose();
+    autoDetectWebtoonListener.dispose();
+    tapZoneConfigListener.dispose();
 
     restoreVolumeListener();
 
@@ -272,6 +313,10 @@ class ReadPageLogic extends GetxController with WidgetsBindingObserver {
       resetBrightness();
     }
 
+    /// Gallery image retain released by [GalleryImagesRetainer.onClose]
+    /// (super.onClose below). If the gallery is fully downloaded and no
+    /// other consumer holds a retain, the list is evicted there.
+
     Get.delete<VerticalListLayoutLogic>(force: true);
     Get.delete<HorizontalListLayoutLogic>(force: true);
     Get.delete<HorizontalPageLayoutLogic>(force: true);
@@ -281,6 +326,8 @@ class ReadPageLogic extends GetxController with WidgetsBindingObserver {
 
     WakelockPlus.disable();
 
+    /// Unpause + forget every animation gate this page created so a codec
+    /// parked on a gate is not frozen forever after the page is torn down.
     EHImageAnimationGateRegistry.clear();
   }
 
@@ -323,7 +370,7 @@ class ReadPageLogic extends GetxController with WidgetsBindingObserver {
     state.parseImageHrefsStates[index] = LoadingState.idle;
 
     /// some gallery's [thumbnailsCountPerPage] is not equal to default setting, we need to compute and update it.
-    /// For example, default setting is 40, but some gallerys' thumbnails has only high quality thumbnails, which results in 20.
+    /// For example, default setting is 40, but some galleries' thumbnails has only high quality thumbnails, which results in 20.
     bool thumbnailsCountPerPageChanged = state.thumbnailsCountPerPage != detailPageInfo.thumbnailsCountPerPage;
     state.thumbnailsCountPerPage = detailPageInfo.thumbnailsCountPerPage;
 
@@ -519,7 +566,7 @@ class ReadPageLogic extends GetxController with WidgetsBindingObserver {
   }
 
   void _syncDisplayFirstPageAloneToState() {
-    final effective = effectiveDisplayFirstPageAlone;
+    final bool effective = effectiveDisplayFirstPageAlone;
     if (state.displayFirstPageAlone != effective) {
       state.displayFirstPageAlone = effective;
       layoutLogic.toggleDisplayFirstPageAlone();
@@ -534,11 +581,14 @@ class ReadPageLogic extends GetxController with WidgetsBindingObserver {
     if (readSetting.deviceDirection.value == DeviceDirection.landscape) {
       return false;
     }
-    final size = WidgetsBinding.instance.platformDispatcher.views.first.physicalSize;
+    final Size size = WidgetsBinding.instance.platformDispatcher.views.first.physicalSize;
     return size.height >= size.width;
   }
 
   ReadDirection get effectiveReadDirection {
+    if (readSetting.autoDetectWebtoon.isTrue && state.readPageInfo.readDirection != null) {
+      return state.readPageInfo.readDirection!;
+    }
     if (readSetting.enableOrientationSpecificReadDirection.isFalse || !GetPlatform.isMobile) {
       return readSetting.readDirection.value;
     }
@@ -549,6 +599,8 @@ class ReadPageLogic extends GetxController with WidgetsBindingObserver {
   }
 
   void saveReadDirection(ReadDirection value) {
+    state.readPageInfo.readDirection = null;
+
     if (readSetting.enableOrientationSpecificReadDirection.isTrue && GetPlatform.isMobile) {
       if (isPortrait) {
         readSetting.savePortraitReadDirection(value);
@@ -614,51 +666,25 @@ class ReadPageLogic extends GetxController with WidgetsBindingObserver {
     layoutLogic.closeAutoMode();
   }
 
-  void tapLeftRegion() {
+  void handleTapZone(int index) {
     if (!inited) {
       return;
     }
 
-    if (readSetting.disablePageTurningOnTap.isTrue) {
-      return;
-    }
-
     if (state.isScrolling) {
       return;
     }
 
-    if (readSetting.reverseTurnPageDirection.isTrue) {
-      toRight();
-    } else {
-      toLeft();
+    switch (readSetting.tapZoneConfig.actions[index]) {
+      case TapZoneAction.none:
+        break;
+      case TapZoneAction.toggleMenu:
+        toggleMenu();
+      case TapZoneAction.prevPage:
+        toPrev();
+      case TapZoneAction.nextPage:
+        toNext();
     }
-  }
-
-  void tapRightRegion() {
-    if (!inited) {
-      return;
-    }
-    if (readSetting.disablePageTurningOnTap.isTrue) {
-      return;
-    }
-
-    if (state.isScrolling) {
-      return;
-    }
-
-    if (readSetting.reverseTurnPageDirection.isTrue) {
-      toLeft();
-    } else {
-      toRight();
-    }
-  }
-
-  void tapCenterRegion() {
-    if (state.isScrolling) {
-      return;
-    }
-
-    toggleMenu();
   }
 
   /// click right arrow key
@@ -808,7 +834,7 @@ class ReadPageLogic extends GetxController with WidgetsBindingObserver {
     await showDialog<void>(
       context: context,
       barrierDismissible: true,
-      barrierColor: Colors.black.withValues(alpha: 0.4),
+      barrierColor: Colors.black.withOpacity(0.4),
       builder: (_) {
         double width = MediaQuery.of(context).size.width * 0.55;
         if (width < 360) {
@@ -838,6 +864,13 @@ class ReadPageLogic extends GetxController with WidgetsBindingObserver {
                   if (settings.name == '/keyboard_shortcuts') {
                     return _buildDrawerRoute(
                       builder: (_) => const SettingKeyboardShortcutsPage(),
+                      settings: settings,
+                      useCupertino: useCupertino,
+                    );
+                  }
+                  if (settings.name == '/tap_zone_style') {
+                    return _buildDrawerRoute(
+                      builder: (_) => const SettingTapZonePage(),
                       settings: settings,
                       useCupertino: useCupertino,
                     );

@@ -5,8 +5,8 @@ import 'package:jhentai/src/pages/details/thumbnails/thumbnails_page.dart';
 import 'package:jhentai/src/pages/download/download_base_page.dart';
 import 'package:jhentai/src/pages/download_search/download_search_page.dart';
 import 'package:jhentai/src/pages/gallery_image/gallery_image_page.dart';
-import 'package:jhentai/src/pages/gallerys/dashboard/dashboard_page.dart';
-import 'package:jhentai/src/pages/gallerys/simple/gallerys_page.dart';
+import 'package:jhentai/src/pages/gallery/dashboard/dashboard_page.dart';
+import 'package:jhentai/src/pages/gallery/simple/gallery_page.dart';
 import 'package:jhentai/src/pages/history/history_page.dart';
 import 'package:jhentai/src/pages/home_page.dart';
 import 'package:jhentai/src/pages/layout/desktop/desktop_home_page.dart';
@@ -27,6 +27,8 @@ import 'package:jhentai/src/pages/setting/download/setting_download_page.dart';
 import 'package:jhentai/src/pages/setting/eh/setting_eh_page.dart';
 import 'package:jhentai/src/pages/setting/eh/tagsets/tag_sets_page.dart';
 import 'package:jhentai/src/pages/setting/keyboard_shortcuts/setting_keyboard_shortcuts_page.dart';
+import 'package:jhentai/src/pages/setting/advanced/frame_rate/setting_frame_rate_page.dart';
+import 'package:jhentai/src/pages/setting/read/tap_zone/setting_tap_zone_page.dart';
 import 'package:jhentai/src/pages/setting/mousewheel/setting_mouse_wheel_page.dart';
 import 'package:jhentai/src/pages/setting/network/proxy/setting_proxy_page.dart';
 import 'package:jhentai/src/pages/setting/network/setting_network_page.dart';
@@ -68,7 +70,7 @@ class Routes {
   /// left
   static const String desktopHome = "/desktop_home";
   static const String mobileLayoutV2 = "/mobile_layout_v2";
-  static const String gallerys = "/gallerys";
+  static const String gallery = "/gallery";
   static const String dashboard = "/dashboard";
   static const String popular = "/popular";
   static const String ranklist = "/ranklist";
@@ -98,12 +100,14 @@ class Routes {
   static const String settingNetwork = "/setting_network";
   static const String settingDownload = "/setting_download";
   static const String settingAdvanced = "/setting_advanced";
+  static const String settingFrameRate = "/setting_advanced/frameRate";
   static const String settingPerformance = "/setting_performance";
   static const String settingMouseWheel = "/setting_mouse_wheel";
   static const String settingCloud = "/setting_cloud";
   static const String settingSecurity = "/setting_security";
   static const String settingAbout = "/setting_about";
   static const String settingKeyboardShortcuts = "/setting_read/keyboard_shortcuts";
+  static const String settingTapZoneStyle = "/setting_read/tapZoneStyle";
 
   static const String login = "/setting_account/login";
   static const String cookie = "/setting_account/cookie";
@@ -157,8 +161,8 @@ class Routes {
       side: Side.fullScreen,
     ),
     EHPage(
-      name: gallerys,
-      page: () => const GallerysPage(),
+      name: gallery,
+      page: () => const GalleryPage(),
       transition: defaultTransition,
       side: Side.left,
     ),
@@ -295,6 +299,12 @@ class Routes {
       offAllBefore: false,
     ),
     EHPage(
+      name: settingTapZoneStyle,
+      page: () => const SettingTapZonePage().withEscOrFifthButton2BackRightRoute(),
+      transition: defaultTransition,
+      offAllBefore: false,
+    ),
+    EHPage(
       name: settingPreference,
       page: () => SettingPreferencePage().withEscOrFifthButton2BackRightRoute(),
       transition: defaultTransition,
@@ -323,6 +333,12 @@ class Routes {
       name: settingAdvanced,
       page: () => const SettingAdvancedPage().withEscOrFifthButton2BackRightRoute(),
       transition: defaultTransition,
+    ),
+    EHPage(
+      name: settingFrameRate,
+      page: () => const SettingFrameRatePage().withEscOrFifthButton2BackRightRoute(),
+      transition: defaultTransition,
+      offAllBefore: false,
     ),
     EHPage(
       name: settingCloud,
